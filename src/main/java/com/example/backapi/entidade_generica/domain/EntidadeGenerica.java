@@ -1,4 +1,4 @@
-package com.example.backapi.domain;
+package com.example.backapi.entidade_generica.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

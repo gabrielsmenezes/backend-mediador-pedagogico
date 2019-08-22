@@ -1,7 +1,7 @@
-package com.example.backapi.services;
+package com.example.backapi.entidade_generica.services;
 
-import com.example.backapi.domain.EntidadeGenerica;
-import com.example.backapi.repositories.EntidadeGenericaRepository;
+import com.example.backapi.entidade_generica.domain.EntidadeGenerica;
+import com.example.backapi.entidade_generica.repositories.EntidadeGenericaRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
-package com.example.backapi.resources;
+package com.example.backapi.entidade_generica.resources;
 
-import com.example.backapi.domain.EntidadeGenerica;
-import com.example.backapi.services.EntidadeGenericaService;
+import com.example.backapi.entidade_generica.domain.EntidadeGenerica;
+import com.example.backapi.entidade_generica.services.EntidadeGenericaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
