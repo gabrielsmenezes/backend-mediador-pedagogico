@@ -1,4 +1,12 @@
 package com.example.backapi.domain;
 
-public class EntidadeGenerica {
+import javax.persistence.Entity;
+import java.io.Serializable;
+
+@Entity
+public class EntidadeGenerica implements Serializable {
+
+    public EntidadeGenerica() {
+    }
+
 }
