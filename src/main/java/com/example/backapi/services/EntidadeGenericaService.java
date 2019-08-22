@@ -17,8 +17,17 @@ public class EntidadeGenericaService {
 
     public EntidadeGenerica findById(Integer id){
 
-        Optional<EntidadeGenerica> categoria = entidadeGenericaRepository.findById(id);
+        Optional<EntidadeGenerica> entidadeGenerica = entidadeGenericaRepository.findById(id);
 
-        return categoria.orElseThrow(() -> new ObjectNotFoundException(categoria.getClass().getName(), "Objeto não encontrado do tipo" + categoria.getClass().getName() + " do id " + id) );
+        return entidadeGenerica.orElseThrow(() -> new ObjectNotFoundException(entidadeGenerica.getClass().getName(), "Objeto não encontrado do tipo" + entidadeGenerica.getClass().getName() + " do id " + id) );
     }
+
+    public EntidadeGenerica save(EntidadeGenerica entidadeGenerica) {
+
+        EntidadeGenerica resposta = entidadeGenericaRepository.save(entidadeGenerica);
+
+        return resposta;
+
+    }
+
 }
