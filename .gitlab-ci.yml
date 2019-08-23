@@ -1,4 +1,4 @@
-image: openjdk:1.8, maven:latest
+image: maven:latest
 
 stages:
   - build
