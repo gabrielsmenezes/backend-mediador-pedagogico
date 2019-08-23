@@ -9,7 +9,6 @@ stages:
 build_job:
   stage: build
   script:
-    - "mvn clean"
     - "mvn install"
     - "mvn package"
 
