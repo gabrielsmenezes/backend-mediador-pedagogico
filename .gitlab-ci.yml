@@ -3,21 +3,14 @@ image: maven:latest
 stages:
   - build
   - test
-  - deploy
 
 
 build_job:
   stage: build
   script:
-    - "mvn install"
-    - "mvn package"
+    - "mvn compile"
 
 test_job:
   stage: test
   script:
     - "mvn test"
-
-deploy_job:
-  stage: deploy
-  script:
-    - "mvn deploy"
