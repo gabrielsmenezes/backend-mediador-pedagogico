@@ -1,0 +1,24 @@
+image: openjdk:1.8, maven:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+
+build_job:
+  stage: build
+  script:
+    - "mvn clean"
+    - "mvn install"
+    - "mvn package"
+
+test_job:
+  stage: test
+  script:
+    - "mvn test"
+
+deploy_job:
+  stage: deploy
+  script:
+    - "mvn deploy"
