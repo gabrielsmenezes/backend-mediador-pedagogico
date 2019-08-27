@@ -23,6 +23,12 @@ public class Aviso implements Serializable {
     public Aviso() {
     }
 
+    public Aviso(String titulo, String descricao) {
+
+        this.titulo = titulo;
+        this.descricao = descricao;
+    }
+
     public Integer getId() {
         return id;
     }
