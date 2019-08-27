@@ -1,0 +1,16 @@
+image: maven:latest
+
+stages:
+  - build
+  - test
+
+
+build_job:
+  stage: build
+  script:
+    - "mvn compile"
+
+test_job:
+  stage: test
+  script:
+    - "mvn test"
