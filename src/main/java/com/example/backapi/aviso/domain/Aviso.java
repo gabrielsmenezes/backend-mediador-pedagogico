@@ -1,5 +1,7 @@
 package com.example.backapi.aviso.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -21,7 +23,7 @@ public class Aviso implements Serializable {
     @Lob
     private String descricao;
 
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="dd/MM/yyyy hh:mm")
     private Date data;
 
     public Aviso() {
