@@ -11,7 +11,11 @@ public class AvisoTest {
         //arrange
         String titulo = "Facom lanca foguete a lua";
         String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
-        Aviso aviso = new Aviso(titulo, descricao);
+
+        java.util.Date date=new java.util.Date();
+
+
+        Aviso aviso = new Aviso(titulo, descricao, date);
 
         //action
         String tituloObtido = aviso.getTitulo();
@@ -25,7 +29,11 @@ public class AvisoTest {
     public void todo_aviso_deve_conter_descricao(){
         String titulo = "Facom lanca foguete a lua";
         String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua.";
-        Aviso aviso = new Aviso(titulo, descricao);
+
+        java.util.Date date=new java.util.Date();
+
+
+        Aviso aviso = new Aviso(titulo, descricao, date);
 
         //action
         String descricaoObtida = aviso.getDescricao();

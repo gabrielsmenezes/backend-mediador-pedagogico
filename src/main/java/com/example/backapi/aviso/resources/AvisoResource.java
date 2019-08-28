@@ -3,7 +3,6 @@ package com.example.backapi.aviso.resources;
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.resources.error.StandardError;
 import com.example.backapi.aviso.services.AvisoService;
-import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

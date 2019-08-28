@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -25,8 +26,11 @@ public class AvisoService {
     }
 
     public Aviso save(Aviso aviso) throws DataException, TransactionSystemException {
-            Aviso resposta = avisoRepository.save(aviso);
-            return resposta;
+
+        Date date=new java.util.Date();
+        aviso.setData(date);
+        Aviso resposta = avisoRepository.save(aviso);
+        return resposta;
 
     }
 

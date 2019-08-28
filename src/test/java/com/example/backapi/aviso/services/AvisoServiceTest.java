@@ -28,7 +28,10 @@ public class AvisoServiceTest {
         //arrange
         String titulo = "Facom lanca foguete a lua";
         String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
-        Aviso avisoEsperado = new Aviso(titulo, descricao);
+
+        java.util.Date date=new java.util.Date();
+
+        Aviso avisoEsperado = new Aviso(titulo, descricao, date);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
@@ -68,7 +71,10 @@ public class AvisoServiceTest {
         //arrange
         String titulo = "Facom lanca foguete a lua a fim de descobrir se a linguagem de programacao Java e muito melhor ou pouco melhor que javascript";
         String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
-        Aviso avisoEsperado = new Aviso(titulo, descricao);
+
+        java.util.Date date=new java.util.Date();
+
+        Aviso avisoEsperado = new Aviso(titulo, descricao, date);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);

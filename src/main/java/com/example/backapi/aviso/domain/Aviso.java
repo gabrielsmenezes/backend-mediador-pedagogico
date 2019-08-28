@@ -3,6 +3,7 @@ package com.example.backapi.aviso.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -20,13 +21,17 @@ public class Aviso implements Serializable {
     @Lob
     private String descricao;
 
+    @Temporal(TemporalType.DATE)
+    private Date data;
+
     public Aviso() {
     }
 
-    public Aviso(String titulo, String descricao) {
+    public Aviso(String titulo, String descricao, Date data) {
 
         this.titulo = titulo;
         this.descricao = descricao;
+        this.data = data;
     }
 
     public Integer getId() {
@@ -53,6 +58,14 @@ public class Aviso implements Serializable {
         this.descricao = descricao;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,6 +73,8 @@ public class Aviso implements Serializable {
         Aviso aviso = (Aviso) o;
         return id.equals(aviso.id);
     }
+
+
 
     @Override
     public int hashCode() {
