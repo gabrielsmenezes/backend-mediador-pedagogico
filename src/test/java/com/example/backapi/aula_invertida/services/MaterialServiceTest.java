@@ -24,15 +24,12 @@ public class MaterialServiceTest {
 
     @Before
     public void setUp() throws Exception {
-
-
-
     }
 
     @Test
     public void aluno_quer_visualizar_lista_de_materiais(){
         //arrange
-        Material material = new Material("Titulo", "Descricao", Arrays.asList(
+        Material material = new Material("Conteudo sobre matemática básica", "Este conteúdo é uma extensão extremamente importante", Arrays.asList(
             new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")
         ));
         materialService.save(material);
