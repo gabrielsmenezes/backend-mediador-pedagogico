@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +40,7 @@ public class AvisoServiceTest {
     }
 
 
-    @Test(expected = TransactionSystemException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_um_aviso_sem_descricao() throws Exception {
         //arrange
         String titulo = "Recesso escolar";
@@ -50,7 +52,7 @@ public class AvisoServiceTest {
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
     }
 
-    @Test(expected = TransactionSystemException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_um_aviso_sem_título() throws Exception {
         //arrange
         String descricao = "O Recesso escolar começa no próximo dia 22";

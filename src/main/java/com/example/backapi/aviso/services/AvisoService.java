@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class AvisoService {
         return entidadeGenerica.orElseThrow(() -> new ObjectNotFoundException(entidadeGenerica.getClass().getName(), "Objeto não encontrado do tipo" + entidadeGenerica.getClass().getName() + " do id " + id) );
     }
 
-    public Aviso save(Aviso aviso) throws DataException, TransactionSystemException {
+    public Aviso save(Aviso aviso) throws DataException, ConstraintViolationException {
 
         Date date=new java.util.Date();
         aviso.setData(date);
