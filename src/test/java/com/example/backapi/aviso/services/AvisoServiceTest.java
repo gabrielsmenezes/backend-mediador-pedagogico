@@ -1,20 +1,17 @@
 package com.example.backapi.aviso.services;
 
 import com.example.backapi.aviso.domain.Aviso;
-import org.hibernate.exception.DataException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
 
-import javax.validation.Constraint;
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,10 +21,10 @@ public class AvisoServiceTest {
     AvisoService avisoService;
 
     @Test
-    public void administrador_quer_criar_um_aviso() throws Exception {
+    public void administrador_quer_cadastrar_um_aviso() throws Exception {
         //arrange
-        String titulo = "Facom lanca foguete a lua";
-        String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
+        String titulo = "Halloween cancelado";
+        String descricao = "Guarde sua fantasia no armario, pois a popular festa de halloween foi cancelada";
 
         java.util.Date date=new java.util.Date();
 
@@ -43,21 +40,22 @@ public class AvisoServiceTest {
     }
 
 
-    @Test(expected = TransactionSystemException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_um_aviso_sem_descricao() throws Exception {
         //arrange
-        String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
+        String titulo = "Recesso escolar";
+
         Aviso avisoEsperado = new Aviso();
-        avisoEsperado.setDescricao(descricao);
+        avisoEsperado.setDescricao(titulo);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
     }
 
-    @Test(expected = TransactionSystemException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_um_aviso_sem_título() throws Exception {
         //arrange
-        String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
+        String descricao = "O Recesso escolar começa no próximo dia 22";
         Aviso avisoEsperado = new Aviso();
         avisoEsperado.setDescricao(descricao);
 
@@ -69,8 +67,8 @@ public class AvisoServiceTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void administrador_quer_criar_um_aviso_com_titulo_com_mais_de_cem_caracteres() throws Exception {
         //arrange
-        String titulo = "Facom lanca foguete a lua a fim de descobrir se a linguagem de programacao Java e muito melhor ou pouco melhor que javascript";
-        String descricao = "A Faculdade de Computacao da Universidadde Federal de Mato Grosso do Sul lanca foguete espacial com destido a lua. ";
+        String titulo = "Realizaremos na quinta-feira a eleição da nova bandeira da escola, temos tres bandeiras candidatas, nao se esqueça de votar";
+        String descricao = "Eleição da bandeira";
 
         java.util.Date date=new java.util.Date();
 

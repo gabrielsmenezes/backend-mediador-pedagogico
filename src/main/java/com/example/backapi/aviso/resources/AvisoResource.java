@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.net.URI;
 
 @RestController
@@ -39,7 +40,7 @@ public class AvisoResource {
         return ResponseEntity.ok().body(aviso);
     }
 
-    @ExceptionHandler(TransactionSystemException.class)
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<StandardError> transactionSystemException(TransactionSystemException e, HttpServletRequest request) {
 
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Integridade de dados", e.getMessage(), request.getRequestURI());

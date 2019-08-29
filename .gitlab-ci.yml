@@ -13,4 +13,4 @@ build_job:
 test_job:
   stage: test
   script:
-    - "mvn test"
+    - "mvn test -e"

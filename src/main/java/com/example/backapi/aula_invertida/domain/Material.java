@@ -1,39 +1,39 @@
-package com.example.backapi.aviso.domain;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+package com.example.backapi.aula_invertida.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Aviso implements Serializable {
+public class Material implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column
     @NotNull
-    @Column(length = 100)
     private String titulo;
 
+    @Column
     @NotNull
-    @Lob
     private String descricao;
 
-    @JsonFormat(pattern="dd/MM/yyyy hh:mm")
-    private Date data;
+    @NotNull
+    @ElementCollection
+    @CollectionTable(name = "links", joinColumns = @JoinColumn(name = "material_id"), foreignKey = @ForeignKey(name = "links_material_fk"))
+    private List<Link> links = new ArrayList<>();
 
-    public Aviso() {
+    public Material() {
     }
 
-    public Aviso(String titulo, String descricao, Date data) {
-
+    public Material(String titulo, String descricao, List<Link> links) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.data = data;
+        this.links = links;
     }
 
     public Integer getId() {
@@ -60,23 +60,21 @@ public class Aviso implements Serializable {
         this.descricao = descricao;
     }
 
-    public Date getData() {
-        return data;
+    public List<Link> getLinks() {
+        return links;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Aviso aviso = (Aviso) o;
-        return id.equals(aviso.id);
+        Material material = (Material) o;
+        return id.equals(material.id);
     }
-
-
 
     @Override
     public int hashCode() {
