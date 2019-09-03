@@ -29,7 +29,7 @@ public class AvisoService {
     public Aviso save(Aviso aviso) throws DataException, ConstraintViolationException {
 
         Date date=new java.util.Date();
-        aviso.setData(date);
+        aviso.setDataDeCriacao(date);
         Aviso resposta = avisoRepository.save(aviso);
         return resposta;
 

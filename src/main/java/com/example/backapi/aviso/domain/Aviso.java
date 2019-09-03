@@ -23,17 +23,16 @@ public class Aviso implements Serializable {
     @Lob
     private String descricao;
 
-    @JsonFormat(pattern="dd/MM/yyyy hh:mm")
-    private Date data;
+    @JsonFormat(pattern="dd/MM/yyyy")
+    private Date dataDeCriacao;
 
     public Aviso() {
     }
 
-    public Aviso(String titulo, String descricao, Date data) {
+    public Aviso(String titulo, String descricao) {
 
         this.titulo = titulo;
         this.descricao = descricao;
-        this.data = data;
     }
 
     public Integer getId() {
@@ -60,12 +59,12 @@ public class Aviso implements Serializable {
         this.descricao = descricao;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDataDeCriacao() {
+        return dataDeCriacao;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataDeCriacao(Date data) {
+        this.dataDeCriacao = dataDeCriacao;
     }
 
     @Override
