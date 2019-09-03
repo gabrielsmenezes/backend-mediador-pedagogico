@@ -63,7 +63,7 @@ public class Aviso implements Serializable {
         return dataDeCriacao;
     }
 
-    public void setDataDeCriacao(Date data) {
+    public void setDataDeCriacao(Date dataDeCriacao) {
         this.dataDeCriacao = dataDeCriacao;
     }
 
