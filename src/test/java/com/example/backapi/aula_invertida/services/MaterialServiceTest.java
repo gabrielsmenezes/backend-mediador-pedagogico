@@ -13,6 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -31,9 +33,10 @@ public class MaterialServiceTest {
     @Test
     public void aluno_quer_visualizar_lista_de_materiais(){
         //arrange
+        Date dataDeCriacao = new Date();
+
         Material material = new Material("Conteudo sobre matemática básica", "Este conteúdo é uma extensão extremamente importante", Arrays.asList(
-            new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")
-        ));
+            new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")));
         materialService.save(material);
 
         //action
@@ -51,6 +54,7 @@ public class MaterialServiceTest {
         ArrayList<Material> materiaisEsperados = new ArrayList<Material>();
 
         for (int i = 0; i < 10; i++){
+            Date dataDeCriacao = new Date();
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
                     new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")
             ));
@@ -68,6 +72,7 @@ public class MaterialServiceTest {
     @Test
     public void lista_com_mais_de_10_itens_da_sala_invertida_exibida_em_mais_de_uma_pagina(){
         ArrayList<Material> materiaisEsperados = new ArrayList<Material>();
+        Date dataDeCriacao = new Date();
 
         for (int i = 0; i < 11; i++){
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
@@ -82,5 +87,10 @@ public class MaterialServiceTest {
         assert(materiaisRetornados.getTotalPages() > 1);
 
     }
+
+
+
+
+
 
 }

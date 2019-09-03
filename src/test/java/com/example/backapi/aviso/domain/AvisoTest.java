@@ -15,7 +15,7 @@ public class AvisoTest {
         java.util.Date date=new java.util.Date();
 
 
-        Aviso aviso = new Aviso(titulo, descricao, date);
+        Aviso aviso = new Aviso(titulo, descricao);
 
         //action
         String tituloObtido = aviso.getTitulo();
@@ -33,7 +33,7 @@ public class AvisoTest {
         java.util.Date date=new java.util.Date();
 
 
-        Aviso aviso = new Aviso(titulo, descricao, date);
+        Aviso aviso = new Aviso(titulo, descricao);
 
         //action
         String descricaoObtida = aviso.getDescricao();

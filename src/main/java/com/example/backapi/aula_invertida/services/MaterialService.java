@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort.Direction;
 
+import java.util.Date;
+
 @Service
 public class MaterialService {
 
@@ -15,6 +17,8 @@ public class MaterialService {
     MaterialRepository materialRepository;
 
     public Material save(Material material){
+        Date date=new java.util.Date();
+        material.setDataDeCriacao(date);
         return materialRepository.save(material);
     }
 

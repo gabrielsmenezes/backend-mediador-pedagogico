@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -53,4 +54,17 @@ public class MaterialTest {
 
 
     }
+
+    @Test
+    public void material_deve_conter_uma_data_de_criacao() {
+        Date dataEsperada = new Date();
+
+        material.setDataDeCriacao(dataEsperada);
+        Date dataRetornada = material.getDataDeCriacao();
+
+        assertEquals(dataEsperada, dataRetornada);
+
+
+    }
+
 }

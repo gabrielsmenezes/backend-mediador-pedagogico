@@ -1,9 +1,12 @@
 package com.example.backapi.aula_invertida.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +29,9 @@ public class Material implements Serializable {
     @ElementCollection
     @CollectionTable(name = "links", joinColumns = @JoinColumn(name = "material_id"), foreignKey = @ForeignKey(name = "links_material_fk"))
     private List<Link> links = new ArrayList<>();
+
+    @JsonFormat(pattern="dd/MM/yyyy")
+    private Date dataDeCriacao;
 
     public Material() {
     }
@@ -79,5 +85,13 @@ public class Material implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Date getDataDeCriacao() {
+        return dataDeCriacao;
+    }
+
+    public void setDataDeCriacao(Date dataDeCriacao) {
+        this.dataDeCriacao = dataDeCriacao;
     }
 }

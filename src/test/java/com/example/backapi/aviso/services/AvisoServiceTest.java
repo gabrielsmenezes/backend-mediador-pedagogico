@@ -27,9 +27,7 @@ public class AvisoServiceTest {
         String titulo = "Halloween cancelado";
         String descricao = "Guarde sua fantasia no armario, pois a popular festa de halloween foi cancelada";
 
-        java.util.Date date=new java.util.Date();
-
-        Aviso avisoEsperado = new Aviso(titulo, descricao, date);
+        Aviso avisoEsperado = new Aviso(titulo, descricao);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
@@ -73,7 +71,7 @@ public class AvisoServiceTest {
 
         java.util.Date date=new java.util.Date();
 
-        Aviso avisoEsperado = new Aviso(titulo, descricao, date);
+        Aviso avisoEsperado = new Aviso(titulo, descricao);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
