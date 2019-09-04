@@ -5,8 +5,10 @@ import com.example.backapi.aviso.repositories.AvisoRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
@@ -35,5 +37,21 @@ public class AvisoService {
 
     }
 
+    public Page<Aviso> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return avisoRepository.findAll(pageRequest);
+    }
 
+    public Aviso update(Aviso aviso){
+        findById(aviso.getId());
+
+        return avisoRepository.save(aviso);
+
+    }
+
+    public void delete(Integer id) {
+
+        avisoRepository.deleteById(id);
+
+    }
 }
