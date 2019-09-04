@@ -17,6 +17,7 @@ import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avisos")
@@ -69,7 +70,7 @@ public class AvisoResource {
     }
 
 
-    @RequestMapping(value = "{/id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso){
 
         aviso.setId(id);
@@ -79,14 +80,18 @@ public class AvisoResource {
         return ResponseEntity.ok().body(avisoRetornado);
     }
 
-    @RequestMapping(value = "{/id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete (@PathVariable Integer id){
 
         avisoService.delete(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
-
+    @RequestMapping(value = "/todos", method = RequestMethod.GET)
+    public ResponseEntity<List<Aviso>> findAll() {
+        List<Aviso> avisos = avisoService.findAll();
+        return ResponseEntity.ok().body(avisos);
+    }
 
 }

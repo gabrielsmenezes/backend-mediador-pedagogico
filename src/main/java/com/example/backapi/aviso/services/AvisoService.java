@@ -46,7 +46,7 @@ public class AvisoService {
     public Aviso update(Aviso aviso){
         findById(aviso.getId());
 
-        return avisoRepository.save(aviso);
+        return save(aviso);
 
     }
 
