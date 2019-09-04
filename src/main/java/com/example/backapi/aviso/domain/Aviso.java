@@ -26,6 +26,10 @@ public class Aviso implements Serializable {
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
 
+    @Lob
+    private String imagem;
+
+
     public Aviso() {
     }
 
@@ -75,10 +79,16 @@ public class Aviso implements Serializable {
         return id.equals(aviso.id);
     }
 
-
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }
