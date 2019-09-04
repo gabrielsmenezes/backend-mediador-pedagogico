@@ -18,7 +18,7 @@ test_job:
     - mvn test -e
 
 deploy_job_dev:
-  stage: deploy
+  stage: deploy_job_dev
   image: ruby:latest
   script:
   - apt-get update -qy
@@ -29,7 +29,7 @@ deploy_job_dev:
     - develop
 
 deploy_job_prod:
-  stage: deploy
+  stage: deploy_job_prod
   image: ruby:latest
   script:
     - apt-get update -qy
