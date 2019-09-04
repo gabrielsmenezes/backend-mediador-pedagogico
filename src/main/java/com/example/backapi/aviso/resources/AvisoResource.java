@@ -1,19 +1,23 @@
 package com.example.backapi.aviso.resources;
 
+import com.example.backapi.aula_invertida.domain.Material;
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.resources.error.StandardError;
 import com.example.backapi.aviso.services.AvisoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avisos")
@@ -55,5 +59,39 @@ public class AvisoResource {
     }
 
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Page<Aviso>> findPage(
+            @RequestParam(value="page", defaultValue="0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue="id") String orderBy,
+            @RequestParam(value="direction", defaultValue="ASC") String direction) {
+        Page<Aviso> paginas = avisoService.findPage(page, linesPerPage, orderBy, direction);
+        return ResponseEntity.ok().body(paginas);
+    }
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso){
+
+        aviso.setId(id);
+
+        Aviso avisoRetornado = avisoService.update(aviso);
+
+        return ResponseEntity.ok().body(avisoRetornado);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete (@PathVariable Integer id){
+
+        avisoService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/todos", method = RequestMethod.GET)
+    public ResponseEntity<List<Aviso>> findAll() {
+        List<Aviso> avisos = avisoService.findAll();
+        return ResponseEntity.ok().body(avisos);
+    }
 
 }
