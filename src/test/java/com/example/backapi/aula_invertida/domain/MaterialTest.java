@@ -17,7 +17,7 @@ public class MaterialTest {
     @Before
     public void setUp() throws Exception {
         links = Arrays.asList(new Link(1, "www.internet.com"), new Link(2, "web.com"));
-        material = new Material("Conteúdo extra de Matemática", "Este é um conteudo sobre geometria analita, para que possa auxiliar na prova",links );
+        material = new Material("Conteúdo extra de Matemática", "Este é um conteudo sobre geometria analita, para que possa auxiliar na prova",links, imagem);
 
     }
 

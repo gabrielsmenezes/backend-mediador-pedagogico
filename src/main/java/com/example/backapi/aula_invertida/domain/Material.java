@@ -33,13 +33,17 @@ public class Material implements Serializable {
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
 
+    @Lob
+    private String imagem;
+
     public Material() {
     }
 
-    public Material(String titulo, String descricao, List<Link> links) {
+    public Material(String titulo, String descricao, List<Link> links, String imagem) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.links = links;
+        this.imagem = imagem;
     }
 
     public Integer getId() {
@@ -93,5 +97,13 @@ public class Material implements Serializable {
 
     public void setDataDeCriacao(Date dataDeCriacao) {
         this.dataDeCriacao = dataDeCriacao;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

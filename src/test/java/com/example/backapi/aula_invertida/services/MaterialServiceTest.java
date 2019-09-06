@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +33,7 @@ public class MaterialServiceTest {
     public void aluno_quer_visualizar_lista_de_materiais(){
         //arrange
         Material material = new Material("Conteudo sobre matemática básica", "Este conteúdo é uma extensão extremamente importante", Arrays.asList(
-            new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")));
+            new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")), imagem);
         materialService.save(material);
 
         //action
@@ -54,7 +53,7 @@ public class MaterialServiceTest {
         for (int i = 0; i < 10; i++){
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
                     new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")
-            ));
+            ), imagem);
             materiaisEsperados.add(material);
             materialService.save(material);
         }
@@ -72,7 +71,7 @@ public class MaterialServiceTest {
         for (int i = 0; i < 11; i++){
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
                     new Link(TipoDeLink.VIDEO.getCodigo(), "youtube.com")
-            ));
+            ), imagem);
             materiaisEsperados.add(material);
             materialService.save(material);
         }
