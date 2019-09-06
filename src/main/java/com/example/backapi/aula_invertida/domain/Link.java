@@ -6,25 +6,17 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Link {
     @Column
-    private int tipoDeLink;
+    private String link;
 
     @Column
-    private String link;
+    private String nome;
 
     public Link() {
     }
 
-    public Link(int tipoDeLink, String link) {
-        this.tipoDeLink = tipoDeLink;
+    public Link(String link, String nome) {
         this.link = link;
-    }
-
-    public int getTipoDeLink() {
-        return tipoDeLink;
-    }
-
-    public void setTipoDeLink(int tipoDeLink) {
-        this.tipoDeLink = tipoDeLink;
+        this.nome = nome;
     }
 
     public String getLink() {
@@ -33,5 +25,13 @@ public class Link {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
