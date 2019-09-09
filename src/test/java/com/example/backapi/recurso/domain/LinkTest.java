@@ -1,6 +1,4 @@
-package com.example.backapi.aula_invertida.domain;
-
-import org.junit.Test;
+package com.example.backapi.recurso.domain;
 
 import static org.junit.Assert.*;
 

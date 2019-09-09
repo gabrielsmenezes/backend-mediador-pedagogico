@@ -1,6 +1,5 @@
 package com.example.backapi.aviso.resources;
 
-import com.example.backapi.aula_invertida.domain.Material;
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.resources.error.StandardError;
 import com.example.backapi.aviso.services.AvisoService;
@@ -13,7 +12,6 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import java.net.URI;
@@ -21,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/avisos")
-public class AvisoResource {
+public class AvisoResource{
 
     @Autowired
     AvisoService avisoService;
