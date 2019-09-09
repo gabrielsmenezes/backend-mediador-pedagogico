@@ -18,7 +18,7 @@ public abstract class Recurso implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(length = 100)
     @NotNull
     private String titulo;
 

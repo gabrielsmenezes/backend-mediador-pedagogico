@@ -1,9 +1,12 @@
 package com.example.backapi.recurso.domain;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class LinkTest {
 
+    @Test
     public void link_deve_ter_nome(){
 
         Link link = new Link();
@@ -15,7 +18,7 @@ public class LinkTest {
 
     }
 
-
+    @Test
     public void link_deve_ter_link(){
         Link link = new Link();
 
