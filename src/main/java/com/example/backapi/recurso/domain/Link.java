@@ -1,4 +1,4 @@
-package com.example.backapi.aula_invertida.domain;
+package com.example.backapi.recurso.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

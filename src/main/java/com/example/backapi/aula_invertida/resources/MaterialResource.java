@@ -35,5 +35,4 @@ public class MaterialResource {
         Page<Material> paginas = materialService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(paginas);
     }
-
 }
