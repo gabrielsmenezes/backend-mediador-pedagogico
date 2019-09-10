@@ -30,7 +30,9 @@ public class AvisoService {
     }
 
     public Aviso save(Aviso aviso) throws DataException, ConstraintViolationException {
-
+        if (aviso.getTitulo() == null || (aviso.getDescricao() == null && aviso.getLinks().isEmpty())){
+            throw new ConstraintViolationException("Descricao ou link deve existir", null);
+        }
         Date date=new java.util.Date();
         aviso.setDataDeCriacao(date);
         Aviso resposta = avisoRepository.save(aviso);

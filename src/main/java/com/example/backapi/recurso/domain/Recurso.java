@@ -19,14 +19,11 @@ public abstract class Recurso implements Serializable {
     private Integer id;
 
     @Column(length = 100)
-    @NotNull
     private String titulo;
 
     @Column
-    @NotNull
     private String descricao;
 
-    @NotNull
     @ElementCollection
     @CollectionTable(name = "links", joinColumns = @JoinColumn(name = "recurso_id"), foreignKey = @ForeignKey(name = "links_recurso_fk"))
     private List<Link> links = new ArrayList<>();
