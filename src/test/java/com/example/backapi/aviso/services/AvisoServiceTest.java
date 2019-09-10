@@ -51,12 +51,12 @@ public class AvisoServiceTest {
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void administrador_quer_criar_um_aviso_sem_descricao() throws Exception {
+    public void administrador_quer_criar_um_aviso_sem_descricao_e_sem_link() throws Exception {
         //arrange
         String titulo = "Recesso escolar";
 
         Aviso avisoEsperado = new Aviso();
-        avisoEsperado.setDescricao(titulo);
+        avisoEsperado.setTitulo(titulo);
 
         //action
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
