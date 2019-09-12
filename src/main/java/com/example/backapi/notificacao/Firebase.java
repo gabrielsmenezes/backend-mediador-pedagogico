@@ -19,7 +19,7 @@ public class Firebase {
     public Firebase() throws IOException {
 
         FileInputStream serviceAccount =
-                new FileInputStream("/home/gabriel/Documentos/back-api/src/main/java/com/example/backapi/notificacao/mediador-pedagogico-firebase-adminsdk-ql6me-9586436c1c.json");
+                new FileInputStream("src/main/java/com/example/backapi/notificacao/mediador-pedagogico-firebase-adminsdk-ql6me-9586436c1c.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
