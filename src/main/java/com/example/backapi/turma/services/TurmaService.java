@@ -30,7 +30,9 @@ public class TurmaService {
 
         Turma turmaCadastrada = turmaRepository.save(turma);
 
-        firebase.sendMessage(turmaCadastrada.getId()+"-"+turmaCadastrada.getNome(), "Turma cadastrada");
+        String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.turma.domain.")[1]+"-"+ turmaCadastrada.getId();
+
+        firebase.sendMessage(topico, "Turma cadastrada");
 
         return turma;
     }
