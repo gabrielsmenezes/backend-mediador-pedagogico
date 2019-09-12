@@ -1,6 +1,7 @@
 package com.example.backapi.turma.services;
 
 import com.example.backapi.turma.domain.Turma;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class TurmaServiceTest {
     }
 
     @Test
-    public void administrador_criar_uma_turma_com_nome_da_turma_e_chave_de_acesso(){
+    public void administrador_criar_uma_turma_com_nome_da_turma_e_chave_de_acesso() throws FirebaseMessagingException {
         String nomeDaTurma = "3° B";
         String chaveDeAcesso = "terceiroB";
 
@@ -41,29 +42,30 @@ public class TurmaServiceTest {
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void administrador_quer_criar_uma_turma_sem_nome(){
+    public void administrador_quer_criar_uma_turma_sem_nome() throws FirebaseMessagingException {
         Turma turma = new Turma(null, "segundoA", null);
 
         turmaService.save(turma);
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void administrador_quer_criar_turma_sem_chave_de_acesso_da_turma(){
-        Turma turma = new Turma("2°A", null, null);
+    public void administrador_quer_criar_turma_sem_chave_de_acesso_da_turma() throws FirebaseMessagingException {
+        Turma turma;
+        turma = new Turma("2°A", null, null);
 
         turmaService.save(turma);
 
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void administrador_quer_criar_uma_turma_com_o_nome_ja_existente(){
+    public void administrador_quer_criar_uma_turma_com_o_nome_ja_existente() throws FirebaseMessagingException {
         turmaService.save(new Turma("2A", "abobora", null));
 
         turmaService.save(new Turma("2A", "abacaxi", null));
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void administrador_quer_criar_uma_turma_com_chave_de_acesso_existente(){
+    public void administrador_quer_criar_uma_turma_com_chave_de_acesso_existente() throws FirebaseMessagingException {
 
         turmaService.save(new Turma("2C", "abacaxi", null));
 

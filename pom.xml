@@ -58,8 +58,24 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.8.1</version>
+        </dependency>
 
     </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>google</id>
+            <name>google repository</name>
+            <url>https://maven.google.com/</url>
+
+        </repository>
+    </repositories>
+
 
     <build>
         <plugins>

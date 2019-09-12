@@ -1,7 +1,9 @@
 package com.example.backapi.turma.services;
 
+import com.example.backapi.notificacao.Firebase;
 import com.example.backapi.turma.domain.Turma;
 import com.example.backapi.turma.repositories.TurmaRepository;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,10 @@ public class TurmaService {
     @Autowired
     TurmaRepository turmaRepository;
 
-    public Turma save(Turma turma){
+    @Autowired
+    Firebase firebase;
+
+    public Turma save(Turma turma) throws FirebaseMessagingException {
         if (turma.getNome() == null || turma.getChaveDeAcesso() == null){
             throw new ConstraintViolationException("Nome da turma e chave de acesso é necessário", null);
         }
@@ -23,7 +28,13 @@ public class TurmaService {
 
         verificarSeChaveDeAcessoJaExiste(turma);
 
-        return turmaRepository.save(turma);
+        Turma turmaCadastrada = turmaRepository.save(turma);
+
+        String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.turma.domain.")[1]+"-"+ turmaCadastrada.getId();
+
+        firebase.sendMessage(topico, "Turma cadastrada");
+
+        return turma;
     }
 
     private void verificarSeChaveDeAcessoJaExiste(Turma turma) {
