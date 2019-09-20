@@ -1,8 +1,8 @@
-package com.example.backapi.turma.services;
+package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.notificacao.Firebase;
-import com.example.backapi.turma.domain.Turma;
-import com.example.backapi.turma.repositories.TurmaRepository;
+import com.example.backapi.aula_invertida.domain.Turma;
+import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class TurmaService {
 
         Turma turmaCadastrada = turmaRepository.save(turma);
 
-        String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.turma.domain.")[1]+"-"+ turmaCadastrada.getId();
+        String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.aula_invertida.domain.")[1]+"-"+ turmaCadastrada.getId();
 
         firebase.sendMessage(topico, "Turma cadastrada");
 
@@ -59,4 +59,7 @@ public class TurmaService {
         return turmaRepository.findAll();
     }
 
+    public void update(Turma turma) {
+        turmaRepository.save(turma);
+    }
 }

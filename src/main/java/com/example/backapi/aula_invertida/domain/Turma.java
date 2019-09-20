@@ -1,6 +1,6 @@
-package com.example.backapi.turma.domain;
+package com.example.backapi.aula_invertida.domain;
 
-import com.example.backapi.aula_invertida.domain.Material;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,18 +21,22 @@ public class Turma implements Serializable {
     @Column
     private String chaveDeAcesso;
 
-    @ElementCollection
-    @CollectionTable(name = "materiais", joinColumns = @JoinColumn(name = "turma_id"), foreignKey = @ForeignKey(name = "material_turma_fk"))
+    @OneToMany(mappedBy = "turma")
     private List<Material> materiais = new ArrayList<>();
 
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "turma")
+    private List<Aluno> alunos = new ArrayList<>();
 
     public Turma() {
     }
 
-    public Turma(String nome, String chaveDeAcesso, List<Material>materiais) {
+    public Turma(String nome, String chaveDeAcesso, List<Material>materiais, List<Aluno> alunos) {
         this.nome = nome;
         this.chaveDeAcesso = chaveDeAcesso;
         this.materiais = materiais;
+        this.alunos = alunos;
     }
 
     public Integer getId() {
@@ -79,4 +83,13 @@ public class Turma implements Serializable {
     public void setMateriais(List<Material> materiais) {
         this.materiais = materiais;
     }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
+    }
+
 }
