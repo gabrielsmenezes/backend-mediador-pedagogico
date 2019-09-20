@@ -1,19 +1,18 @@
 package com.example.backapi.aviso.resources;
 
 import com.example.backapi.aviso.domain.Aviso;
-import com.example.backapi.aviso.resources.error.StandardError;
 import com.example.backapi.aviso.services.AvisoService;
+import com.example.backapi.utils.error.StandardError;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import java.net.URI;
 import java.util.List;
 
@@ -42,10 +41,10 @@ public class AvisoResource{
         return ResponseEntity.ok().body(aviso);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<StandardError> transactionSystemException(TransactionSystemException e, HttpServletRequest request) {
+    @ExceptionHandler(CampoObrigatorio.class)
+    public ResponseEntity<StandardError> campoObrigatorio(CampoObrigatorio e, HttpServletRequest request) {
 
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Integridade de dados", e.getMessage(), request.getRequestURI());
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Campo Obrigatorio", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
@@ -69,7 +68,7 @@ public class AvisoResource{
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso){
+    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso) throws CampoObrigatorio {
 
         aviso.setId(id);
 
