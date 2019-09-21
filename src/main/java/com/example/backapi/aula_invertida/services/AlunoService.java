@@ -21,8 +21,12 @@ public class AlunoService {
 
     public Aluno save(Aluno aluno) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        if(aluno.getNomeDoAluno().isEmpty()){
+        if(aluno.getNome().isEmpty()){
             throw new CampoObrigatorio("Campo nome é obrigatório");
+        }
+
+        if(aluno.getChaveDeAcesso().isEmpty()){
+            throw new CampoObrigatorio("Campo chave de acesso é obrigatório");
         }
 
         Turma turma = retornaTurmaDoAluno(aluno);

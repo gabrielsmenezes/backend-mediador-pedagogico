@@ -3,10 +3,11 @@ package com.example.backapi.aula_invertida.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Aluno {
+public class Aluno implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +15,7 @@ public class Aluno {
 
     private String chaveDeAcesso;
 
-    private String nomeDoAluno;
+    private String nome;
 
     @JsonBackReference
     @ManyToOne
@@ -24,9 +25,9 @@ public class Aluno {
     public Aluno() {
     }
 
-    public Aluno(String chaveDeAcesso, String nomeDoAluno, Turma turma) {
+    public Aluno(String chaveDeAcesso, String nome, Turma turma) {
         this.chaveDeAcesso = chaveDeAcesso;
-        this.nomeDoAluno = nomeDoAluno;
+        this.nome = nome;
         this.turma = turma;
     }
 
@@ -46,12 +47,12 @@ public class Aluno {
         this.chaveDeAcesso = chaveDeAcesso;
     }
 
-    public String getNomeDoAluno() {
-        return nomeDoAluno;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeDoAluno(String nomeDoAluno) {
-        this.nomeDoAluno = nomeDoAluno;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Turma getTurma() {
