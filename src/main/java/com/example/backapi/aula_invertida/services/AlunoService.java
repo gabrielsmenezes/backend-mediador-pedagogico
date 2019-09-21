@@ -21,11 +21,11 @@ public class AlunoService {
 
     public Aluno save(Aluno aluno) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        if(aluno.getNome().isEmpty()){
+        if(aluno.getNome() == null || aluno.getNome().isEmpty()){
             throw new CampoObrigatorio("Campo nome é obrigatório");
         }
 
-        if(aluno.getChaveDeAcesso().isEmpty()){
+        if(aluno.getChaveDeAcesso() == null ||aluno.getChaveDeAcesso().isEmpty()){
             throw new CampoObrigatorio("Campo chave de acesso é obrigatório");
         }
 
