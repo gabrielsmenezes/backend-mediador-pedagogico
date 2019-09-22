@@ -21,13 +21,9 @@ public class AlunoService {
 
     public Aluno save(Aluno aluno) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        if(aluno.getNome() == null || aluno.getNome().isEmpty()){
-            throw new CampoObrigatorio("Campo nome é obrigatório");
-        }
+        verificarNome(aluno);
 
-        if(aluno.getChaveDeAcesso() == null ||aluno.getChaveDeAcesso().isEmpty()){
-            throw new CampoObrigatorio("Campo chave de acesso é obrigatório");
-        }
+        verificarChaveDeAcesso(aluno);
 
         Turma turma = retornaTurmaDoAluno(aluno);
 
@@ -36,6 +32,18 @@ public class AlunoService {
         alunoRepository.save(aluno);
 
         return aluno;
+    }
+
+    private void verificarChaveDeAcesso(Aluno aluno) throws CampoObrigatorio {
+        if(aluno.getChaveDeAcesso() == null ||aluno.getChaveDeAcesso().isEmpty()){
+            throw new CampoObrigatorio("Campo chave de acesso é obrigatório");
+        }
+    }
+
+    private void verificarNome(Aluno aluno) throws CampoObrigatorio {
+        if(aluno.getNome() == null || aluno.getNome().isEmpty()){
+            throw new CampoObrigatorio("Campo nome é obrigatório");
+        }
     }
 
     private Turma retornaTurmaDoAluno(Aluno aluno) throws ObjetoNaoEncontrado {
