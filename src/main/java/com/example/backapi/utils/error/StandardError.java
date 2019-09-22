@@ -1,4 +1,4 @@
-package com.example.backapi.aviso.resources.error;
+package com.example.backapi.utils.error;
 
 import java.io.Serializable;
 

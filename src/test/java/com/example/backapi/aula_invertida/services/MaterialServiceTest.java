@@ -1,7 +1,7 @@
 package com.example.backapi.aula_invertida.services;
 
-import com.example.backapi.aula_invertida.domain.Material;
-import com.example.backapi.recurso.domain.Link;
+import com.example.backapi.aula_invertida.domain.material.LinkMaterial;
+import com.example.backapi.aula_invertida.domain.material.Material;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class MaterialServiceTest {
     @Autowired
     MaterialService materialService;
 
-    private List<Link> links;
+    private List<LinkMaterial> links;
     private Material material;
     private String titulo;
     private String descricao;
@@ -35,7 +35,7 @@ public class MaterialServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        links = Arrays.asList(new Link("www.internet.com", "Artigo sobre internet"), new Link("web.com", "Artigo sobre a web"));
+        links = Arrays.asList(new LinkMaterial("www.internet.com", "Artigo sobre internet"), new LinkMaterial("web.com", "Artigo sobre a web"));
         material = new Material("Conteúdo extra de Matemática", "Este é um conteudo sobre geometria analita, para que possa auxiliar na prova", links, imagem);
         titulo = "Titulo do material";
         descricao = "Esta e a descrição do material";
@@ -68,7 +68,7 @@ public class MaterialServiceTest {
         for (int i = 0; i < 10; i++) {
 
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
-                    new Link("youtube.com", "video")
+                    new LinkMaterial("youtube.com", "video")
             ), imagem);
             materiaisEsperados.add(material);
             materialService.save(material);
@@ -87,7 +87,7 @@ public class MaterialServiceTest {
 
         for (int i = 0; i < 11; i++) {
             Material material = new Material("Titulo", "Descricao", Arrays.asList(
-                    new Link("youtube.com", "video")
+                    new LinkMaterial("youtube.com", "video")
             ), imagem);
             materiaisEsperados.add(material);
             materialService.save(material);

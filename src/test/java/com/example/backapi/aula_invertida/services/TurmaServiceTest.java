@@ -1,6 +1,6 @@
-package com.example.backapi.turma.services;
+package com.example.backapi.aula_invertida.services;
 
-import com.example.backapi.turma.domain.Turma;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +43,7 @@ public class TurmaServiceTest {
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_uma_turma_sem_nome() throws FirebaseMessagingException {
-        Turma turma = new Turma(null, "segundoA", null);
+        Turma turma = new Turma(null, "segundoA", null, null);
 
         turmaService.save(turma);
     }
@@ -51,7 +51,7 @@ public class TurmaServiceTest {
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_turma_sem_chave_de_acesso_da_turma() throws FirebaseMessagingException {
         Turma turma;
-        turma = new Turma("2°A", null, null);
+        turma = new Turma("2°A", null, null, null);
 
         turmaService.save(turma);
 
@@ -59,17 +59,17 @@ public class TurmaServiceTest {
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_uma_turma_com_o_nome_ja_existente() throws FirebaseMessagingException {
-        turmaService.save(new Turma("2A", "abobora", null));
+        turmaService.save(new Turma("2A", "abobora", null, null));
 
-        turmaService.save(new Turma("2A", "abacaxi", null));
+        turmaService.save(new Turma("2A", "abacaxi", null, null));
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_uma_turma_com_chave_de_acesso_existente() throws FirebaseMessagingException {
 
-        turmaService.save(new Turma("2C", "abacaxi", null));
+        turmaService.save(new Turma("2C", "abacaxi", null, null));
 
-        turmaService.save(new Turma("2A", "abacaxi", null));
+        turmaService.save(new Turma("2A", "abacaxi", null, null));
 
     }
 

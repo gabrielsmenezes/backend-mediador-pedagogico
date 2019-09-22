@@ -2,15 +2,15 @@ package com.example.backapi.aviso.services;
 
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.repositories.AvisoRepository;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,9 +29,9 @@ public class AvisoService {
         return entidadeGenerica.orElseThrow(() -> new ObjectNotFoundException(entidadeGenerica.getClass().getName(), "Objeto não encontrado do tipo" + entidadeGenerica.getClass().getName() + " do id " + id) );
     }
 
-    public Aviso save(Aviso aviso) throws DataException, ConstraintViolationException {
+    public Aviso save(Aviso aviso) throws CampoObrigatorio, DataIntegrityViolationException {
         if (aviso.getTitulo() == null || (aviso.getDescricao() == null && aviso.getLinks().isEmpty())){
-            throw new ConstraintViolationException("Descricao ou link deve existir", null);
+            throw new CampoObrigatorio("Os campos Descricao ou link devem existir");
         }
         Date date=new java.util.Date();
         aviso.setDataDeCriacao(date);
@@ -45,7 +45,7 @@ public class AvisoService {
         return avisoRepository.findAll(pageRequest);
     }
 
-    public Aviso update(Aviso aviso){
+    public Aviso update(Aviso aviso) throws CampoObrigatorio {
         findById(aviso.getId());
 
         return save(aviso);

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Component
 public class Firebase {
-    private final FirebaseApp firebaseApp;
+    private FirebaseApp firebaseApp;
     private FirebaseMessaging firebaseMessaging;
 
     public Firebase() throws IOException {
@@ -26,7 +26,11 @@ public class Firebase {
                 .setDatabaseUrl("https://mediador-pedagogico.firebaseio.com")
                 .build();
 
-        firebaseApp = FirebaseApp.initializeApp(options);
+        try{
+            firebaseApp = FirebaseApp.getInstance("firebase");
+        }catch (IllegalStateException e){
+            firebaseApp = FirebaseApp.initializeApp(options, "firebase");
+        }
 
         firebaseMessaging = FirebaseMessaging.getInstance(firebaseApp);
     }
@@ -38,5 +42,21 @@ public class Firebase {
 
         System.out.println(response);
         System.out.println();
+    }
+
+    public FirebaseApp getFirebaseApp() {
+        return firebaseApp;
+    }
+
+    public void setFirebaseApp(FirebaseApp firebaseApp) {
+        this.firebaseApp = firebaseApp;
+    }
+
+    public FirebaseMessaging getFirebaseMessaging() {
+        return firebaseMessaging;
+    }
+
+    public void setFirebaseMessaging(FirebaseMessaging firebaseMessaging) {
+        this.firebaseMessaging = firebaseMessaging;
     }
 }
