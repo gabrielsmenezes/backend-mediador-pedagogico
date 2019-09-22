@@ -51,7 +51,7 @@ public class AvisoServiceTest {
 
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_criar_um_aviso_sem_descricao_e_sem_link() throws Exception {
         //arrange
         String titulo = "Recesso escolar";
@@ -63,7 +63,7 @@ public class AvisoServiceTest {
         Aviso avisoRecebido = avisoService.save(avisoEsperado);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_criar_um_aviso_sem_título() throws Exception {
         //arrange
         String descricao = "O Recesso escolar começa no próximo dia 22";
