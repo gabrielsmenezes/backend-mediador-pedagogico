@@ -1,7 +1,7 @@
 package com.example.backapi.aula_invertida.services;
 
-import com.example.backapi.aula_invertida.domain.Aluno;
-import com.example.backapi.aula_invertida.domain.Turma;
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.AlunoRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;

@@ -1,6 +1,6 @@
 package com.example.backapi.aula_invertida.repositories;
 
-import com.example.backapi.aula_invertida.domain.Material;
+import com.example.backapi.aula_invertida.domain.material.Material;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

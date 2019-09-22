@@ -1,7 +1,7 @@
 package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.notificacao.Firebase;
-import com.example.backapi.aula_invertida.domain.Turma;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;

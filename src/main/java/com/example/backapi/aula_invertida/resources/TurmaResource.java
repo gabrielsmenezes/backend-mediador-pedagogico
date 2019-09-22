@@ -1,6 +1,6 @@
 package com.example.backapi.aula_invertida.resources;
 
-import com.example.backapi.aula_invertida.domain.Turma;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

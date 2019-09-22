@@ -1,5 +1,6 @@
-package com.example.backapi.aula_invertida.domain;
+package com.example.backapi.aula_invertida.domain.aluno;
 
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;

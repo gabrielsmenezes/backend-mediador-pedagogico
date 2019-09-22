@@ -1,7 +1,6 @@
 package com.example.backapi.aula_invertida.services;
 
-import com.example.backapi.aula_invertida.domain.Turma;
-import com.example.backapi.aula_invertida.services.TurmaService;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.junit.Before;
 import org.junit.Test;

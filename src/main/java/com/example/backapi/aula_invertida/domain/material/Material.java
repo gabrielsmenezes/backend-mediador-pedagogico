@@ -1,9 +1,9 @@
-package com.example.backapi.recurso.domain;
+package com.example.backapi.aula_invertida.domain.material;
 
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Inheritance
-public abstract class Recurso implements Serializable {
+public class Material implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +24,8 @@ public abstract class Recurso implements Serializable {
     private String descricao;
 
     @ElementCollection
-    @CollectionTable(name = "links", joinColumns = @JoinColumn(name = "recurso_id"), foreignKey = @ForeignKey(name = "links_recurso_fk"))
-    private List<Link> links = new ArrayList<>();
+    @CollectionTable(name = "links_material", joinColumns = @JoinColumn(name = "material_id"), foreignKey = @ForeignKey(name = "links_material_fk"))
+    private List<LinkMaterial> links = new ArrayList<>();
 
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
@@ -34,15 +33,20 @@ public abstract class Recurso implements Serializable {
     @Lob
     private String imagem;
 
-    public Recurso() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "turma_id")
+    private Turma turma;
 
-    public Recurso(String titulo, String descricao, List<Link> links, String imagem) {
+    public Material(){}
+
+    public Material(String titulo, String descricao, List<LinkMaterial> links, String imagem) {
+
         this.titulo = titulo;
         this.descricao = descricao;
         this.links = links;
         this.imagem = imagem;
     }
+
 
     public Integer getId() {
         return id;
@@ -68,11 +72,11 @@ public abstract class Recurso implements Serializable {
         this.descricao = descricao;
     }
 
-    public List<Link> getLinks() {
+    public List<LinkMaterial> getLinks() {
         return links;
     }
 
-    public void setLinks(List<Link> links) {
+    public void setLinks(List<LinkMaterial> links) {
         this.links = links;
     }
 
@@ -80,8 +84,8 @@ public abstract class Recurso implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Recurso recurso = (Recurso) o;
-        return id.equals(recurso.id);
+        Material material = (Material) o;
+        return id.equals(material.id);
     }
 
     @Override

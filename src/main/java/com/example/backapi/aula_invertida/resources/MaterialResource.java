@@ -1,6 +1,6 @@
 package com.example.backapi.aula_invertida.resources;
 
-import com.example.backapi.aula_invertida.domain.Material;
+import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.services.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

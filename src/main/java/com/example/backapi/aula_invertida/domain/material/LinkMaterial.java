@@ -1,20 +1,20 @@
-package com.example.backapi.recurso.domain;
+package com.example.backapi.aula_invertida.domain.material;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Link {
+public class LinkMaterial {
     @Column
     private String link;
 
     @Column
     private String nome;
 
-    public Link() {
+    public LinkMaterial() {
     }
 
-    public Link(String link, String nome) {
+    public LinkMaterial(String link, String nome) {
         this.link = link;
         this.nome = nome;
     }

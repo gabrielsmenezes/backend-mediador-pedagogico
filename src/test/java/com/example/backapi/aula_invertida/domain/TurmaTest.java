@@ -1,5 +1,8 @@
 package com.example.backapi.aula_invertida.domain;
 
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
+import com.example.backapi.aula_invertida.domain.material.Material;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import org.junit.Test;
 
 import java.util.Arrays;

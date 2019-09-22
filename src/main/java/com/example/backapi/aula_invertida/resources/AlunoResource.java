@@ -1,6 +1,6 @@
 package com.example.backapi.aula_invertida.resources;
 
-import com.example.backapi.aula_invertida.domain.Aluno;
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.services.AlunoService;
 import com.example.backapi.utils.error.StandardError;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/alunos")
