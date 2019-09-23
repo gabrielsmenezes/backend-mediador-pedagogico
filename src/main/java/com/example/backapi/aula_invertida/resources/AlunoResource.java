@@ -22,8 +22,11 @@ public class AlunoResource {
     @Autowired
     private AlunoService alunoService;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Aluno> save (@RequestBody Aluno aluno) throws Exception {
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Aluno> save (@RequestParam String chaveDeAcesso, String nome) throws Exception {
+        Aluno aluno = new Aluno();
+        aluno.setChaveDeAcesso(chaveDeAcesso);
+        aluno.setNome(nome);
 
         Aluno aluno_salvo = alunoService.save(aluno);
 
