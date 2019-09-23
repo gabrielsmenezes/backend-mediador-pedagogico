@@ -27,6 +27,14 @@ public class AlunoService {
 
         Turma turma = retornaTurmaDoAluno(aluno);
 
+        List<Aluno> alunos = turma.getAlunos();
+
+        for (Aluno aluno_da_turma : alunos){
+            if (aluno_da_turma.getNome().equals(aluno.getNome())){
+                return aluno_da_turma;
+            }
+        }
+
         aluno.setTurma(turma);
 
         alunoRepository.save(aluno);
