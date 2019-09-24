@@ -172,6 +172,38 @@ public class MaterialServiceTest {
 
     }
 
+    @Test
+    public void administrador_edita_um_recurso_de_si_com_sucesso() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        materialService.save(materialDTO);
+
+        MaterialDTO materialDTORecuperado = materialService.findById(materialDTO.getId());
+
+        materialDTO.setTitulo("Vascao campeao");
+
+        materialDTORecuperado = materialService.save(materialDTO);
+
+        assertEquals("Vascao campeao", materialDTORecuperado.getTitulo());
+    }
+
+    @Test
+    public void administrador_edita_um_recurso_sem_turma(){}
+
+    @Test
+    public void Administrador_edita_um_recurso_sem_título(){}
+
+    @Test
+    public void Administrador_edita_um_recurso_sem_descricao(){}
+
+    @Test
+    public void Administrador_edita_o_recurso_sem_link(){}
+
 }
 
 

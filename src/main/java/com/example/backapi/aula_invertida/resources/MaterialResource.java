@@ -38,4 +38,15 @@ public class MaterialResource {
         Page<Material> paginas = materialService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(paginas);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<MaterialDTO> update (@PathVariable Integer id, @RequestBody MaterialDTO materialDTO) throws CampoObrigatorio {
+
+        materialDTO.setId(id);
+
+        MaterialDTO materialDTO_Retorado = materialService.update(materialDTO);
+
+        return ResponseEntity.ok().body(materialDTO);
+    }
+
 }
