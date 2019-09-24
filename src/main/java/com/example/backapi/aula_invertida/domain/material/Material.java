@@ -109,4 +109,12 @@ public class Material implements Serializable {
     public void setImagem(String imagem) {
         this.imagem = imagem;
     }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
+    }
 }
