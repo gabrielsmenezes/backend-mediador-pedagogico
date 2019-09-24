@@ -1,7 +1,9 @@
 package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.material.Material;
+import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.services.MaterialService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,13 @@ public class MaterialResource {
     MaterialService materialService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Material> save (@RequestBody Material material) throws Exception {
+    public ResponseEntity<MaterialDTO> save (@RequestBody MaterialDTO materialDTO) throws CampoObrigatorio {
 
-        Material material_salvo = materialService.save(material);
+        MaterialDTO material_salvo = materialService.save(materialDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(material_salvo.getId()).toUri();
-        return ResponseEntity.created(uri).body(material);
+
+        return ResponseEntity.created(uri).body(materialDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET)
