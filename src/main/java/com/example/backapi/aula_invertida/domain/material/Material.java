@@ -39,12 +39,13 @@ public class Material implements Serializable {
 
     public Material(){}
 
-    public Material(String titulo, String descricao, List<LinkMaterial> links, String imagem) {
+    public Material(String titulo, String descricao, List<LinkMaterial> links, String imagem, Turma turma) {
 
         this.titulo = titulo;
         this.descricao = descricao;
         this.links = links;
         this.imagem = imagem;
+        this.turma = turma;
     }
 
 
@@ -107,5 +108,13 @@ public class Material implements Serializable {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 }
