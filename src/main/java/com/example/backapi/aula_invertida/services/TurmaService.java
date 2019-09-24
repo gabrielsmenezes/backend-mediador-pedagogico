@@ -62,4 +62,8 @@ public class TurmaService {
     public void update(Turma turma) {
         turmaRepository.save(turma);
     }
+
+    public Turma findById(Integer id) {
+        return turmaRepository.findById(id).get();
+    }
 }
