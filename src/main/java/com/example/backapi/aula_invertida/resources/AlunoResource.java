@@ -23,7 +23,10 @@ public class AlunoResource {
     private AlunoService alunoService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Aluno> save (@RequestBody Aluno aluno) throws Exception {
+    public ResponseEntity<Aluno> save (@RequestParam String chaveDeAcesso, String nome) throws Exception {
+        Aluno aluno = new Aluno();
+        aluno.setChaveDeAcesso(chaveDeAcesso);
+        aluno.setNome(nome);
 
         Aluno aluno_salvo = alunoService.save(aluno);
 

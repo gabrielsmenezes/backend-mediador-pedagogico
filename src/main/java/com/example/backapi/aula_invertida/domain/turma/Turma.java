@@ -28,7 +28,7 @@ public class Turma implements Serializable {
 
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "turma")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma")
     private List<Aluno> alunos = new ArrayList<>();
 
     public Turma() {
