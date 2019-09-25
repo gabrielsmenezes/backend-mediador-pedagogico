@@ -203,7 +203,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void Administrador_edita_um_recurso_sem_título() throws CampoObrigatorio {
+    public void administrador_edita_um_recurso_sem_título() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -220,7 +220,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void Administrador_edita_um_recurso_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
+    public void administrador_edita_um_recurso_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -238,5 +238,21 @@ public class MaterialServiceTest {
         materialDTO = materialService.update(materialDTO);
 
         assertEquals("Aula de japones", materialDTO.getTitulo());
+    }
+
+    @Test
+    public void administrador_quer_visualizar_lista_de_recurso() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setLinks(links);
+        materialDTO.setImagem(imagem);
+        materialDTO.setTurma_id(turma.getId());
+
+        MaterialDTO materialRetornado = materialService.save(materialDTO);
+
+        List<MaterialDTO> materiais = materialService.findAllById(turma.getId());
+
+        assertEquals(1, materiais.size());
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MaterialService {
@@ -98,5 +100,15 @@ public class MaterialService {
         MaterialDTO materialDTO = materialToDTO(material);
 
         return materialDTO;
+    }
+
+    public List<MaterialDTO> findAllById(Integer idDaTurma) {
+        ArrayList<Material> materiais = new ArrayList<>();
+        materiais = materialRepository.findByTurma(turmaService.findById(idDaTurma));
+        ArrayList<MaterialDTO> materiaisDTO = new ArrayList<MaterialDTO>();
+        for (Material material: materiais) {
+            materiaisDTO.add(materialToDTO(material));
+        }
+        return materiaisDTO;
     }
 }
