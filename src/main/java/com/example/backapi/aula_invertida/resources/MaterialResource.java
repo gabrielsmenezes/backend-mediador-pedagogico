@@ -26,7 +26,7 @@ public class MaterialResource {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(material_salvo.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(materialDTO);
+        return ResponseEntity.created(uri).body(material_salvo);
     }
 
     @RequestMapping(method = RequestMethod.GET)
