@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/aulas")
@@ -47,6 +48,12 @@ public class MaterialResource {
         MaterialDTO materialDTO_Retorado = materialService.update(materialDTO);
 
         return ResponseEntity.ok().body(materialDTO_Retorado);
+    }
+
+    @RequestMapping(value = "/todos", method = RequestMethod.GET)
+    public ResponseEntity<List<MaterialDTO>> findAll(@RequestParam Integer idDaTurma) {
+        List<MaterialDTO> materiais = materialService.findAllById(idDaTurma);
+        return ResponseEntity.ok().body(materiais);
     }
 
 }

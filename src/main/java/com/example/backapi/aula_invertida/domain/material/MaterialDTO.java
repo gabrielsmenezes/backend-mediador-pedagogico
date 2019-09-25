@@ -1,5 +1,7 @@
 package com.example.backapi.aula_invertida.domain.material;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,8 @@ public class MaterialDTO implements Serializable {
     private String titulo;
     private String descricao;
     private List<LinkMaterial> links;
+
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
     private String imagem;
     private Integer turma_id;
