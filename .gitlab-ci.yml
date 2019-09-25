@@ -17,7 +17,7 @@ verify_job:
   stage: verify
   allow_failure: true
   script:
-    - mvn sonar:sonar   -Dsonar.projectKey=gabrielsmenezes_mirror-back-api   -Dsonar.organization=gabrielsmenezes   -Dsonar.host.url=https://sonarcloud.io   -Dsonar.login=e6b2bc5e41f97541645c24eaa45fb0bd879474af
+    - mvn verify sonar:sonar   -Dsonar.projectKey=gabrielsmenezes_mirror-back-api   -Dsonar.organization=gabrielsmenezes   -Dsonar.host.url=https://sonarcloud.io   -Dsonar.login=e6b2bc5e41f97541645c24eaa45fb0bd879474af
 
 test_job:
   image: maven:latest
