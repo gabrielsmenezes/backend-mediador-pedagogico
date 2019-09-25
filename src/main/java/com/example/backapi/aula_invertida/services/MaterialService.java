@@ -101,7 +101,7 @@ public class MaterialService {
 
         return materialDTO;
     }
-
+    @Transactional
     public List<MaterialDTO> findAllById(Integer idDaTurma) {
         ArrayList<Material> materiais = new ArrayList<>();
         materiais = materialRepository.findByTurma(turmaService.findById(idDaTurma));
