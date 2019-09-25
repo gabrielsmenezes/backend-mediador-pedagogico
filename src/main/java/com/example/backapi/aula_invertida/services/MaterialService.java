@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -20,7 +21,6 @@ public class MaterialService {
 
     @Autowired
     TurmaService turmaService;
-
 
     public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio {
         validarTurma(materialDTO);
@@ -48,7 +48,7 @@ public class MaterialService {
     }
 
     private void validarTitulo(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getTitulo() == null){
+        if (materialDTO.getTitulo() == null || materialDTO.getTitulo().isEmpty()){
             throw new CampoObrigatorio("O titulo é obrigatório");
         }
     }
@@ -67,8 +67,10 @@ public class MaterialService {
         materialDTORetorno.setImagem(material.getImagem());
         materialDTORetorno.setLinks(material.getLinks());
         materialDTORetorno.setTurma_id(material.getTurma().getId());
+        materialDTORetorno.setDataDeCriacao(material.getDataDeCriacao());
         return materialDTORetorno;
     }
+
 
     private Material DTOToMaterial(MaterialDTO materialDTO) {
         Material material = new Material();
@@ -77,6 +79,7 @@ public class MaterialService {
         material.setImagem(materialDTO.getImagem());
         material.setLinks(materialDTO.getLinks());
         material.setTurma(turmaService.findById(materialDTO.getTurma_id()));
+        material.setDataDeCriacao(materialDTO.getDataDeCriacao());
         return material;
     }
 
@@ -85,10 +88,8 @@ public class MaterialService {
         return materialRepository.findAll(pageRequest);
     }
 
-    public MaterialDTO update(MaterialDTO materialDTO) {
-        Material material = DTOToMaterial(materialDTO);
-        materialRepository.save(material);
-        return materialToDTO(material);
+    public MaterialDTO update(MaterialDTO materialDTO) throws CampoObrigatorio {
+        return this.save(materialDTO);
     }
 
     public MaterialDTO findById(Integer id) {

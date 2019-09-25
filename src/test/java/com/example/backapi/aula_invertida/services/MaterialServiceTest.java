@@ -181,29 +181,62 @@ public class MaterialServiceTest {
         materialDTO.setLinks(links);
         materialDTO.setTurma_id(turma.getId());
 
-        materialService.save(materialDTO);
+        Integer id = materialService.save(materialDTO).getId();
 
-        MaterialDTO materialDTORecuperado = materialService.findById(materialDTO.getId());
+        materialDTO.setTitulo("Aula de japones");
+        materialDTO.setId(id);
 
-        materialDTO.setTitulo("Vascao campeao");
+        materialDTO = materialService.update(materialDTO);
 
-        materialDTORecuperado = materialService.save(materialDTO);
-
-        assertEquals("Vascao campeao", materialDTORecuperado.getTitulo());
+        assertEquals("Aula de japones", materialDTO.getTitulo());
     }
 
-    @Test
-    public void administrador_edita_um_recurso_sem_turma(){}
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_edita_um_recurso_sem_turma() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
 
-    @Test
-    public void Administrador_edita_um_recurso_sem_título(){}
+        materialService.save(materialDTO).getId();
+    }
 
-    @Test
-    public void Administrador_edita_um_recurso_sem_descricao(){}
+    @Test(expected = CampoObrigatorio.class)
+    public void Administrador_edita_um_recurso_sem_título() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
 
-    @Test
-    public void Administrador_edita_o_recurso_sem_link(){}
+        Integer id = materialService.save(materialDTO).getId();
 
+        materialDTO.setTitulo("");
+        materialDTO.setId(id);
+
+        materialDTO = materialService.update(materialDTO);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void Administrador_edita_um_recurso_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        Integer id = materialService.save(materialDTO).getId();
+
+        materialDTO.setDescricao("");
+        materialDTO.setLinks(null);
+        materialDTO.setImagem(null);
+        materialDTO.setId(id);
+
+        materialDTO = materialService.update(materialDTO);
+
+        assertEquals("Aula de japones", materialDTO.getTitulo());
+    }
 }
-
-

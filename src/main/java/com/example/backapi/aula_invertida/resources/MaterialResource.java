@@ -46,7 +46,7 @@ public class MaterialResource {
 
         MaterialDTO materialDTO_Retorado = materialService.update(materialDTO);
 
-        return ResponseEntity.ok().body(materialDTO);
+        return ResponseEntity.ok().body(materialDTO_Retorado);
     }
 
 }
