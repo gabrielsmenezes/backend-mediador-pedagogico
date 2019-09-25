@@ -172,6 +172,71 @@ public class MaterialServiceTest {
 
     }
 
+    @Test
+    public void administrador_edita_um_recurso_de_si_com_sucesso() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        Integer id = materialService.save(materialDTO).getId();
+
+        materialDTO.setTitulo("Aula de japones");
+        materialDTO.setId(id);
+
+        materialDTO = materialService.update(materialDTO);
+
+        assertEquals("Aula de japones", materialDTO.getTitulo());
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_edita_um_recurso_sem_turma() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        materialService.save(materialDTO).getId();
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void Administrador_edita_um_recurso_sem_título() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        Integer id = materialService.save(materialDTO).getId();
+
+        materialDTO.setTitulo("");
+        materialDTO.setId(id);
+
+        materialDTO = materialService.update(materialDTO);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void Administrador_edita_um_recurso_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo(titulo);
+        materialDTO.setDescricao(descricao);
+        materialDTO.setImagem(imagem);
+        materialDTO.setLinks(links);
+        materialDTO.setTurma_id(turma.getId());
+
+        Integer id = materialService.save(materialDTO).getId();
+
+        materialDTO.setDescricao("");
+        materialDTO.setLinks(null);
+        materialDTO.setImagem(null);
+        materialDTO.setId(id);
+
+        materialDTO = materialService.update(materialDTO);
+
+        assertEquals("Aula de japones", materialDTO.getTitulo());
+    }
 }
-
-

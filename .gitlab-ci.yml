@@ -1,5 +1,6 @@
 stages:
   - build
+  - verify
   - test
   - deploy_job_dev
   - deploy_job_prod
@@ -10,6 +11,15 @@ build_job:
   stage: build
   script:
     - mvn compile
+
+verify_job:
+  image: maven:latest
+  stage: verify
+  allow_failure: true
+  script:
+    - mvn clean install sonar:sonar   -Dsonar.projectKey=gabrielsmenezes_mirror-back-api   -Dsonar.organization=gabrielsmenezes   -Dsonar.host.url=https://sonarcloud.io   -Dsonar.login=e6b2bc5e41f97541645c24eaa45fb0bd879474af
+  only:
+    - develop
 
 test_job:
   image: maven:latest
