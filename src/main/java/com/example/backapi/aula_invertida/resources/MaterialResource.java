@@ -4,6 +4,7 @@ import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.services.MaterialService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -56,4 +57,11 @@ public class MaterialResource {
         return ResponseEntity.ok().body(materiais);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
+
+        materialService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
 }

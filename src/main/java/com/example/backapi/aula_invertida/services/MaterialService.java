@@ -4,7 +4,9 @@ import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -110,5 +112,13 @@ public class MaterialService {
             materiaisDTO.add(materialToDTO(material));
         }
         return materiaisDTO;
+    }
+
+    public void delete(Integer id) throws ObjetoNaoEncontrado {
+        try{
+            materialRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e){
+            throw new ObjetoNaoEncontrado("Material com id " + id + " não encontrado");
+        }
     }
 }
