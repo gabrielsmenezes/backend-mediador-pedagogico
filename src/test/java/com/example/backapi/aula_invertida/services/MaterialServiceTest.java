@@ -5,6 +5,7 @@ import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -120,7 +121,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_insere_o_recurso_com_sucesso() throws CampoObrigatorio {
+    public void administrador_insere_o_material_com_sucesso() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setDescricao("Descricao do material");
@@ -134,7 +135,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_recurso_sem_turma() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_turma() throws CampoObrigatorio {
 
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
@@ -149,7 +150,7 @@ public class MaterialServiceTest {
 
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_recurso_sem_titulo() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_titulo() throws CampoObrigatorio {
 
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setDescricao("Descricao do material");
@@ -163,7 +164,7 @@ public class MaterialServiceTest {
 
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_recurso_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setTurma_id(turma.getId());
@@ -173,7 +174,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_edita_um_recurso_de_si_com_sucesso() throws CampoObrigatorio {
+    public void administrador_edita_um_material_de_si_com_sucesso() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -192,7 +193,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_recurso_sem_turma() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_turma() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
@@ -203,7 +204,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_recurso_sem_título() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_título() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -220,7 +221,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_recurso_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -241,7 +242,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_quer_visualizar_lista_de_recurso() throws CampoObrigatorio {
+    public void administrador_quer_visualizar_lista_de_materiais() throws CampoObrigatorio {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -255,4 +256,32 @@ public class MaterialServiceTest {
 
         assertEquals(1, materiais.size());
     }
+
+    @Test
+    public void administrador_deleta_material_de_sala_de_aula_invertida() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo("Aula de Ingles");
+        materialDTO.setDescricao("Descricao do material");
+        materialDTO.setLinks(Arrays.asList(new LinkMaterial()));
+        materialDTO.setImagem("imagem");
+        materialDTO.setTurma_id(turma.getId());
+
+        MaterialDTO materialRetornado = materialService.save(materialDTO);
+
+        materialService.delete(materialRetornado.getId());
+
+        List<MaterialDTO> materiais = materialService.findAllById(materialRetornado.getTurma_id());
+
+        assertFalse(materiais.contains(materialRetornado));
+
+    }
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_material_com_id_invalido() throws ObjetoNaoEncontrado {
+
+        Integer id = 0;
+
+        materialService.delete(id);
+
+    }
+
 }
