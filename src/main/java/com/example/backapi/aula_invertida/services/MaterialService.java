@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MaterialService {
@@ -92,8 +93,27 @@ public class MaterialService {
         return materialRepository.findAll(pageRequest);
     }
 
-    public MaterialDTO update(MaterialDTO materialDTO) throws CampoObrigatorio {
-        return this.save(materialDTO);
+    public MaterialDTO update(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
+
+        validarTurma(materialDTO);
+
+        validarTitulo(materialDTO);
+
+        validarDescricaoImagemLinks(materialDTO);
+
+        Material materialSalvo = materialRepository.findById(materialDTO.getId()).orElseThrow(ObjetoNaoEncontrado::new);
+
+        materialSalvo.setTitulo(materialDTO.getTitulo());
+        materialSalvo.setDescricao(materialDTO.getDescricao());
+        materialSalvo.setImagem(materialDTO.getImagem());
+        materialSalvo.setLinks(materialDTO.getLinks());
+        materialSalvo.setTurma(turmaService.findById(materialDTO.getTurma_id()));
+
+
+        materialRepository.save(materialSalvo);
+
+        return materialToDTO(materialSalvo);
+
     }
 
     public MaterialDTO findById(Integer id) {

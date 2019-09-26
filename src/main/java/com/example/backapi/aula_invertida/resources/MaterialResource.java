@@ -42,7 +42,7 @@ public class MaterialResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<MaterialDTO> update (@PathVariable Integer id, @RequestBody MaterialDTO materialDTO) throws CampoObrigatorio {
+    public ResponseEntity<MaterialDTO> update (@PathVariable Integer id, @RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
         materialDTO.setId(id);
 

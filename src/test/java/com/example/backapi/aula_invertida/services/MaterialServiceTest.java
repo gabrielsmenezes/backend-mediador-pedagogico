@@ -174,7 +174,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_edita_um_material_de_si_com_sucesso() throws CampoObrigatorio {
+    public void administrador_edita_um_material_de_si_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -204,7 +204,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_material_sem_título() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_título() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -221,7 +221,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_material_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_descricao_sem_link_sem_imagem() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
