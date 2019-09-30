@@ -46,12 +46,6 @@ public class NoticiaService {
         }
     }
 
-    private void validarExistenciaDescricao(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
-        if(noticiaDTO.getDescricao() == null || noticiaDTO.getDescricao().isEmpty()){
-            throw new CampoObrigatorio("A descricao é obrigatória");
-        }
-    }
-
     private void validarExistenciaTitulo(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
         if (noticiaDTO.getTitulo() == null || noticiaDTO.getTitulo().isEmpty()){
             throw new CampoObrigatorio("O titulo é obrigatório");
