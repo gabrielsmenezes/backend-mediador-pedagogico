@@ -27,7 +27,7 @@ public class MaterialService {
     @Autowired
     TurmaService turmaService;
 
-    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio {
+    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
         validarTurma(materialDTO);
 
         validarTitulo(materialDTO);
@@ -77,7 +77,7 @@ public class MaterialService {
     }
 
 
-    private Material DTOToMaterial(MaterialDTO materialDTO) {
+    private Material DTOToMaterial(MaterialDTO materialDTO) throws ObjetoNaoEncontrado {
         Material material = new Material();
         material.setTitulo(materialDTO.getTitulo());
         material.setDescricao(materialDTO.getDescricao());
@@ -124,7 +124,7 @@ public class MaterialService {
         return materialDTO;
     }
     @Transactional
-    public List<MaterialDTO> findAllById(Integer idDaTurma) {
+    public List<MaterialDTO> findAllById(Integer idDaTurma) throws ObjetoNaoEncontrado {
         ArrayList<Material> materiais = new ArrayList<>();
         materiais = materialRepository.findByTurma(turmaService.findById(idDaTurma));
         ArrayList<MaterialDTO> materiaisDTO = new ArrayList<MaterialDTO>();

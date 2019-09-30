@@ -7,7 +7,6 @@ import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void aluno_quer_visualizar_lista_de_materiais() throws CampoObrigatorio {
+    public void aluno_quer_visualizar_lista_de_materiais() throws CampoObrigatorio, ObjetoNaoEncontrado {
         //arrange
 
         MaterialDTO materialDTO = new MaterialDTO();
@@ -78,7 +77,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void lista_com_10_itens_da_sala_invertida_exibida_com_sucesso() throws CampoObrigatorio {
+    public void lista_com_10_itens_da_sala_invertida_exibida_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ArrayList<MaterialDTO> materiaisEsperados = new ArrayList<>();
         MaterialDTO materialDTO = new MaterialDTO();
 
@@ -100,7 +99,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void lista_com_mais_de_10_itens_da_sala_invertida_exibida_em_mais_de_uma_pagina() throws CampoObrigatorio {
+    public void lista_com_mais_de_10_itens_da_sala_invertida_exibida_em_mais_de_uma_pagina() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ArrayList<MaterialDTO> materiaisEsperados = new ArrayList<>();
         MaterialDTO materialDTO = new MaterialDTO();
 
@@ -121,7 +120,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_insere_o_material_com_sucesso() throws CampoObrigatorio {
+    public void administrador_insere_o_material_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setDescricao("Descricao do material");
@@ -135,7 +134,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_material_sem_turma() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_turma() throws CampoObrigatorio, ObjetoNaoEncontrado {
 
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
@@ -150,7 +149,7 @@ public class MaterialServiceTest {
 
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_material_sem_titulo() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_titulo() throws CampoObrigatorio, ObjetoNaoEncontrado {
 
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setDescricao("Descricao do material");
@@ -164,7 +163,7 @@ public class MaterialServiceTest {
 
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_material_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio {
+    public void administrador_insere_o_material_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setTurma_id(turma.getId());
@@ -193,7 +192,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_material_sem_turma() throws CampoObrigatorio {
+    public void administrador_edita_um_material_sem_turma() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
@@ -242,7 +241,7 @@ public class MaterialServiceTest {
     }
 
     @Test
-    public void administrador_quer_visualizar_lista_de_materiais() throws CampoObrigatorio {
+    public void administrador_quer_visualizar_lista_de_materiais() throws CampoObrigatorio, ObjetoNaoEncontrado {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
