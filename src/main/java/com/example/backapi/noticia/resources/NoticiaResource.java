@@ -1,13 +1,12 @@
 package com.example.backapi.noticia.resources;
 
+import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.services.NoticiaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -29,4 +28,14 @@ public class NoticiaResource {
 
     }
 
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Page<Noticia>> findPage(
+            @RequestParam(value="page", defaultValue="0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue="dataDeCriacao") String orderBy,
+            @RequestParam(value="direction", defaultValue="DESC") String direction) {
+        Page<Noticia> pagina = noticiaService.findPage(page, linesPerPage, orderBy, direction);
+        return ResponseEntity.ok().body(pagina);
+    }
 }

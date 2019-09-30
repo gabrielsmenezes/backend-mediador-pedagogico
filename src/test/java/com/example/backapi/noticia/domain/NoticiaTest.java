@@ -3,7 +3,6 @@ package com.example.backapi.noticia.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -48,9 +47,9 @@ public class NoticiaTest {
 
         Noticia noticia = new Noticia();
 
-        noticia.setLink(linkEsperado);
+        noticia.setLinks(linkEsperado);
 
-        String linkRetornado = noticia.getLink();
+        String linkRetornado = noticia.getLinks();
 
         assertEquals(linkEsperado, linkRetornado);
     }

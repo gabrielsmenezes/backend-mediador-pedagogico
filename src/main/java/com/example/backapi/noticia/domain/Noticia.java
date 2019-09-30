@@ -19,7 +19,7 @@ public class Noticia implements Serializable {
     private String descricao;
 
     @Column
-    private String link;
+    private String links;
 
     @Column
     private Date dataDeCriacao;
@@ -54,12 +54,12 @@ public class Noticia implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getLink() {
-        return link;
+    public String getLinks() {
+        return links;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setLinks(String links) {
+        this.links = links;
     }
 
     public Date getDataDeCriacao() {

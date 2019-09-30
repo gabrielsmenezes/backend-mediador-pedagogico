@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -38,7 +39,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_cadastrar_uma_notícia_com_notificação() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_com_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -54,7 +55,7 @@ public class NoticiaServiceTest {
 
     }
     @Test
-    public void administrador_quer_cadastrar_uma_notícia_sem_notificação() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_sem_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -125,6 +126,24 @@ public class NoticiaServiceTest {
 
         noticiaService.save(noticiaDTO);
 
+    }
+
+    @Test
+    public void aluno_quer_visualizar_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLink(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        Page<Noticia> noticias = noticiaService.findPage(0, 10, "dataDeCriacao", "DESC");
+
+        assertTrue(noticias.getTotalElements() > 0);
     }
 
 }
