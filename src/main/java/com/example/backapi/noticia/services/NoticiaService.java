@@ -5,7 +5,9 @@ import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,7 +63,7 @@ public class NoticiaService {
         noticiaDTO.setId(noticia.getId());
         noticiaDTO.setTitulo(noticia.getTitulo());
         noticiaDTO.setDescricao(noticia.getDescricao());
-        noticiaDTO.setLink(noticia.getLink());
+        noticiaDTO.setLink(noticia.getLinks());
         noticiaDTO.setDataDeCriacao(noticia.getDataDeCriacao());
         noticiaDTO.setNotificavel(noticia.isNotificavel());
         return noticiaDTO;
@@ -72,7 +74,7 @@ public class NoticiaService {
         noticia.setId(noticiaDTO.getId());
         noticia.setTitulo(noticiaDTO.getTitulo());
         noticia.setDescricao(noticiaDTO.getDescricao());
-        noticia.setLink(noticiaDTO.getLink());
+        noticia.setLinks(noticiaDTO.getLink());
         noticia.setDataDeCriacao(noticiaDTO.getDataDeCriacao());
         noticia.setNotificavel(noticiaDTO.isNotificavel());
         return noticia;
@@ -91,5 +93,8 @@ public class NoticiaService {
     }
 
 
-
+    public Page<Noticia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return noticiaRepository.findAll(pageRequest);
+    }
 }
