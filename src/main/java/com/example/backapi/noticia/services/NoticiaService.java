@@ -4,6 +4,7 @@ import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class NoticiaService {
     }
 
     private void validarExistenciaLink(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
-        if(noticiaDTO.getLink() == null || noticiaDTO.getLink().isEmpty()){
+        if(noticiaDTO.getLinks() == null || noticiaDTO.getLinks().isEmpty()){
             throw new CampoObrigatorio("O link é obrigatório");
         }
     }
@@ -63,7 +64,7 @@ public class NoticiaService {
         noticiaDTO.setId(noticia.getId());
         noticiaDTO.setTitulo(noticia.getTitulo());
         noticiaDTO.setDescricao(noticia.getDescricao());
-        noticiaDTO.setLink(noticia.getLinks());
+        noticiaDTO.setLinks(noticia.getLinks());
         noticiaDTO.setDataDeCriacao(noticia.getDataDeCriacao());
         noticiaDTO.setNotificavel(noticia.isNotificavel());
         return noticiaDTO;
@@ -74,7 +75,7 @@ public class NoticiaService {
         noticia.setId(noticiaDTO.getId());
         noticia.setTitulo(noticiaDTO.getTitulo());
         noticia.setDescricao(noticiaDTO.getDescricao());
-        noticia.setLinks(noticiaDTO.getLink());
+        noticia.setLinks(noticiaDTO.getLinks());
         noticia.setDataDeCriacao(noticiaDTO.getDataDeCriacao());
         noticia.setNotificavel(noticiaDTO.isNotificavel());
         return noticia;
@@ -96,5 +97,16 @@ public class NoticiaService {
     public Page<Noticia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return noticiaRepository.findAll(pageRequest);
+    }
+
+    public NoticiaDTO update(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        findById(noticiaDTO.getId());
+        Noticia noticia = DTOToNoticia(noticiaDTO);
+        noticia = noticiaRepository.save(noticia);
+        return noticiaToDTO(noticia);
+    }
+
+    public NoticiaDTO findById(Integer id) throws ObjetoNaoEncontrado {
+        return noticiaToDTO(noticiaRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new));
     }
 }

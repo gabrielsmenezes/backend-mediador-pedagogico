@@ -3,6 +3,7 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -46,7 +47,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaDTO = noticiaService.save(noticiaDTO);
@@ -62,7 +63,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaDTO = noticiaService.save(noticiaDTO);
@@ -79,7 +80,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(null);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaService.save(noticiaDTO);
@@ -92,7 +93,7 @@ public class NoticiaServiceTest {
         notificavel = false;
 
         noticiaDTO.setTitulo(titulo);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaService.save(noticiaDTO);
@@ -106,7 +107,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(null);
+        noticiaDTO.setLinks(null);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaService.save(noticiaDTO);
@@ -121,7 +122,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(null);
 
         noticiaService.save(noticiaDTO);
@@ -136,7 +137,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
-        noticiaDTO.setLink(link);
+        noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaDTO = noticiaService.save(noticiaDTO);
@@ -146,4 +147,45 @@ public class NoticiaServiceTest {
         assertTrue(noticias.getTotalElements() > 0);
     }
 
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(false);
+
+        Integer id = noticiaService.save(noticiaDTO).getId();
+
+        noticiaDTO = new NoticiaDTO();
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(true);
+        noticiaDTO.setId(id);
+
+        noticiaService.update(noticiaDTO);
+
+        NoticiaDTO noticiaRetornada = noticiaService.findById(id);
+
+        assertTrue(noticiaRetornada.isNotificavel());
+    }
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_titulo(){}
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_descricao(){}
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_link(){}
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_titulo(){}
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outra_descricao(){}
+
+    @Test
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_link(){}
 }

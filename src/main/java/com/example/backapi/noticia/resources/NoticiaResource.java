@@ -3,6 +3,9 @@ package com.example.backapi.noticia.resources;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.services.NoticiaService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
+import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,6 @@ public class NoticiaResource {
 
     }
 
-
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Page<Noticia>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
@@ -37,5 +39,15 @@ public class NoticiaResource {
             @RequestParam(value="direction", defaultValue="DESC") String direction) {
         Page<Noticia> pagina = noticiaService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(pagina);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<NoticiaDTO> update (@PathVariable Integer id, @RequestBody NoticiaDTO noticiaDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente, ObjetoNaoEncontrado {
+
+        noticiaDTO.setId(id);
+
+        NoticiaDTO noticiaRetornada = noticiaService.update(noticiaDTO);
+
+        return ResponseEntity.ok().body(noticiaRetornada);
     }
 }
