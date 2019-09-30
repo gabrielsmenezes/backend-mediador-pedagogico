@@ -22,7 +22,7 @@ public class MaterialResource {
     MaterialService materialService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<MaterialDTO> save (@RequestBody MaterialDTO materialDTO) throws CampoObrigatorio {
+    public ResponseEntity<MaterialDTO> save (@RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
         MaterialDTO material_salvo = materialService.save(materialDTO);
 
@@ -52,7 +52,7 @@ public class MaterialResource {
     }
 
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
-    public ResponseEntity<List<MaterialDTO>> findAll(@RequestParam Integer idDaTurma) {
+    public ResponseEntity<List<MaterialDTO>> findAll(@RequestParam Integer idDaTurma) throws ObjetoNaoEncontrado {
         List<MaterialDTO> materiais = materialService.findAllById(idDaTurma);
         return ResponseEntity.ok().body(materiais);
     }
