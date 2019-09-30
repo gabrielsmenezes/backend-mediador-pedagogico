@@ -9,7 +9,7 @@ public class NoticiaDTO implements Serializable {
     private Integer id;
     private String titulo;
     private String descricao;
-    private String link;
+    private String links;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
     private Boolean notificavel;
@@ -41,12 +41,12 @@ public class NoticiaDTO implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getLink() {
-        return link;
+    public String getLinks() {
+        return links;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setLinks(String links) {
+        this.links = links;
     }
 
     public Date getDataDeCriacao() {

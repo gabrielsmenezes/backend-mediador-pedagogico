@@ -4,6 +4,7 @@ import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ public class NoticiaService {
 
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
         validarExistenciaTitulo(noticiaDTO);
-        validarExistenciaDescricao(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
@@ -41,14 +41,8 @@ public class NoticiaService {
     }
 
     private void validarExistenciaLink(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
-        if(noticiaDTO.getLink() == null || noticiaDTO.getLink().isEmpty()){
+        if(noticiaDTO.getLinks() == null || noticiaDTO.getLinks().isEmpty()){
             throw new CampoObrigatorio("O link é obrigatório");
-        }
-    }
-
-    private void validarExistenciaDescricao(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
-        if(noticiaDTO.getDescricao() == null || noticiaDTO.getDescricao().isEmpty()){
-            throw new CampoObrigatorio("A descricao é obrigatória");
         }
     }
 
@@ -63,7 +57,7 @@ public class NoticiaService {
         noticiaDTO.setId(noticia.getId());
         noticiaDTO.setTitulo(noticia.getTitulo());
         noticiaDTO.setDescricao(noticia.getDescricao());
-        noticiaDTO.setLink(noticia.getLinks());
+        noticiaDTO.setLinks(noticia.getLinks());
         noticiaDTO.setDataDeCriacao(noticia.getDataDeCriacao());
         noticiaDTO.setNotificavel(noticia.isNotificavel());
         return noticiaDTO;
@@ -74,14 +68,14 @@ public class NoticiaService {
         noticia.setId(noticiaDTO.getId());
         noticia.setTitulo(noticiaDTO.getTitulo());
         noticia.setDescricao(noticiaDTO.getDescricao());
-        noticia.setLinks(noticiaDTO.getLink());
+        noticia.setLinks(noticiaDTO.getLinks());
         noticia.setDataDeCriacao(noticiaDTO.getDataDeCriacao());
         noticia.setNotificavel(noticiaDTO.isNotificavel());
         return noticia;
     }
 
     private void validarTamanhoDescricao(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente {
-        if (noticiaDTO.getDescricao().length() > 100) {
+        if (noticiaDTO.getDescricao() != null && noticiaDTO.getDescricao().length() > 100) {
             throw new TamanhoDeCampoExcedente("O tamanho do campo descricao é de no máximo 100 caracteres");
         }
     }
@@ -96,5 +90,22 @@ public class NoticiaService {
     public Page<Noticia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return noticiaRepository.findAll(pageRequest);
+    }
+
+    public NoticiaDTO update(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        validarExistenciaTitulo(noticiaDTO);
+        validarExistenciaLink(noticiaDTO);
+        validarExistenciaNotificavel(noticiaDTO);
+        validarTamanhoTitulo(noticiaDTO);
+        validarTamanhoDescricao(noticiaDTO);
+
+        findById(noticiaDTO.getId());
+        Noticia noticia = DTOToNoticia(noticiaDTO);
+        noticia = noticiaRepository.save(noticia);
+        return noticiaToDTO(noticia);
+    }
+
+    public NoticiaDTO findById(Integer id) throws ObjetoNaoEncontrado {
+        return noticiaToDTO(noticiaRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new));
     }
 }
