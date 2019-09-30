@@ -15,24 +15,12 @@ public class NoticiaService {
     NoticiaRepository noticiaRepository;
 
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
-        if (noticiaDTO.getTitulo() == null || noticiaDTO.getTitulo().isEmpty()){
-            throw new CampoObrigatorio("O titulo é obrigatório");
-        }
-        if(noticiaDTO.getDescricao() == null || noticiaDTO.getDescricao().isEmpty()){
-            throw new CampoObrigatorio("A descricao é obrigatória");
-
-        }
-        if(noticiaDTO.getLink() == null || noticiaDTO.getLink().isEmpty()){
-            throw new CampoObrigatorio("O link é obrigatório");
-
-        }
-        if(noticiaDTO.isNotificavel() == null){
-            throw new CampoObrigatorio("O link é obrigatório");
-
-        }
+        validarExistenciaTitulo(noticiaDTO);
+        validarExistenciaDescricao(noticiaDTO);
+        validarExistenciaLink(noticiaDTO);
+        validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
         validarTamanhoDescricao(noticiaDTO);
-
 
         Noticia noticia = DTOToNoticia(noticiaDTO);
 
@@ -42,6 +30,30 @@ public class NoticiaService {
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
         return noticiaDTO_retornada;
+    }
+
+    private void validarExistenciaNotificavel(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
+        if(noticiaDTO.isNotificavel() == null){
+            throw new CampoObrigatorio("O link é obrigatório");
+        }
+    }
+
+    private void validarExistenciaLink(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
+        if(noticiaDTO.getLink() == null || noticiaDTO.getLink().isEmpty()){
+            throw new CampoObrigatorio("O link é obrigatório");
+        }
+    }
+
+    private void validarExistenciaDescricao(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
+        if(noticiaDTO.getDescricao() == null || noticiaDTO.getDescricao().isEmpty()){
+            throw new CampoObrigatorio("A descricao é obrigatória");
+        }
+    }
+
+    private void validarExistenciaTitulo(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
+        if (noticiaDTO.getTitulo() == null || noticiaDTO.getTitulo().isEmpty()){
+            throw new CampoObrigatorio("O titulo é obrigatório");
+        }
     }
 
     private NoticiaDTO noticiaToDTO(Noticia noticia) {
