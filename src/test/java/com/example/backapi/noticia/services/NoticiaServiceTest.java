@@ -6,7 +6,6 @@ import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -86,8 +87,8 @@ public class NoticiaServiceTest {
         noticiaService.save(noticiaDTO);
     }
 
-    @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    @Test
+    public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -96,7 +97,11 @@ public class NoticiaServiceTest {
         noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
-        noticiaService.save(noticiaDTO);
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaRetornada = noticiaService.findById(noticiaDTO.getId());
+
+        assertTrue(noticiaDTO.getDescricao() == null);
     }
 
     @Test(expected = CampoObrigatorio.class)
@@ -147,6 +152,8 @@ public class NoticiaServiceTest {
         assertTrue(noticias.getTotalElements() > 0);
     }
 
+    //Testes do cenario da US-31 Editar noticias Web
+
     @Test
     public void administrador_quer_editar_uma_noticia_para_que_tenha_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
@@ -171,21 +178,152 @@ public class NoticiaServiceTest {
         assertTrue(noticiaRetornada.isNotificavel());
     }
 
-    @Test
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_titulo(){}
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        noticiaEditada.setTitulo(null);
+        noticiaEditada.setDescricao(descricao);
+        noticiaEditada.setLinks(link);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaService.update(noticiaEditada);
+    }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_descricao(){}
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        noticiaEditada.setTitulo(titulo);
+        noticiaEditada.setDescricao(null);
+        noticiaEditada.setLinks(link);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaEditada = noticiaService.update(noticiaEditada);
+
+        assertTrue(noticiaEditada.getDescricao() == null);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        noticiaEditada.setTitulo(titulo);
+        noticiaEditada.setDescricao(descricao);
+        noticiaEditada.setLinks(null);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaService.update(noticiaEditada);
+    }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_link(){}
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        String novoTitulo = "Alterei o titulo";
+        noticiaEditada.setTitulo(novoTitulo);
+        noticiaEditada.setDescricao(descricao);
+        noticiaEditada.setLinks(link);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaEditada = noticiaService.update(noticiaEditada);
+
+        assertEquals(novoTitulo, noticiaEditada.getTitulo());
+    }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_titulo(){}
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outra_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        String novoTitulo = "Alterei o titulo";
+        noticiaEditada.setTitulo(novoTitulo);
+        noticiaEditada.setDescricao(descricao);
+        noticiaEditada.setLinks(link);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaEditada = noticiaService.update(noticiaEditada);
+
+        assertEquals(novoTitulo, noticiaEditada.getTitulo());
+    }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outra_descricao(){}
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
 
-    @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_link(){}
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        NoticiaDTO noticiaEditada = new NoticiaDTO();
+        noticiaEditada.setId(noticiaDTO.getId());
+        String novoLink = "www.novosite.com";
+        noticiaEditada.setTitulo(titulo);
+        noticiaEditada.setDescricao(descricao);
+        noticiaEditada.setLinks(novoLink);
+        noticiaEditada.setNotificavel(notificavel);
+
+        noticiaEditada = noticiaService.update(noticiaEditada);
+
+        assertEquals(novoLink, noticiaEditada.getLinks());
+    }
 }

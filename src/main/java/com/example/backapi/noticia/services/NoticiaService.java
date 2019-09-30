@@ -19,7 +19,6 @@ public class NoticiaService {
 
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
         validarExistenciaTitulo(noticiaDTO);
-        validarExistenciaDescricao(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
@@ -82,7 +81,7 @@ public class NoticiaService {
     }
 
     private void validarTamanhoDescricao(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente {
-        if (noticiaDTO.getDescricao().length() > 100) {
+        if (noticiaDTO.getDescricao() != null && noticiaDTO.getDescricao().length() > 100) {
             throw new TamanhoDeCampoExcedente("O tamanho do campo descricao é de no máximo 100 caracteres");
         }
     }
@@ -100,6 +99,12 @@ public class NoticiaService {
     }
 
     public NoticiaDTO update(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+        validarExistenciaTitulo(noticiaDTO);
+        validarExistenciaLink(noticiaDTO);
+        validarExistenciaNotificavel(noticiaDTO);
+        validarTamanhoTitulo(noticiaDTO);
+        validarTamanhoDescricao(noticiaDTO);
+
         findById(noticiaDTO.getId());
         Noticia noticia = DTOToNoticia(noticiaDTO);
         noticia = noticiaRepository.save(noticia);
