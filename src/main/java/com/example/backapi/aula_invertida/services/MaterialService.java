@@ -116,8 +116,8 @@ public class MaterialService {
 
     }
 
-    public MaterialDTO findById(Integer id) {
-        Material material = materialRepository.findById(id).get();
+    public MaterialDTO findById(Integer id) throws ObjetoNaoEncontrado {
+        Material material = materialRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
 
         MaterialDTO materialDTO = materialToDTO(material);
 

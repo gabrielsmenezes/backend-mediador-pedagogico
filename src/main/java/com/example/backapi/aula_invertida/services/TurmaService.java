@@ -3,6 +3,7 @@ package com.example.backapi.aula_invertida.services;
 import com.example.backapi.notificacao.Firebase;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,7 @@ public class TurmaService {
         turmaRepository.save(turma);
     }
 
-    public Turma findById(Integer id) {
-        return turmaRepository.findById(id).get();
+    public Turma findById(Integer id) throws ObjetoNaoEncontrado {
+        return turmaRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
     }
 }
