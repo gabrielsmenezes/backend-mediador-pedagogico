@@ -2,6 +2,7 @@ package com.example.backapi.noticia.services;
 
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -36,9 +37,8 @@ public class NoticiaServiceTest {
         this.notificavel =  true;
     }
 
-    @Ignore
     @Test
-    public void administrador_quer_cadastrar_uma_notícia_com_notificação() throws TamanhoDeCampoExcedente {
+    public void administrador_quer_cadastrar_uma_notícia_com_notificação() throws TamanhoDeCampoExcedente, CampoObrigatorio {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -53,9 +53,8 @@ public class NoticiaServiceTest {
         assertTrue(noticiaDTO.getId() != null);
 
     }
-    @Ignore
     @Test
-    public void administrador_quer_cadastrar_uma_notícia_sem_notificação() throws TamanhoDeCampoExcedente {
+    public void administrador_quer_cadastrar_uma_notícia_sem_notificação() throws TamanhoDeCampoExcedente, CampoObrigatorio {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -70,14 +69,62 @@ public class NoticiaServiceTest {
         assertTrue(noticiaDTO.getId() != null);
 
     }
-    @Ignore
-    @Test
-    public void administrador_quer_cadastrar_uma_notícia_sem_título(){}
-    @Ignore
-    @Test
-    public void administrador_quer_cadastrar_uma_notícia_sem_descrição(){}
-    @Ignore
-    @Test
-    public void administrador_quer_cadastrar_uma_notícia_sem_link(){}
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(null);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLink(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setLink(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLink(null);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_notificavel() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLink(link);
+        noticiaDTO.setNotificavel(null);
+
+        noticiaService.save(noticiaDTO);
+
+    }
 
 }

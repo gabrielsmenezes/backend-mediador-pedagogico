@@ -3,6 +3,7 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,25 @@ public class NoticiaService {
     @Autowired
     NoticiaRepository noticiaRepository;
 
-    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente {
+    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        if (noticiaDTO.getTitulo() == null || noticiaDTO.getTitulo().isEmpty()){
+            throw new CampoObrigatorio("O titulo é obrigatório");
+        }
+        if(noticiaDTO.getDescricao() == null || noticiaDTO.getDescricao().isEmpty()){
+            throw new CampoObrigatorio("A descricao é obrigatória");
 
+        }
+        if(noticiaDTO.getLink() == null || noticiaDTO.getLink().isEmpty()){
+            throw new CampoObrigatorio("O link é obrigatório");
+
+        }
+        if(noticiaDTO.isNotificavel() == null){
+            throw new CampoObrigatorio("O link é obrigatório");
+
+        }
         validarTamanhoTitulo(noticiaDTO);
         validarTamanhoDescricao(noticiaDTO);
+
 
         Noticia noticia = DTOToNoticia(noticiaDTO);
 

@@ -12,7 +12,7 @@ public class NoticiaDTO implements Serializable {
     private String link;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
-    private boolean notificavel;
+    private Boolean notificavel;
 
     public NoticiaDTO() {
     }
@@ -57,11 +57,11 @@ public class NoticiaDTO implements Serializable {
         this.dataDeCriacao = dataDeCriacao;
     }
 
-    public boolean isNotificavel() {
+    public Boolean isNotificavel() {
         return notificavel;
     }
 
-    public void setNotificavel(boolean notificavel) {
+    public void setNotificavel(Boolean notificavel) {
         this.notificavel = notificavel;
     }
 }
