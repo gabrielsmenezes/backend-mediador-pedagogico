@@ -3,14 +3,17 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
+import com.example.backapi.notificacao.Firebase;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class NoticiaService {
     @Autowired
     NoticiaRepository noticiaRepository;
 
-    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         validarExistenciaTitulo(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
@@ -34,12 +37,16 @@ public class NoticiaService {
 
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
+        Firebase firebase = new Firebase();
+        firebase.sendMessage("avisos", noticiaDTO.getTitulo());
+        firebase = null;
+
         return noticiaDTO_retornada;
     }
 
     private void validarExistenciaNotificavel(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
         if(noticiaDTO.isNotificavel() == null){
-            throw new CampoObrigatorio("O link é obrigatório");
+            throw new CampoObrigatorio("O notificavel é obrigatório");
         }
     }
 

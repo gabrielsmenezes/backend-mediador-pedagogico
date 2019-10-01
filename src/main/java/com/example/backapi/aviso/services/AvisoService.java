@@ -54,7 +54,7 @@ public class AvisoService {
         return avisoRepository.findAll(pageRequest);
     }
 
-    public Aviso update(Aviso aviso) throws CampoObrigatorio {
+    public Aviso update(Aviso aviso) throws CampoObrigatorio, IOException, FirebaseMessagingException {
         findById(aviso.getId());
 
         return save(aviso);

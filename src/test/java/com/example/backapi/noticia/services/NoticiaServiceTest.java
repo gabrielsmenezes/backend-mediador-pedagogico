@@ -5,6 +5,7 @@ import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -40,7 +43,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_cadastrar_uma_noticia_com_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_com_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -56,7 +59,7 @@ public class NoticiaServiceTest {
 
     }
     @Test
-    public void administrador_quer_cadastrar_uma_noticia_sem_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_sem_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -73,7 +76,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_cadastrar_uma_noticia_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -87,7 +90,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -104,7 +107,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_cadastrar_uma_noticia_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -119,7 +122,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_cadastrar_uma_noticia_sem_notificavel() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_cadastrar_uma_noticia_sem_notificavel() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -134,7 +137,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void aluno_quer_visualizar_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void aluno_quer_visualizar_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -154,7 +157,7 @@ public class NoticiaServiceTest {
     //Testes do cenario da US-31 Editar noticias Web
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_notificacao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
@@ -178,7 +181,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -201,7 +204,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -226,7 +229,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_fique_sem_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -249,7 +252,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -275,7 +278,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outra_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outra_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -301,7 +304,7 @@ public class NoticiaServiceTest {
     }
 
     @Test
-    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
+    public void administrador_quer_editar_uma_noticia_para_que_tenha_outro_link() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -329,7 +332,7 @@ public class NoticiaServiceTest {
     //Testes do cenario da US-32 Deletar noticias Web
 
     @Test
-    public void administrador_quer_deletar_uma_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_deletar_uma_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -349,7 +352,7 @@ public class NoticiaServiceTest {
 
     //Testes do cenario da US-33 Visualizar listagem de notícias - Web
     @Test
-    public void administrador_quer_listar_todas_as_noticias_cadastradas() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    public void administrador_quer_listar_todas_as_noticias_cadastradas() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         for (int i = 0;i < 12; i++) {
             NoticiaDTO noticiaDTO = new NoticiaDTO();
 
