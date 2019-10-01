@@ -55,7 +55,7 @@ public class MaterialResource {
 
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
     public ResponseEntity<List<MaterialDTO>> findAll(@RequestParam Integer idDaTurma) throws ObjetoNaoEncontrado {
-        List<MaterialDTO> materiais = materialService.findAllById(idDaTurma);
+        List<MaterialDTO> materiais = materialService.findAllById(Integer.valueOf(org.owasp.encoder.Encode.forHtml(String.valueOf(idDaTurma))));
         return ResponseEntity.ok().body(materiais);
     }
 
