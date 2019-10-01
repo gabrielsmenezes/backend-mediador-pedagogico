@@ -38,7 +38,7 @@ public class NoticiaService {
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
         Firebase firebase = new Firebase();
-        firebase.sendMessage("avisos", noticiaDTO.getTitulo());
+        firebase.sendMessage("noticias", noticiaDTO.getTitulo());
         firebase = null;
 
         return noticiaDTO_retornada;
