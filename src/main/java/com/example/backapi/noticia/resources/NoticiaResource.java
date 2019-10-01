@@ -50,4 +50,12 @@ public class NoticiaResource {
 
         return ResponseEntity.ok().body(noticiaRetornada);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete (@PathVariable Integer id){
+
+        noticiaService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
 }

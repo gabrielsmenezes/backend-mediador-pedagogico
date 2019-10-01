@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NoticiaService {
 
@@ -107,5 +109,13 @@ public class NoticiaService {
 
     public NoticiaDTO findById(Integer id) throws ObjetoNaoEncontrado {
         return noticiaToDTO(noticiaRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new));
+    }
+
+    public void delete(Integer id) {
+        noticiaRepository.deleteById(id);
+    }
+
+    public List<Noticia> findAll() {
+        return noticiaRepository.findAll();
     }
 }
