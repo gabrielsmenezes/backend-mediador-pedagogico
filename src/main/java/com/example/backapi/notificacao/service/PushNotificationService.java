@@ -32,6 +32,7 @@ public class PushNotificationService {
             fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -40,6 +41,7 @@ public class PushNotificationService {
             fcmService.sendMessage(getSamplePayloadData(), request);
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -48,6 +50,7 @@ public class PushNotificationService {
             fcmService.sendMessageWithoutData(request);
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -57,6 +60,7 @@ public class PushNotificationService {
             fcmService.sendMessageToToken(request);
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
