@@ -346,4 +346,22 @@ public class NoticiaServiceTest {
         assertFalse(noticiaService.findAll().contains(noticiaDTO));
 
     }
-}
+
+    //Testes do cenario da US-33 Visualizar listagem de notícias - Web
+    @Test
+    public void administrador_quer_listar_todas_as_noticias_cadastradas() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        for (int i = 0;i < 12; i++) {
+            NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+            noticiaDTO.setTitulo(String.valueOf(i));
+            noticiaDTO.setDescricao(String.valueOf(i));
+            noticiaDTO.setLinks(String.valueOf(i));
+            noticiaDTO.setNotificavel(false);
+
+            noticiaService.save(noticiaDTO);
+        }
+
+        assertEquals(12, noticiaService.findAll().size());
+
+        }
+    }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/noticias")
@@ -57,5 +58,11 @@ public class NoticiaResource {
         noticiaService.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/todas", method = RequestMethod.GET)
+    public ResponseEntity<List<NoticiaDTO>> findAll() {
+        List<NoticiaDTO> avisos = noticiaService.findAll();
+        return ResponseEntity.ok().body(avisos);
     }
 }
