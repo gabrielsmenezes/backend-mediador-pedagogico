@@ -3,14 +3,19 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
+
+import com.example.backapi.notificacao.model.PushNotificationRequest;
+import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +25,10 @@ public class NoticiaService {
     @Autowired
     NoticiaRepository noticiaRepository;
 
-    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
+    @Autowired
+    PushNotificationService pushNotificationService;
+
+    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         validarExistenciaTitulo(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
@@ -34,12 +42,14 @@ public class NoticiaService {
 
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTO_retornada.getTitulo(), noticiaDTO_retornada.getDescricao(), "Noticias"));
+
         return noticiaDTO_retornada;
     }
 
     private void validarExistenciaNotificavel(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
         if(noticiaDTO.isNotificavel() == null){
-            throw new CampoObrigatorio("O link é obrigatório");
+            throw new CampoObrigatorio("O notificavel é obrigatório");
         }
     }
 

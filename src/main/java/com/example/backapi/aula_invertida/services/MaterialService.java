@@ -3,8 +3,11 @@ package com.example.backapi.aula_invertida.services;
 import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
+import com.example.backapi.notificacao.model.PushNotificationRequest;
+import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -13,10 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MaterialService {
@@ -27,7 +30,10 @@ public class MaterialService {
     @Autowired
     TurmaService turmaService;
 
-    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
+    @Autowired
+    PushNotificationService pushNotificationService;
+
+    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         validarTurma(materialDTO);
 
         validarTitulo(materialDTO);
@@ -42,6 +48,10 @@ public class MaterialService {
         materialRepository.save(material);
 
         MaterialDTO materialDTORetorno = materialToDTO(material);
+
+        String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
+
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(),materialDTO.getDescricao(),chaveDeAcesso));
 
         return materialDTORetorno;
     }

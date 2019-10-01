@@ -4,6 +4,7 @@ import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.services.AvisoService;
 import com.example.backapi.utils.error.StandardError;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class AvisoResource{
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso) throws CampoObrigatorio {
+    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso) throws CampoObrigatorio, IOException, FirebaseMessagingException {
 
         aviso.setId(id);
 
