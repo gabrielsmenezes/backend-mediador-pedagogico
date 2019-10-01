@@ -15,8 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -325,5 +324,26 @@ public class NoticiaServiceTest {
         noticiaEditada = noticiaService.update(noticiaEditada);
 
         assertEquals(novoLink, noticiaEditada.getLinks());
+    }
+
+    //Testes do cenario da US-32 Deletar noticias Web
+
+    @Test
+    public void administrador_quer_deletar_uma_noticia() throws TamanhoDeCampoExcedente, CampoObrigatorio {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaDTO = noticiaService.save(noticiaDTO);
+
+        noticiaService.delete(noticiaDTO.getId());
+
+        assertFalse(noticiaService.findAll().contains(noticiaDTO));
+
     }
 }
