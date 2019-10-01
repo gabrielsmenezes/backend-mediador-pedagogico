@@ -38,6 +38,7 @@ public class Firebase {
     public void sendMessage(String topico, String messagem) throws FirebaseMessagingException {
         Message message = Message.builder().setTopic(topico).putData("mensagem", messagem).build();
 
+
         String response = firebaseMessaging.send(message);
 
         System.out.println(response);

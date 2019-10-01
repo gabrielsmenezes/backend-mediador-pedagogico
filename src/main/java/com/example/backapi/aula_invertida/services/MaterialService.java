@@ -3,8 +3,10 @@ package com.example.backapi.aula_invertida.services;
 import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
+import com.example.backapi.notificacao.Firebase;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +30,7 @@ public class MaterialService {
     @Autowired
     TurmaService turmaService;
 
-    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
+    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         validarTurma(materialDTO);
 
         validarTitulo(materialDTO);
@@ -42,6 +45,12 @@ public class MaterialService {
         materialRepository.save(material);
 
         MaterialDTO materialDTORetorno = materialToDTO(material);
+
+        String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
+
+        Firebase firebase = new Firebase();
+        firebase.sendMessage(chaveDeAcesso, materialDTO.getTitulo());
+        firebase = null;
 
         return materialDTORetorno;
     }
