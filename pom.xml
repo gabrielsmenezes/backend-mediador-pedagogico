@@ -67,6 +67,13 @@
             <version>6.8.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.owasp.encoder/encoder -->
+        <dependency>
+            <groupId>org.owasp.encoder</groupId>
+            <artifactId>encoder</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
     </dependencies>
 
 
@@ -97,7 +104,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <destFile>${sonar.coverage.jacoco.xmlReportPaths}</destFile>
                 </configuration>
             </plugin>
         </plugins>
