@@ -36,7 +36,7 @@ public class AlunoResource {
     }
 
     @ExceptionHandler(ObjetoNaoEncontrado.class)
-    public ResponseEntity<StandardError> turmaNaoEncontrda(ObjetoNaoEncontrado e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> turmaNaoEncontrada(ObjetoNaoEncontrado e, HttpServletRequest request) {
 
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Nenhuma turma cadastrada com essa chave", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);

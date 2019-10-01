@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -88,7 +89,7 @@ public class NoticiaService {
         }
     }
 
-
+    //TODO alterar o retorno para Page<NoticiaDTO>
     public Page<Noticia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return noticiaRepository.findAll(pageRequest);
@@ -115,7 +116,12 @@ public class NoticiaService {
         noticiaRepository.deleteById(id);
     }
 
-    public List<Noticia> findAll() {
-        return noticiaRepository.findAll();
+    public ArrayList<NoticiaDTO> findAll() {
+        List<Noticia> noticias = noticiaRepository.findAll();
+        ArrayList<NoticiaDTO> noticiasDTO = new ArrayList<>();
+        for (Noticia noticia: noticias) {
+            noticiasDTO.add(noticiaToDTO(noticia));
+        }
+        return noticiasDTO;
     }
 }
