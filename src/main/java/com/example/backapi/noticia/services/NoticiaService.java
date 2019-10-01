@@ -42,7 +42,7 @@ public class NoticiaService {
 
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest("Nova Notícias", noticiaDTO_retornada.getTitulo(), "Noticias"));
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTO_retornada.getTitulo(), noticiaDTO_retornada.getDescricao(), "Noticias"));
 
         return noticiaDTO_retornada;
     }

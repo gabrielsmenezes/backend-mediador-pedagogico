@@ -51,7 +51,7 @@ public class MaterialService {
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest("Novo Material", materialDTO.getTitulo(), chaveDeAcesso));
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(),materialDTO.getDescricao(),chaveDeAcesso));
 
         return materialDTORetorno;
     }

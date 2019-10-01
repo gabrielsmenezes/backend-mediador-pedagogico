@@ -42,7 +42,7 @@ public class AvisoService {
         aviso.setDataDeCriacao(date);
         Aviso resposta = avisoRepository.save(aviso);
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest("Novo Aviso", resposta.getTitulo(), "Avisos"));
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(resposta.getTitulo(),resposta.getDescricao(),"Avisos"));
 
         return resposta;
 
