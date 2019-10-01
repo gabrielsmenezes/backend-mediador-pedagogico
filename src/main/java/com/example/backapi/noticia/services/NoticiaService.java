@@ -3,7 +3,9 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
-import com.example.backapi.notificacao.Firebase;
+
+import com.example.backapi.notificacao.model.PushNotificationRequest;
+import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
@@ -23,6 +25,9 @@ public class NoticiaService {
     @Autowired
     NoticiaRepository noticiaRepository;
 
+    @Autowired
+    PushNotificationService pushNotificationService;
+
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         validarExistenciaTitulo(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
@@ -37,9 +42,7 @@ public class NoticiaService {
 
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
-        Firebase firebase = new Firebase();
-        firebase.sendMessage("noticias", noticiaDTO.getTitulo());
-        firebase = null;
+        pushNotificationService.sendPushNotification(new PushNotificationRequest("Nova Notícias", noticiaDTO_retornada.getTitulo(), "Noticias"));
 
         return noticiaDTO_retornada;
     }

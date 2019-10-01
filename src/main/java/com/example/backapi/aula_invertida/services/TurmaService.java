@@ -1,6 +1,5 @@
 package com.example.backapi.aula_invertida.services;
 
-import com.example.backapi.notificacao.Firebase;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
@@ -17,8 +16,6 @@ public class TurmaService {
     @Autowired
     TurmaRepository turmaRepository;
 
-    @Autowired
-    Firebase firebase;
 
     public Turma save(Turma turma) throws FirebaseMessagingException {
         if (turma.getNome() == null || turma.getChaveDeAcesso() == null){
@@ -33,7 +30,7 @@ public class TurmaService {
 
         String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.aula_invertida.domain.")[1]+"-"+ turmaCadastrada.getId();
 
-        firebase.sendMessage(topico, "Turma cadastrada");
+//        firebase.sendMessage(topico, "Turma cadastrada");
 
         return turma;
     }

@@ -3,7 +3,8 @@ package com.example.backapi.aula_invertida.services;
 import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
-import com.example.backapi.notificacao.Firebase;
+import com.example.backapi.notificacao.model.PushNotificationRequest;
+import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MaterialService {
@@ -29,6 +29,9 @@ public class MaterialService {
 
     @Autowired
     TurmaService turmaService;
+
+    @Autowired
+    PushNotificationService pushNotificationService;
 
     public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         validarTurma(materialDTO);
@@ -48,9 +51,7 @@ public class MaterialService {
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
 
-        Firebase firebase = new Firebase();
-        firebase.sendMessage(chaveDeAcesso, materialDTO.getTitulo());
-        firebase = null;
+        pushNotificationService.sendPushNotification(new PushNotificationRequest("Novo Material", materialDTO.getTitulo(), chaveDeAcesso));
 
         return materialDTORetorno;
     }

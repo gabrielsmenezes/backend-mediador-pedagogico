@@ -2,7 +2,8 @@ package com.example.backapi.aviso.services;
 
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.repositories.AvisoRepository;
-import com.example.backapi.notificacao.Firebase;
+import com.example.backapi.notificacao.model.PushNotificationRequest;
+import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.hibernate.ObjectNotFoundException;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +24,8 @@ public class AvisoService {
     @Autowired
     private AvisoRepository avisoRepository;
 
+    @Autowired
+    PushNotificationService pushNotificationService;
 
     public Aviso findById(Integer id){
 
@@ -40,10 +42,7 @@ public class AvisoService {
         aviso.setDataDeCriacao(date);
         Aviso resposta = avisoRepository.save(aviso);
 
-
-        Firebase firebase = new Firebase();
-        firebase.sendMessage("avisos", aviso.getTitulo());
-        firebase = null;
+        pushNotificationService.sendPushNotification(new PushNotificationRequest("Novo Aviso", resposta.getTitulo(), "Avisos"));
 
         return resposta;
 

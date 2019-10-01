@@ -38,14 +38,14 @@ public class AlunoResource {
     @ExceptionHandler(ObjetoNaoEncontrado.class)
     public ResponseEntity<StandardError> turmaNaoEncontrada(ObjetoNaoEncontrado e, HttpServletRequest request) {
 
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Nenhuma turma cadastrada com essa chave", e.getMessage(), request.getRequestURI());
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Nenhuma turma cadastrada com essa chave", e.getMessage(), Encode.forHtml(request.getRequestURI()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(CampoObrigatorio.class)
     public ResponseEntity<StandardError> campoObrigatorio(CampoObrigatorio e, HttpServletRequest request) {
 
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Campo obrigatório", e.getMessage(), request.getRequestURI());
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Campo obrigatório", e.getMessage(), Encode.forHtml(request.getRequestURI()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 }
