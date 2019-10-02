@@ -14,9 +14,9 @@ public class FCMService {
 
     private Logger logger = LoggerFactory.getLogger(FCMService.class);
 
-    public void sendMessage(Map<String, String> data, PushNotificationRequest request)
+    public void sendMessage(PushNotificationRequest request)
             throws InterruptedException, ExecutionException {
-        Message message = getPreconfiguredMessageWithData(data, request);
+        Message message = getPreconfiguredMessageWithData(request);
         String response = sendAndGetResponse(message);
         logger.info("Sent message with data. Topic: " + request.getTopic() + ", " + response);
     }
@@ -62,8 +62,9 @@ public class FCMService {
                 .build();
     }
 
-    private Message getPreconfiguredMessageWithData(Map<String, String> data, PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).putAllData(data).setTopic(request.getTopic())
+    private Message getPreconfiguredMessageWithData(PushNotificationRequest request) {
+        return getPreconfiguredMessageBuilder(request).putData("titulo", request.getTitle())
+                .putData("desccricao", request.getMessage()).setTopic(request.getTopic())
                 .build();
     }
 

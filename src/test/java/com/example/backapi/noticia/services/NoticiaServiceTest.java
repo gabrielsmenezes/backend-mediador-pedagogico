@@ -1,6 +1,5 @@
 package com.example.backapi.noticia.services;
 
-import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
@@ -35,7 +34,7 @@ public class NoticiaServiceTest {
     NoticiaService noticiaService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.titulo = "Título";
         this.descricao = "Descrição";
         this.link = "hhtps://www.link.com";
@@ -103,7 +102,7 @@ public class NoticiaServiceTest {
 
         NoticiaDTO noticiaRetornada = noticiaService.findById(noticiaDTO.getId());
 
-        assertTrue(noticiaDTO.getDescricao() == null);
+        assertTrue(noticiaRetornada.getDescricao() == null);
     }
 
     @Test(expected = CampoObrigatorio.class)
@@ -149,7 +148,7 @@ public class NoticiaServiceTest {
 
         noticiaDTO = noticiaService.save(noticiaDTO);
 
-        Page<Noticia> noticias = noticiaService.findPage(0, 10, "dataDeCriacao", "DESC");
+        Page<NoticiaDTO> noticias = noticiaService.findPage(0, 10, "dataDeCriacao", "DESC");
 
         assertTrue(noticias.getTotalElements() > 0);
     }
