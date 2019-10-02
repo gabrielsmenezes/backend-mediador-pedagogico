@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.services.TurmaService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,16 @@ public class TurmaResource {
         turmaService.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Turma> update (@PathVariable Integer id, @RequestBody Turma turma) throws CampoObrigatorio, ObjetoNaoEncontrado {
+
+        turma.setId(id);
+
+        Turma turma_retornada = turmaService.update(turma);
+
+        return ResponseEntity.ok().body(turma_retornada);
     }
 
 }

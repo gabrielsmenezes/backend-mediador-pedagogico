@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.domain.turma;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.material.Material;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -30,6 +31,10 @@ public class Turma implements Serializable {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma")
     private List<Aluno> alunos = new ArrayList<>();
+
+    @JsonIgnore
+    @ElementCollection
+    private List<String> ultimasChaves = new ArrayList<>();
 
     public Turma() {
     }
@@ -94,4 +99,25 @@ public class Turma implements Serializable {
         this.alunos = alunos;
     }
 
+    public void adicionarNovaChave(String novaChave) {
+        if (ultimasChaves.size() < 2){
+            ultimasChaves.add(novaChave);
+        } else {
+            ultimasChaves.remove(0);
+            ultimasChaves.add(novaChave);
+        }
+    }
+
+
+    public boolean chaveFoiUsadaRecentemente(String chaveDeAcesso) {
+        return ultimasChaves.contains(chaveDeAcesso);
+    }
+
+    public List<String> getUltimasChaves() {
+        return ultimasChaves;
+    }
+
+    public void setUltimasChaves(List<String> ultimasChaves) {
+        this.ultimasChaves = ultimasChaves;
+    }
 }
