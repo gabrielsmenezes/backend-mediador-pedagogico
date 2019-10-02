@@ -6,6 +6,7 @@ import com.example.backapi.aula_invertida.services.MaterialService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -49,7 +50,7 @@ public class MaterialResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<MaterialDTO> update (@PathVariable Integer id, @RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        materialDTO.setId(id);
+        materialDTO.setId(Integer.valueOf(Encode.forHtml(String.valueOf(id))));
 
         MaterialDTO materialDTO_Retorado = materialService.update(materialDTO);
 
