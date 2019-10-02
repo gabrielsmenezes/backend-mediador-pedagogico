@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.domain.aluno;
 
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class Aluno implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     private String chaveDeAcesso;
 
     private String nome;

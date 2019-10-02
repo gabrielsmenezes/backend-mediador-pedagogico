@@ -1,5 +1,6 @@
 package com.example.backapi.aula_invertida.resources;
 
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.services.TurmaService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
@@ -52,4 +53,8 @@ public class TurmaResource {
         return ResponseEntity.ok().body(turma_retornada);
     }
 
+    @RequestMapping(value = "/{idDaTurma}/alunos", method = RequestMethod.GET)
+    public List<Aluno> findAlunoByIdTurma(@PathVariable Integer idDaTurma) throws ObjetoNaoEncontrado {
+        return turmaService.findAlunoByTurmaId(idDaTurma);
+    }
 }
