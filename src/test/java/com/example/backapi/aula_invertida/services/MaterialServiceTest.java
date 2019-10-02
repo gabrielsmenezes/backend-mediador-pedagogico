@@ -71,7 +71,7 @@ public class MaterialServiceTest {
         materialDTO = materialService.save(materialDTO);
 
         //action
-        Page<Material> retorno = materialService.findPage(0, 100, "id", "ASC");
+        Page<MaterialDTO> retorno = materialService.findPage(0, 100, "id", "ASC", turma.getChaveDeAcesso());
         //assert
 
         assertTrue(retorno.getTotalElements() > 0);
@@ -94,7 +94,7 @@ public class MaterialServiceTest {
             materiaisEsperados.add(materialDTO);
         }
 
-        Page<Material> materiaisRetornados = materialService.findPage(0, 10, "id", "ASC");
+        Page<MaterialDTO> materiaisRetornados = materialService.findPage(0, 10, "id", "ASC", turma.getChaveDeAcesso());
 
         assertEquals(materiaisEsperados.size(), materiaisRetornados.getSize());
 
@@ -115,7 +115,7 @@ public class MaterialServiceTest {
             materiaisEsperados.add(materialDTO);
         }
 
-        Page<Material> materiaisRetornados = materialService.findPage(0, 10, "id", "ASC");
+        Page<MaterialDTO> materiaisRetornados = materialService.findPage(0, 10, "id", "ASC", turma.getChaveDeAcesso());
 
         assert (materiaisRetornados.getTotalPages() > 1);
 
