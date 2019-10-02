@@ -1,5 +1,6 @@
 package com.example.backapi.aula_invertida.services;
 
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
@@ -26,6 +27,9 @@ public class TurmaServiceTest {
 
     @Autowired
     TurmaService turmaService;
+
+    @Autowired
+    AlunoService alunoService;
 
     @Before
     public void setUp() {
@@ -244,5 +248,34 @@ public class TurmaServiceTest {
         turmaService.update(turmaEditada);
 
 
+    }
+
+    //Testes do US-26 Listar alunos referente à uma turma - Web
+
+    @Test
+    public void administrador_quer_listar_todos_os_alunos_de_uma_turma() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        String nomeDaTurma = "3° B";
+        String chaveDeAcesso = "terceiroB";
+
+        Turma turmaEsperada = new Turma();
+        turmaEsperada.setNome(nomeDaTurma);
+        turmaEsperada.setChaveDeAcesso(chaveDeAcesso);
+
+        Turma turmaRetornada = turmaService.save(turmaEsperada);
+
+        Aluno gabriel = new Aluno();
+        gabriel.setNome("Gabriel");
+        gabriel.setChaveDeAcesso(chaveDeAcesso);
+
+        alunoService.save(gabriel);
+
+        List<Aluno> alunos = turmaService.findAlunoByTurmaId(turmaRetornada.getId());
+
+        assertTrue(alunos.contains(gabriel));
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_listar_alunos_de_uma_turma_inexistente() throws ObjetoNaoEncontrado {
+        turmaService.findAlunoByTurmaId(0);
     }
 }

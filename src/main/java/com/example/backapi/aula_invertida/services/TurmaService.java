@@ -1,5 +1,6 @@
 package com.example.backapi.aula_invertida.services;
 
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
@@ -50,7 +51,7 @@ public class TurmaService {
     private void verificarSeChaveDeAcessoJaExiste(Turma turma) {
         List<Turma> turmas = findAll();
         for (int i = 0; i < turmas.size(); i++){
-            if (turma.getChaveDeAcesso().equals(turmas.get(i).getChaveDeAcesso()) && (turmas.get(i).getId() != turma.getId())){
+            if (turma.getChaveDeAcesso().equals(turmas.get(i).getChaveDeAcesso()) && (!turmas.get(i).getId().equals(turma.getId()))){
                 throw new ConstraintViolationException("Chave de acesso já cadastrado", null);
             }
         }
@@ -59,7 +60,7 @@ public class TurmaService {
     private void verificarSeNomeDaTurmaJaExiste(Turma turma) {
         List<Turma> turmas = findAll();
         for (int i = 0; i < turmas.size(); i++){
-            if (turma.getNome().equals(turmas.get(i).getNome()) && turmas.get(i).getId() != turma.getId()){
+            if (turma.getNome().equals(turmas.get(i).getNome()) && !turmas.get(i).getId().equals(turma.getId())){
                 throw new ConstraintViolationException("Nome já cadastrado", null);
             }
         }
@@ -94,5 +95,13 @@ public class TurmaService {
         }catch (EmptyResultDataAccessException e){
             throw new ObjetoNaoEncontrado("Turma não encontrada");
         }
+    }
+
+    public List<Aluno> findAlunoByTurmaId(Integer idDaTurma) throws ObjetoNaoEncontrado {
+
+        Turma turma = findById(idDaTurma);
+
+        return turma.getAlunos();
+
     }
 }
