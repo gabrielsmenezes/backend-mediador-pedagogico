@@ -29,7 +29,7 @@ public class TurmaResource {
         return ResponseEntity.created(uri).body(turma_salva);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/todas", method = RequestMethod.GET)
     public ResponseEntity<List<Turma>> findAll() {
         List<Turma> turmas = turmaService.findAll();
         return ResponseEntity.ok().body(turmas);
