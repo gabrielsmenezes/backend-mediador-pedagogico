@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
+import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
 import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.example.backapi.notificacao.service.PushNotificationService;
@@ -11,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -51,25 +53,25 @@ public class MaterialService {
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(),materialDTO.getDescricao(),chaveDeAcesso));
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
 
         return materialDTORetorno;
     }
 
     private void validarDescricaoImagemLinks(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getDescricao() == null || materialDTO.getImagem() == null || materialDTO.getLinks().size() == 0 || materialDTO.getLinks() == null){
+        if (materialDTO.getDescricao() == null || materialDTO.getImagem() == null || materialDTO.getLinks().size() == 0 || materialDTO.getLinks() == null) {
             throw new CampoObrigatorio("A descrição ou imagem ou links são obrigatórios");
         }
     }
 
     private void validarTitulo(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getTitulo() == null || materialDTO.getTitulo().isEmpty()){
+        if (materialDTO.getTitulo() == null || materialDTO.getTitulo().isEmpty()) {
             throw new CampoObrigatorio("O titulo é obrigatório");
         }
     }
 
     private void validarTurma(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getTurma_id() == null){
+        if (materialDTO.getTurma_id() == null) {
             throw new CampoObrigatorio("O id da turma é obrigatório");
         }
     }
@@ -98,9 +100,14 @@ public class MaterialService {
         return material;
     }
 
-    public Page<Material> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+    public Page<MaterialDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction, String chaveDeAcesso) throws ObjetoNaoEncontrado {
+        Turma turma = retornaTurma(chaveDeAcesso);
+        List<MaterialDTO> materiais = findAllById(turma.getId());
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return materialRepository.findAll(pageRequest);
+
+        PageImpl<MaterialDTO> pageRetorno = new PageImpl<MaterialDTO>(materiais, pageRequest, materiais.size());
+
+        return pageRetorno;
     }
 
     public MaterialDTO update(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
@@ -133,22 +140,34 @@ public class MaterialService {
 
         return materialDTO;
     }
+
     @Transactional
     public List<MaterialDTO> findAllById(Integer idDaTurma) throws ObjetoNaoEncontrado {
         ArrayList<Material> materiais = new ArrayList<>();
         materiais = materialRepository.findByTurma(turmaService.findById(idDaTurma));
         ArrayList<MaterialDTO> materiaisDTO = new ArrayList<MaterialDTO>();
-        for (Material material: materiais) {
+        for (Material material : materiais) {
             materiaisDTO.add(materialToDTO(material));
         }
         return materiaisDTO;
     }
 
     public void delete(Integer id) throws ObjetoNaoEncontrado {
-        try{
+        try {
             materialRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new ObjetoNaoEncontrado("Material com id " + id + " não encontrado");
         }
+    }
+
+    private Turma retornaTurma(String chaveDeAcesso) throws ObjetoNaoEncontrado {
+        List<Turma> turmas = turmaService.findAll();
+
+        for (int i = 0; i < turmas.size(); i++) {
+            if (chaveDeAcesso.equals(turmas.get(i).getChaveDeAcesso())) {
+                return turmas.get(i);
+            }
+        }
+        throw new ObjetoNaoEncontrado("Turma da chave: " + chaveDeAcesso + " não encontrada!");
     }
 }

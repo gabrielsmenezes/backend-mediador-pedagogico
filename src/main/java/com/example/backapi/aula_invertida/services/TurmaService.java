@@ -17,7 +17,7 @@ public class TurmaService {
     TurmaRepository turmaRepository;
 
 
-    public Turma save(Turma turma) throws FirebaseMessagingException {
+    public Turma save(Turma turma) {
         if (turma.getNome() == null || turma.getChaveDeAcesso() == null){
             throw new ConstraintViolationException("Nome da turma e chave de acesso é necessário", null);
         }
@@ -27,10 +27,6 @@ public class TurmaService {
         verificarSeChaveDeAcessoJaExiste(turma);
 
         Turma turmaCadastrada = turmaRepository.save(turma);
-
-        String topico = turmaCadastrada.getClass().toString().split(" ")[1].split("com.example.backapi.aula_invertida.domain.")[1]+"-"+ turmaCadastrada.getId();
-
-//        firebase.sendMessage(topico, "Turma cadastrada");
 
         return turma;
     }

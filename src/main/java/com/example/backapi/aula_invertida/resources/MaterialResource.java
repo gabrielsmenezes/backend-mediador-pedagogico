@@ -8,6 +8,7 @@ import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,13 +34,15 @@ public class MaterialResource {
         return ResponseEntity.created(uri).body(material_salvo);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Page<Material>> findPage(
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Page<MaterialDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
             @RequestParam(value="orderBy", defaultValue="id") String orderBy,
-            @RequestParam(value="direction", defaultValue="ASC") String direction) {
-        Page<Material> paginas = materialService.findPage(page, linesPerPage, orderBy, direction);
+            @RequestParam(value="direction", defaultValue="ASC") String direction,
+            @RequestParam(value = "chaveDeAcesso") String chaveDeAcesso) throws ObjetoNaoEncontrado {
+
+        Page<MaterialDTO> paginas = materialService.findPage(page, linesPerPage, orderBy, direction, chaveDeAcesso);
         return ResponseEntity.ok().body(paginas);
     }
 

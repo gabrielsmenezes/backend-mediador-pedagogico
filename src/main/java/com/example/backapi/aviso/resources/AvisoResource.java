@@ -2,18 +2,14 @@ package com.example.backapi.aviso.resources;
 
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.services.AvisoService;
-import com.example.backapi.utils.error.StandardError;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -42,21 +38,6 @@ public class AvisoResource{
 
         return ResponseEntity.ok().body(aviso);
     }
-
-    @ExceptionHandler(CampoObrigatorio.class)
-    public ResponseEntity<StandardError> campoObrigatorio(CampoObrigatorio e, HttpServletRequest request) {
-
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Campo Obrigatorio", e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> dataIntegrity(DataIntegrityViolationException e, HttpServletRequest request) {
-
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Titulo deve conter no maximo 100 caracteres", e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-    }
-
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Page<Aviso>> findPage(
