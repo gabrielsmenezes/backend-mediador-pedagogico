@@ -5,6 +5,7 @@ import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -59,5 +60,13 @@ public class TurmaService {
 
     public Turma findById(Integer id) throws ObjetoNaoEncontrado {
         return turmaRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
+    }
+
+    public void delete(Integer id) throws ObjetoNaoEncontrado {
+        try{
+            turmaRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new ObjetoNaoEncontrado("Turma não encontrada");
+        }
     }
 }

@@ -100,6 +100,7 @@ public class MaterialService {
         return material;
     }
 
+    @Transactional
     public Page<MaterialDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction, String chaveDeAcesso) throws ObjetoNaoEncontrado {
         Turma turma = retornaTurma(chaveDeAcesso);
         List<MaterialDTO> materiais = findAllById(turma.getId());
