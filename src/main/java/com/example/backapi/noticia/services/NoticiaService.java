@@ -42,7 +42,11 @@ public class NoticiaService {
 
         NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTO_retornada.getTitulo(), noticiaDTO_retornada.getDescricao(), "Noticias"));
+        try{
+            pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTO_retornada.getTitulo(), noticiaDTO_retornada.getDescricao(), "Noticias"));
+        } catch (Exception e){
+
+        }
 
         return noticiaDTO_retornada;
     }
@@ -99,10 +103,12 @@ public class NoticiaService {
         }
     }
 
-    //TODO alterar o retorno para Page<NoticiaDTO>
-    public Page<Noticia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+    public PageImpl<NoticiaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        ArrayList<NoticiaDTO> noticias = findAll();
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return noticiaRepository.findAll(pageRequest);
+        PageImpl<NoticiaDTO> pageRetorno = new PageImpl<NoticiaDTO>(noticias, pageRequest, noticias.size());
+
+        return pageRetorno;
     }
 
     public NoticiaDTO update(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {

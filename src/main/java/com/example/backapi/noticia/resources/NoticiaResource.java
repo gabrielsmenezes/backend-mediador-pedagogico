@@ -33,12 +33,12 @@ public class NoticiaResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Page<Noticia>> findPage(
+    public ResponseEntity<Page<NoticiaDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
             @RequestParam(value="orderBy", defaultValue="dataDeCriacao") String orderBy,
             @RequestParam(value="direction", defaultValue="DESC") String direction) {
-        Page<Noticia> pagina = noticiaService.findPage(page, linesPerPage, orderBy, direction);
+        Page<NoticiaDTO> pagina = noticiaService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(pagina);
     }
 

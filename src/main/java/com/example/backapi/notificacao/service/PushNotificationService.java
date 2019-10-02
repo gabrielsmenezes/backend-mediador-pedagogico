@@ -38,7 +38,7 @@ public class PushNotificationService {
 
     public void sendPushNotification(PushNotificationRequest request) {
         try {
-            fcmService.sendMessage(getSamplePayloadData(), request);
+            fcmService.sendMessage(request);
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());
             Thread.currentThread().interrupt();
