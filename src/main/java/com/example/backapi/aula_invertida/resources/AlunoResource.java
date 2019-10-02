@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.services.AlunoService;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,5 +32,12 @@ public class AlunoResource {
         return ResponseEntity.created(uri).body(aluno_salvo);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
+
+        alunoService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
 
 }

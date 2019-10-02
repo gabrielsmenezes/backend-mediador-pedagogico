@@ -75,4 +75,24 @@ public class AlunoServiceTest {
 
     }
 
+    // Testes do US-27 Deletar aluno de uma turma - Web
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_um_aluno() throws ObjetoNaoEncontrado, CampoObrigatorio {
+        Aluno gabriel = new Aluno();
+        gabriel.setNome("Gabriel");
+        gabriel.setChaveDeAcesso(turma.getChaveDeAcesso());
+        alunoService.save(gabriel);
+
+        alunoService.delete(gabriel.getId());
+        alunoService.findById(gabriel.getId());
+
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_um_aluno_inexistente() throws ObjetoNaoEncontrado, CampoObrigatorio {
+        alunoService.delete(0);
+
+    }
+
 }
