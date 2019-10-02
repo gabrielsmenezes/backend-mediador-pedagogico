@@ -1,25 +1,26 @@
 package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.aula_invertida.domain.turma.Turma;
-import com.google.firebase.messaging.FirebaseMessagingException;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
-
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+
 public class TurmaServiceTest {
 
     @Autowired
@@ -87,5 +88,35 @@ public class TurmaServiceTest {
         List<Turma> turmas = turmaService.findAll();
 
         assertTrue(turmas.contains(turma));
+    }
+
+    @Test
+    public void administrador_quer_deletar_uma_turma() throws ObjetoNaoEncontrado {
+        Turma turma = new Turma();
+        turma.setNome("2B");
+        turma.setChaveDeAcesso("cebola");
+
+        turma = turmaService.save(turma);
+
+        turmaService.delete(turma.getId());
+
+        List<Turma> turmas = turmaService.findAll();
+
+        assertFalse(turmas.contains(turma));
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_uma_turma_nao_existente() throws ObjetoNaoEncontrado {
+        Turma turma = new Turma();
+        turma.setNome("2B");
+        turma.setChaveDeAcesso("cebola");
+
+        turma = turmaService.save(turma);
+
+        turmaService.delete(turma.getId());
+
+        turmaService.delete(turma.getId());
+
+
     }
 }
