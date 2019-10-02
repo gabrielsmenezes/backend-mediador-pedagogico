@@ -6,6 +6,7 @@ import com.example.backapi.aula_invertida.repositories.AlunoRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,5 +66,18 @@ public class AlunoService {
 
         throw new ObjetoNaoEncontrado("Turma de chave "+aluno.getChaveDeAcesso()+ " não encontrada");
 
+    }
+
+    public void delete(Integer id) throws ObjetoNaoEncontrado {
+        try{
+            alunoRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new ObjetoNaoEncontrado("Nenhum aluno encontrado com id: " + id);
+        }
+
+    }
+
+    public Aluno findById(Integer id) throws ObjetoNaoEncontrado {
+        return alunoRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
     }
 }
