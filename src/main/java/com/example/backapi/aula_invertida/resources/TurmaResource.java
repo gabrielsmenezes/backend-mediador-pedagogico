@@ -2,9 +2,11 @@ package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
+import com.example.backapi.aula_invertida.domain.turma.TurmaDTO;
 import com.example.backapi.aula_invertida.services.TurmaService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
+import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/turmas")
@@ -20,19 +23,26 @@ public class TurmaResource {
     @Autowired
     TurmaService turmaService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Turma> save (@RequestBody Turma turma) throws Exception {
+    @Autowired
+    private ModelMapper modelMapper;
 
-        Turma turma_salva = turmaService.save(turma);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<TurmaDTO> save (@RequestBody TurmaDTO turmaDTO) throws Exception {
+
+        TurmaDTO turma_salva = modelMapper.modelMapper().map(turmaService.save(modelMapper.modelMapper().map(turmaDTO, Turma.class)), TurmaDTO.class);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(turma_salva.getId()).toUri();
+
         return ResponseEntity.created(uri).body(turma_salva);
     }
 
     @RequestMapping(value = "/todas", method = RequestMethod.GET)
-    public ResponseEntity<List<Turma>> findAll() {
+    public ResponseEntity<List<TurmaDTO>> findAll() {
         List<Turma> turmas = turmaService.findAll();
-        return ResponseEntity.ok().body(turmas);
+
+        List<TurmaDTO> turmasDTO = turmas.stream().map(turma -> modelMapper.modelMapper().map(turma, TurmaDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(turmasDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -44,11 +54,13 @@ public class TurmaResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Turma> update (@PathVariable Integer id, @RequestBody Turma turma) throws CampoObrigatorio, ObjetoNaoEncontrado {
+    public ResponseEntity<TurmaDTO> update (@PathVariable Integer id, @RequestBody TurmaDTO turmaDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        turma.setId(id);
+        turmaDTO.setId(id);
 
-        Turma turma_retornada = turmaService.update(turma);
+        TurmaDTO turma_retornada = modelMapper.modelMapper().map(
+                turmaService.update(modelMapper.modelMapper().
+                map(turmaDTO, Turma.class)), TurmaDTO.class);
 
         return ResponseEntity.ok().body(turma_retornada);
     }

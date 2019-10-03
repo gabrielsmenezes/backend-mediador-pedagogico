@@ -2,9 +2,11 @@ package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
+import com.example.backapi.aula_invertida.domain.turma.TurmaDTO;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
+import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TurmaService {
@@ -19,10 +22,9 @@ public class TurmaService {
     @Autowired
     TurmaRepository turmaRepository;
 
-
     public Turma save(Turma turma) throws CampoObrigatorio {
-        verificarSeExisteNome(turma);
-        verificarSeExisteChaveDeAcesso(turma);
+        verificarSeExisteNome(turma.getNome());
+        verificarSeExisteChaveDeAcesso(turma.getChaveDeAcesso());
 
         verificarSeNomeDaTurmaJaExiste(turma);
 
@@ -32,18 +34,17 @@ public class TurmaService {
 
         Turma turmaCadastrada = turmaRepository.save(turma);
 
-
         return turmaCadastrada;
     }
 
-    private void verificarSeExisteChaveDeAcesso(Turma turma) throws CampoObrigatorio {
-        if (turma.getChaveDeAcesso() == null){
+    private void verificarSeExisteChaveDeAcesso(String chaveDeAcesso) throws CampoObrigatorio {
+        if (chaveDeAcesso == null){
             throw new CampoObrigatorio("A chave de acesso é necessária");
         }
     }
 
-    private void verificarSeExisteNome(Turma turma) throws CampoObrigatorio {
-        if (turma.getNome() == null || turma.getNome().isEmpty()){
+    private void verificarSeExisteNome(String nome) throws CampoObrigatorio {
+        if (nome == null || nome.isEmpty()){
             throw new CampoObrigatorio("Nome da turma é necessário");
         }
     }
@@ -72,16 +73,20 @@ public class TurmaService {
 
     @Transactional
     public Turma update(Turma turma) throws CampoObrigatorio, ObjetoNaoEncontrado {
-        verificarSeExisteNome(turma);
-        verificarSeExisteChaveDeAcesso(turma);
+        verificarSeExisteNome(turma.getNome());
+        verificarSeExisteChaveDeAcesso(turma.getChaveDeAcesso());
         verificarSeNomeDaTurmaJaExiste(turma);
         verificarSeChaveDeAcessoJaExiste(turma);
+
         Turma turma_retornada = turmaRepository.findById(turma.getId()).orElseThrow(ObjetoNaoEncontrado::new);
+
         if(turma_retornada.chaveFoiUsadaRecentemente(turma.getChaveDeAcesso())){
             throw new ConstraintViolationException("Esta chave foi usada recentemente, use outra", null);
         }
+
         turma.setUltimasChaves(turma_retornada.getUltimasChaves());
         turma.adicionarNovaChave(turma.getChaveDeAcesso());
+
         return turmaRepository.save(turma);
     }
 

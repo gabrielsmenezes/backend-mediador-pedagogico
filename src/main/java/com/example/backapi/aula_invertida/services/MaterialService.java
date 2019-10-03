@@ -3,6 +3,7 @@ package com.example.backapi.aula_invertida.services;
 import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
+import com.example.backapi.aula_invertida.domain.turma.TurmaDTO;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
 import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.example.backapi.notificacao.service.PushNotificationService;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class MaterialService {
@@ -51,7 +53,11 @@ public class MaterialService {
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
 
-        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
+        try{
+            pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
+        }catch (Exception e){
+            System.out.println("Falha ao enviar notificação.");
+        }
 
         return materialDTORetorno;
     }
