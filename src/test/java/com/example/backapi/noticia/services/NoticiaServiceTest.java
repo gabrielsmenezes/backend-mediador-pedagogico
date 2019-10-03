@@ -88,6 +88,94 @@ public class NoticiaServiceTest {
         noticiaService.save(noticiaDTO);
     }
 
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_titulo2() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo("");
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+    }
+
+    @Test(expected = TamanhoDeCampoExcedente.class)
+    public void administrador_quer_cadastrar_uma_noticia_com_titulo_maior_que_50_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo("O amor, quando se revela,\n" +
+                "Não se sabe revelar.\n" +
+                "Sabe bem olhar p'ra ela,\n" +
+                "Mas não lhe sabe falar.\n" +
+                "\n" +
+                "Quem quer dizer o que sente\n" +
+                "Não sabe o que há de dizer.\n" +
+                "Fala: parece que mente...\n" +
+                "Cala: parece esquecer...\n" +
+                "\n" +
+                "Ah, mas se ela adivinhasse,\n" +
+                "Se pudesse ouvir o olhar,\n" +
+                "E se um olhar lhe bastasse\n" +
+                "P'ra saber que a estão a amar!\n" +
+                "\n" +
+                "Mas quem sente muito, cala;\n" +
+                "Quem quer dizer quanto sente\n" +
+                "Fica sem alma nem fala,\n" +
+                "Fica só, inteiramente!\n" +
+                "\n" +
+                "Mas se isto puder contar-lhe\n" +
+                "O que não lhe ouso contar,\n" +
+                "Já não terei que falar-lhe\n" +
+                "Porque lhe estou a falar...");
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+    }
+
+    @Test(expected = TamanhoDeCampoExcedente.class)
+    public void administrador_quer_cadastrar_uma_noticia_com_descricao_maior_que_100_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setDescricao("O amor, quando se revela,\n" +
+                "Não se sabe revelar.\n" +
+                "Sabe bem olhar p'ra ela,\n" +
+                "Mas não lhe sabe falar.\n" +
+                "\n" +
+                "Quem quer dizer o que sente\n" +
+                "Não sabe o que há de dizer.\n" +
+                "Fala: parece que mente...\n" +
+                "Cala: parece esquecer...\n" +
+                "\n" +
+                "Ah, mas se ela adivinhasse,\n" +
+                "Se pudesse ouvir o olhar,\n" +
+                "E se um olhar lhe bastasse\n" +
+                "P'ra saber que a estão a amar!\n" +
+                "\n" +
+                "Mas quem sente muito, cala;\n" +
+                "Quem quer dizer quanto sente\n" +
+                "Fica sem alma nem fala,\n" +
+                "Fica só, inteiramente!\n" +
+                "\n" +
+                "Mas se isto puder contar-lhe\n" +
+                "O que não lhe ouso contar,\n" +
+                "Já não terei que falar-lhe\n" +
+                "Porque lhe estou a falar...");
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setLinks(link);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+    }
+
     @Test
     public void administrador_quer_cadastrar_uma_noticia_sem_descricao() throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
@@ -114,6 +202,21 @@ public class NoticiaServiceTest {
         noticiaDTO.setTitulo(titulo);
         noticiaDTO.setDescricao(descricao);
         noticiaDTO.setLinks(null);
+        noticiaDTO.setNotificavel(notificavel);
+
+        noticiaService.save(noticiaDTO);
+
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_cadastrar_uma_noticia_sem_link2() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+        NoticiaDTO noticiaDTO = new NoticiaDTO();
+
+        notificavel = false;
+
+        noticiaDTO.setTitulo(titulo);
+        noticiaDTO.setDescricao(descricao);
+        noticiaDTO.setLinks("");
         noticiaDTO.setNotificavel(notificavel);
 
         noticiaService.save(noticiaDTO);
