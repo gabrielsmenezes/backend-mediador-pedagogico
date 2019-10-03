@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
 
 public class AvisoDTOTest {
 
-    private Aviso aviso;
+    private AvisoDTO aviso;
 
     @Before
     public void setUp() throws Exception {
-        aviso = new Aviso();
+        aviso = new AvisoDTO();
 
     }
 
@@ -73,4 +73,22 @@ public class AvisoDTOTest {
         assertEquals(imagem, aviso.getImagem());
 
     }
+
+    @Test
+    public void aviso_deve_conter_um_id(){
+        Integer idEsperado = 1;
+        aviso.setId(idEsperado);
+        Integer idRetornado = aviso.getId();
+        assertEquals(idEsperado, idRetornado);
+    }
+
+    @Test
+    public void aviso_deve_ser_comparado_pelo_id(){
+        aviso.setId(1);
+        AvisoDTO novoAviso = new AvisoDTO();
+        novoAviso.setId(1);
+
+        assertEquals(novoAviso, aviso);
+    }
+
 }
