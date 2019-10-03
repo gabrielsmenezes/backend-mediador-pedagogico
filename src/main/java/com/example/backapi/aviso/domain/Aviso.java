@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Aviso implements Serializable {
+public class Aviso{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

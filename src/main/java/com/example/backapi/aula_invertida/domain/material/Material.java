@@ -10,10 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static javax.persistence.FetchType.EAGER;
 
 @Entity
-public class Material implements Serializable {
+public class Material{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
