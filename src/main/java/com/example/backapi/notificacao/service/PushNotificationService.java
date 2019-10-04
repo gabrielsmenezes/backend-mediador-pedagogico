@@ -45,33 +45,6 @@ public class PushNotificationService {
         }
     }
 
-    public void sendPushNotificationWithoutData(PushNotificationRequest request) {
-        try {
-            fcmService.sendMessageWithoutData(request);
-        } catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage());
-            Thread.currentThread().interrupt();
-        }
-    }
-
-
-    public void sendPushNotificationToToken(PushNotificationRequest request) {
-        try {
-            fcmService.sendMessageToToken(request);
-        } catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage());
-            Thread.currentThread().interrupt();
-        }
-    }
-
-
-    private Map<String, String> getSamplePayloadData() {
-        Map<String, String> pushData = new HashMap<>();
-        pushData.put("messageId", defaults.get("payloadMessageId"));
-        pushData.put("text", defaults.get("payloadData") + " " + LocalDateTime.now());
-        return pushData;
-    }
-
 
     private PushNotificationRequest getSamplePushNotificationRequest() {
         PushNotificationRequest request = new PushNotificationRequest(defaults.get("title"),
