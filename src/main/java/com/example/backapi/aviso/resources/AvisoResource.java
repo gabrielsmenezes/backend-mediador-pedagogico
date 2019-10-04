@@ -32,12 +32,13 @@ public class AvisoResource{
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws Exception {
+        Aviso aviso = modelMapper.modelMapper().map(avisoDTO, Aviso.class);
+        avisoService.save(aviso);
+        AvisoDTO avisoDTO_salvo = modelMapper.modelMapper().map(aviso, AvisoDTO.class);
 
-        AvisoDTO aviso_salvo = modelMapper.modelMapper().map(avisoService.save(modelMapper.modelMapper().map(avisoDTO, Aviso.class)), AvisoDTO.class);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(avisoDTO_salvo.getId()).toUri();
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aviso_salvo.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(avisoDTO);
+        return ResponseEntity.created(uri).body(avisoDTO_salvo);
 
     }
 
