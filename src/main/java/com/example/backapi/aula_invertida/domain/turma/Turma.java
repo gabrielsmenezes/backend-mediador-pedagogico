@@ -24,11 +24,12 @@ public class Turma implements Serializable {
     @Column
     private String chaveDeAcesso;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "turma")
     private List<Material> materiais = new ArrayList<>();
 
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma")
     private List<Aluno> alunos = new ArrayList<>();
 
