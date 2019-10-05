@@ -30,6 +30,7 @@ public class AvisoResource{
     @Autowired
     ModelMapper modelMapper;
 
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws Exception {
         Aviso aviso = modelMapper.modelMapper().map(avisoDTO, Aviso.class);
@@ -44,8 +45,8 @@ public class AvisoResource{
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<AvisoDTO> findById(@PathVariable Integer id){
-
-        AvisoDTO avisoDTO = modelMapper.modelMapper().map(avisoService.findById(id), AvisoDTO.class);
+        Aviso aviso = avisoService.findById(id);
+        AvisoDTO avisoDTO = modelMapper.modelMapper().map(aviso, AvisoDTO.class);
 
         return ResponseEntity.ok().body(avisoDTO);
     }

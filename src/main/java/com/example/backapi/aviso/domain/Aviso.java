@@ -20,7 +20,7 @@ public class Aviso{
     @Column
     private String descricao;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "links_aviso", joinColumns = @JoinColumn(name = "aviso_id"), foreignKey = @ForeignKey(name = "links_aviso_fk"))
     private List<LinkAviso> links = new ArrayList<>();
 
