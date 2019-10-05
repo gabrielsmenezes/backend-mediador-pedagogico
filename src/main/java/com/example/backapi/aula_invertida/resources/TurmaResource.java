@@ -28,8 +28,11 @@ public class TurmaResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TurmaDTO> save (@RequestBody TurmaDTO turmaDTO) throws Exception {
+        Turma turma = modelMapper.modelMapper().map(turmaDTO, Turma.class);
 
-        TurmaDTO turma_salva = modelMapper.modelMapper().map(turmaService.save(modelMapper.modelMapper().map(turmaDTO, Turma.class)), TurmaDTO.class);
+        turma = turmaService.save(turma);
+
+        TurmaDTO turma_salva = modelMapper.modelMapper().map(turma, TurmaDTO.class);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(turma_salva.getId()).toUri();
 
