@@ -2,6 +2,10 @@ package com.example.backapi.aula_invertida.domain.material;
 
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,11 +16,15 @@ import java.util.Objects;
 
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Material{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EqualsAndHashCode.Include private Integer id;
 
     @Column(length = 100)
     private String titulo;
@@ -38,8 +46,6 @@ public class Material{
     @JoinColumn(name = "turma_id")
     private Turma turma;
 
-    public Material(){}
-
     public Material(String titulo, String descricao, List<LinkMaterial> links, String imagem, Turma turma) {
 
         this.titulo = titulo;
@@ -49,73 +55,4 @@ public class Material{
         this.turma = turma;
     }
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public List<LinkMaterial> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<LinkMaterial> links) {
-        this.links = links;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Material material = (Material) o;
-        return id.equals(material.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public Date getDataDeCriacao() {
-        return dataDeCriacao;
-    }
-
-    public void setDataDeCriacao(Date dataDeCriacao) {
-        this.dataDeCriacao = dataDeCriacao;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
-    public Turma getTurma() {
-        return turma;
-    }
-
-    public void setTurma(Turma turma) {
-        this.turma = turma;
-    }
 }
