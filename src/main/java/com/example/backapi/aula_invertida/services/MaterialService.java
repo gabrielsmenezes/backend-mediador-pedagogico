@@ -53,11 +53,7 @@ public class MaterialService {
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
 
-        try{
-            pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
-        }catch (Exception e){
-            System.out.println("Falha ao enviar notificação.");
-        }
+        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
 
         return materialDTORetorno;
     }

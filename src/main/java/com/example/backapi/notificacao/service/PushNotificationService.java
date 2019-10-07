@@ -26,16 +26,6 @@ public class PushNotificationService {
         this.fcmService = fcmService;
     }
 
-    @Scheduled(initialDelay = 60000, fixedDelay = 60000)
-    public void sendSamplePushNotification() {
-        try {
-            fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
-        } catch (InterruptedException | ExecutionException e) {
-            logger.error(e.getMessage());
-            Thread.currentThread().interrupt();
-        }
-    }
-
     public void sendPushNotification(PushNotificationRequest request) {
         try {
             fcmService.sendMessage(request);
@@ -43,14 +33,6 @@ public class PushNotificationService {
             logger.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
-    }
-
-
-    private PushNotificationRequest getSamplePushNotificationRequest() {
-        PushNotificationRequest request = new PushNotificationRequest(defaults.get("title"),
-                defaults.get("message"),
-                defaults.get("topic"));
-        return request;
     }
 
 

@@ -174,6 +174,19 @@ public class MaterialServiceTest {
 
     }
 
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_insere_o_material_sem_descriçao_e_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+        MaterialDTO materialDTO = new MaterialDTO();
+        materialDTO.setTitulo("Aula de Ingles");
+        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setDescricao("Descricao");
+        materialDTO.setImagem("Imagem");
+        materialDTO.setLinks(new ArrayList<LinkMaterial>());
+
+        materialService.save(materialDTO);
+
+    }
+
     @Test
     public void administrador_edita_um_material_de_si_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
