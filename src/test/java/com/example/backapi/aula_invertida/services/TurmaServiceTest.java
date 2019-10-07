@@ -57,6 +57,12 @@ public class TurmaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_criar_uma_turma_sem_nome2() throws CampoObrigatorio {
+        turma.setNome("");
+        turmaService.save(turma);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_criar_turma_sem_chave_de_acesso_da_turma() throws CampoObrigatorio {
         turma.setChaveDeAcesso(null);
         turmaService.save(turma);

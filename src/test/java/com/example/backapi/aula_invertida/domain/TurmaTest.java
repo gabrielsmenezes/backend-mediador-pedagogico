@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TurmaTest {
 
@@ -63,4 +63,19 @@ public class TurmaTest {
         assertEquals(alunosEsperados, alunosRetornados);
     }
 
+    @Test
+    public void turma_deve_ter_3_ultimas_chaves(){
+        String chaveEsperada1 = "senhaSecreta";
+        String chaveEsperada2 = "senha";
+        String chaveEsperada3 = "Secreta";
+        String chaveEsperada4 = "Scrt";
+
+        Turma turma = new Turma();
+        turma.setChaveDeAcesso(chaveEsperada1);
+        turma.setChaveDeAcesso(chaveEsperada2);
+        turma.setChaveDeAcesso(chaveEsperada3);
+        turma.setChaveDeAcesso(chaveEsperada4);
+
+        assertFalse(turma.getUltimasChaves().contains(chaveEsperada1));
+    }
 }

@@ -70,8 +70,8 @@ public class TurmaResourceTest {
         turmaDTO = turmaResource.save(turmaDTO).getBody();
         turmaDTO.setNome("NovoNome");
         turmaDTO.setChaveDeAcesso("NovoNome");
-        List<TurmaDTO> turmas = turmaResource.findAll().getBody();
-        assertTrue(turmas.contains(turmaDTO));
+        turmaDTO = turmaResource.update(turmaDTO.getId(), turmaDTO).getBody();
+        assertTrue(turmaDTO.getNome().equals("NovoNome"));
     }
 
     @Test

@@ -92,7 +92,16 @@ public class AlunoServiceTest {
     @Test(expected = ObjetoNaoEncontrado.class)
     public void administrador_quer_deletar_um_aluno_inexistente() throws ObjetoNaoEncontrado, CampoObrigatorio {
         alunoService.delete(0);
-
     }
 
+    @Test
+    public void adicionando_um_aluno_que_ja_esta_cadastrado() throws ObjetoNaoEncontrado, CampoObrigatorio {
+        Aluno gabriel = new Aluno();
+        gabriel.setNome("Gabriel");
+        gabriel.setChaveDeAcesso(turma.getChaveDeAcesso());
+        Aluno alunoEsperado = alunoService.save(gabriel);
+        Aluno alunoRetornado = alunoService.save(gabriel);
+
+        assertEquals(alunoEsperado, alunoRetornado);
+    }
 }

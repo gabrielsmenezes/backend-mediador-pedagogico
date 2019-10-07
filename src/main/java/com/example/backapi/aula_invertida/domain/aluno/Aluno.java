@@ -33,10 +33,4 @@ public class Aluno implements Serializable {
     @JoinColumn(name = "turma_id")
     private Turma turma;
 
-    public Aluno(String chaveDeAcesso, String nome, Turma turma) {
-        this.chaveDeAcesso = chaveDeAcesso;
-        this.nome = nome;
-        this.turma = turma;
-    }
-
 }
