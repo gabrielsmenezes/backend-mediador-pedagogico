@@ -50,7 +50,7 @@ public class MaterialResourceTest {
         turmaDTO.setChaveDeAcesso("chave");
         turmaDTO.setNome("2C");
         turmaDTO = turmaResource.save(turmaDTO).getBody();
-        material.setTurma_id(turmaDTO.getId());
+        material.setTurmaId(turmaDTO.getId());
 
     }
 
@@ -82,7 +82,7 @@ public class MaterialResourceTest {
 
         materialResource.update(material_esperado.getId(), material_esperado);
 
-        List<MaterialDTO> materiais = materialResource.findAll(material_esperado.getTurma_id()).getBody();
+        List<MaterialDTO> materiais = materialResource.findAll(material_esperado.getTurmaId()).getBody();
 
         MaterialDTO material_retornado = materiais.get(materiais.indexOf(material_esperado));
 
@@ -92,7 +92,7 @@ public class MaterialResourceTest {
 
     @Test
     public void findAll() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException {
-        List<MaterialDTO> esperados = new ArrayList<MaterialDTO>();
+        List<MaterialDTO> esperados = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             MaterialDTO material_esperado = materialResource.save(material).getBody();

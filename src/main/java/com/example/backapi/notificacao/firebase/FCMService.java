@@ -2,23 +2,18 @@ package com.example.backapi.notificacao.firebase;
 
 import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.google.firebase.messaging.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.time.Duration;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FCMService {
 
-    private Logger logger = LoggerFactory.getLogger(FCMService.class);
-
     public void sendMessage(PushNotificationRequest request)
             throws InterruptedException, ExecutionException {
         Message message = getPreconfiguredMessageWithData(request);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message with data. Topic: " + request.getTopic() + ", " + response);
+        sendAndGetResponse(message);
     }
 
     private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
@@ -51,6 +46,5 @@ public class FCMService {
                 .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(
                         new Notification(request.getTitle(), request.getMessage()));
     }
-
 
 }

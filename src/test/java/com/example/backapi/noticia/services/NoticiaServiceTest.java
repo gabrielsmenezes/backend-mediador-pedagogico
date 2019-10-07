@@ -75,7 +75,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_quer_cadastrar_uma_noticia_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+    public void administrador_quer_cadastrar_uma_noticia_sem_titulo() throws TamanhoDeCampoExcedente, CampoObrigatorio {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;

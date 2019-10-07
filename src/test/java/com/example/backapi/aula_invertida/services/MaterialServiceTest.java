@@ -64,7 +64,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setLinks(links);
         materialDTO.setImagem(imagem);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
 
 
@@ -89,7 +89,7 @@ public class MaterialServiceTest {
             materialDTO.setDescricao(descricao);
             materialDTO.setLinks(links);
             materialDTO.setImagem(imagem);
-            materialDTO.setTurma_id(turma.getId());
+            materialDTO.setTurmaId(turma.getId());
             materialService.save(materialDTO);
             materiaisEsperados.add(materialDTO);
         }
@@ -110,14 +110,14 @@ public class MaterialServiceTest {
             materialDTO.setDescricao(descricao);
             materialDTO.setLinks(links);
             materialDTO.setImagem(imagem);
-            materialDTO.setTurma_id(turma.getId());
+            materialDTO.setTurmaId(turma.getId());
             materialService.save(materialDTO);
             materiaisEsperados.add(materialDTO);
         }
 
         Page<MaterialDTO> materiaisRetornados = materialService.findPage(0, 10, "id", "ASC", turma.getChaveDeAcesso());
 
-        assert (materiaisRetornados.getTotalPages() > 1);
+        assertTrue (materiaisRetornados.getTotalPages() > 1);
 
     }
 
@@ -128,7 +128,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao("Descricao do material");
         materialDTO.setLinks(Arrays.asList(new LinkMaterial()));
         materialDTO.setImagem("imagem");
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         MaterialDTO materialRetornado = materialService.save(materialDTO);
 
@@ -149,6 +149,18 @@ public class MaterialServiceTest {
         assertEquals(materialDTO.getDescricao(), materialRetornado.getDescricao());
     }
 
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_cadastrar_buscar_com_chave_invalida() throws ObjetoNaoEncontrado, CampoObrigatorio {
+        MaterialDTO material = new MaterialDTO();
+        material.setTitulo(titulo);
+        material.setDescricao(descricao);
+        material.setImagem(imagem);
+        material.setLinks(links);
+        material.setTurmaId(turma.getId());
+        materialService.save(material);
+
+        materialService.findPage(0,10,"id", "ASC", "chaveInexistente");
+    }
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_insere_o_material_sem_titulo() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
@@ -157,7 +169,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao("Descricao do material");
         materialDTO.setLinks(Arrays.asList(new LinkMaterial()));
         materialDTO.setImagem("imagem");
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         materialService.save(materialDTO);
 
@@ -168,7 +180,7 @@ public class MaterialServiceTest {
     public void administrador_insere_o_material_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         materialService.save(materialDTO);
 
@@ -178,7 +190,7 @@ public class MaterialServiceTest {
     public void administrador_insere_o_material_sem_descriçao_e_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
         materialDTO.setDescricao("Descricao");
         materialDTO.setImagem("Imagem");
         materialDTO.setLinks(new ArrayList<LinkMaterial>());
@@ -194,7 +206,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
         materialDTO.setLinks(links);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         Integer id = materialService.save(materialDTO).getId();
 
@@ -212,7 +224,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
         materialDTO.setLinks(links);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         materialService.save(materialDTO).getId();
     }
@@ -224,7 +236,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
         materialDTO.setLinks(links);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         Integer id = materialService.save(materialDTO).getId();
 
@@ -241,7 +253,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setImagem(imagem);
         materialDTO.setLinks(links);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         Integer id = materialService.save(materialDTO).getId();
 
@@ -262,7 +274,7 @@ public class MaterialServiceTest {
         materialDTO.setDescricao(descricao);
         materialDTO.setLinks(links);
         materialDTO.setImagem(imagem);
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         MaterialDTO materialRetornado = materialService.save(materialDTO);
 
@@ -278,13 +290,13 @@ public class MaterialServiceTest {
         materialDTO.setDescricao("Descricao do material");
         materialDTO.setLinks(Arrays.asList(new LinkMaterial()));
         materialDTO.setImagem("imagem");
-        materialDTO.setTurma_id(turma.getId());
+        materialDTO.setTurmaId(turma.getId());
 
         MaterialDTO materialRetornado = materialService.save(materialDTO);
 
         materialService.delete(materialRetornado.getId());
 
-        List<MaterialDTO> materiais = materialService.findAllById(materialRetornado.getTurma_id());
+        List<MaterialDTO> materiais = materialService.findAllById(materialRetornado.getTurmaId());
 
         assertFalse(materiais.contains(materialRetornado));
 

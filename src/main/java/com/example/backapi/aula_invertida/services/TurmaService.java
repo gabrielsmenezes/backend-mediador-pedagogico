@@ -2,19 +2,15 @@ package com.example.backapi.aula_invertida.services;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
-import com.example.backapi.aula_invertida.domain.turma.TurmaDTO;
 import com.example.backapi.aula_invertida.repositories.TurmaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
-import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TurmaService {
@@ -32,9 +28,7 @@ public class TurmaService {
 
         turma.adicionarNovaChave(turma.getChaveDeAcesso());
 
-        Turma turmaCadastrada = turmaRepository.save(turma);
-
-        return turmaCadastrada;
+        return turmaRepository.save(turma);
     }
 
     private void verificarSeExisteChaveDeAcesso(String chaveDeAcesso) throws CampoObrigatorio {
@@ -78,13 +72,13 @@ public class TurmaService {
         verificarSeNomeDaTurmaJaExiste(turma);
         verificarSeChaveDeAcessoJaExiste(turma);
 
-        Turma turma_retornada = turmaRepository.findById(turma.getId()).orElseThrow(ObjetoNaoEncontrado::new);
+        Turma turmaRetornada = turmaRepository.findById(turma.getId()).orElseThrow(ObjetoNaoEncontrado::new);
 
-        if(turma_retornada.chaveFoiUsadaRecentemente(turma.getChaveDeAcesso())){
+        if(turmaRetornada.chaveFoiUsadaRecentemente(turma.getChaveDeAcesso())){
             throw new ConstraintViolationException("Esta chave foi usada recentemente, use outra", null);
         }
 
-        turma.setUltimasChaves(turma_retornada.getUltimasChaves());
+        turma.setUltimasChaves(turmaRetornada.getUltimasChaves());
         turma.adicionarNovaChave(turma.getChaveDeAcesso());
 
         return turmaRepository.save(turma);

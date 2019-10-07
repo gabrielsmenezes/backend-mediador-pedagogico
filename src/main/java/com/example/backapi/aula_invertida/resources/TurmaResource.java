@@ -26,20 +26,20 @@ public class TurmaResource {
     @Autowired
     private ModelMapper modelMapper;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<TurmaDTO> save (@RequestBody TurmaDTO turmaDTO) throws Exception {
+    @PostMapping
+    public ResponseEntity<TurmaDTO> save (@RequestBody TurmaDTO turmaDTO) throws CampoObrigatorio {
         Turma turma = modelMapper.modelMapper().map(turmaDTO, Turma.class);
 
         turma = turmaService.save(turma);
 
-        TurmaDTO turma_salva = modelMapper.modelMapper().map(turma, TurmaDTO.class);
+        TurmaDTO turmaSalva = modelMapper.modelMapper().map(turma, TurmaDTO.class);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(turma_salva.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(turmaSalva.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(turma_salva);
+        return ResponseEntity.created(uri).body(turmaSalva);
     }
 
-    @RequestMapping(value = "/todas", method = RequestMethod.GET)
+    @GetMapping(value = "/todas")
     public ResponseEntity<List<TurmaDTO>> findAll() {
         List<Turma> turmas = turmaService.findAll();
 
@@ -48,7 +48,7 @@ public class TurmaResource {
         return ResponseEntity.ok().body(turmasDTO);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
 
         turmaService.delete(id);
@@ -56,19 +56,19 @@ public class TurmaResource {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<TurmaDTO> update (@PathVariable Integer id, @RequestBody TurmaDTO turmaDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
         turmaDTO.setId(id);
 
-        TurmaDTO turma_retornada = modelMapper.modelMapper().map(
+        TurmaDTO turmaRetornada = modelMapper.modelMapper().map(
                 turmaService.update(modelMapper.modelMapper().
                 map(turmaDTO, Turma.class)), TurmaDTO.class);
 
-        return ResponseEntity.ok().body(turma_retornada);
+        return ResponseEntity.ok().body(turmaRetornada);
     }
 
-    @RequestMapping(value = "/{idDaTurma}/alunos", method = RequestMethod.GET)
+    @GetMapping(value = "/{idDaTurma}/alunos")
     public List<Aluno> findAlunoByIdTurma(@PathVariable Integer idDaTurma) throws ObjetoNaoEncontrado {
         return turmaService.findAlunoByTurmaId(idDaTurma);
     }
