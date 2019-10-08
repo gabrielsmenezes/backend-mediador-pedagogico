@@ -21,13 +21,9 @@ import java.util.logging.Logger;
 @Service
 public class NoticiaService {
 
-    private static final Logger LOGGER = Logger.getLogger("logger");
 
     @Autowired
     NoticiaRepository noticiaRepository;
-
-    @Autowired
-    PushNotificationService pushNotificationService;
 
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
         validarExistenciaTitulo(noticiaDTO);
@@ -42,12 +38,6 @@ public class NoticiaService {
         noticia = noticiaRepository.save(noticia);
 
         NoticiaDTO noticiaDTORetornada = noticiaToDTO(noticia);
-
-        try {
-            pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTORetornada.getTitulo(), noticiaDTORetornada.getDescricao(), "Noticias"));
-        } catch (NullPointerException n){
-            LOGGER.info("context");
-        }
 
         return noticiaDTORetornada;
     }

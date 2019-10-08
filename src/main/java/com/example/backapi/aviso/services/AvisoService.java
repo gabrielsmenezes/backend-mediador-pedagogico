@@ -22,8 +22,7 @@ public class AvisoService {
     @Autowired
     private AvisoRepository avisoRepository;
 
-    @Autowired
-    PushNotificationService pushNotificationService;
+
 
     public Aviso findById(Integer id){
 
@@ -39,8 +38,6 @@ public class AvisoService {
         Date date=new java.util.Date();
         aviso.setDataDeCriacao(date);
         Aviso resposta = avisoRepository.save(aviso);
-
-        pushNotificationService.sendPushNotification(new PushNotificationRequest(resposta.getTitulo(),resposta.getDescricao(),"Avisos"));
 
         return resposta;
 

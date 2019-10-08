@@ -28,7 +28,6 @@ public class AvisoResource{
     @Autowired
     ModelMapper modelMapper;
 
-
     @PostMapping
     public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio {
         Aviso aviso = modelMapper.modelMapper().map(avisoDTO, Aviso.class);

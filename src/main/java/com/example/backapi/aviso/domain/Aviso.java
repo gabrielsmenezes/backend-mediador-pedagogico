@@ -1,5 +1,6 @@
 package com.example.backapi.aviso.domain;
 
+import com.example.backapi.notificacao.listener.AvisoListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EntityListeners(AvisoListener.class)
 public class Aviso{
 
     @Id

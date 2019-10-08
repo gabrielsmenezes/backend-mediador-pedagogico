@@ -30,8 +30,6 @@ public class MaterialService {
     @Autowired
     TurmaService turmaService;
 
-    @Autowired
-    PushNotificationService pushNotificationService;
 //TODO retirar o dto da camada de service
     public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
         validarTurma(materialDTO);
@@ -50,8 +48,6 @@ public class MaterialService {
         MaterialDTO materialDTORetorno = materialToDTO(material);
 
         String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
-
-        pushNotificationService.sendPushNotification(new PushNotificationRequest(materialDTO.getTitulo(), materialDTO.getDescricao(), chaveDeAcesso));
 
         return materialDTORetorno;
     }
