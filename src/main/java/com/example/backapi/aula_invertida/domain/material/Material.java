@@ -1,6 +1,7 @@
 package com.example.backapi.aula_invertida.domain.material;
 
 import com.example.backapi.aula_invertida.domain.turma.Turma;
+import com.example.backapi.notificacao.listener.MaterialListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +20,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EntityListeners(MaterialListener.class)
+
 public class Material implements Serializable {
 
     @Id

@@ -3,8 +3,6 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
-import com.example.backapi.notificacao.model.PushNotificationRequest;
-import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
@@ -16,18 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class NoticiaService {
 
-    private static final Logger LOGGER = Logger.getLogger("logger");
 
     @Autowired
     NoticiaRepository noticiaRepository;
-
-    @Autowired
-    PushNotificationService pushNotificationService;
 
     public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
         validarExistenciaTitulo(noticiaDTO);
@@ -41,15 +34,7 @@ public class NoticiaService {
         noticia.setDataDeCriacao(new java.util.Date());
         noticia = noticiaRepository.save(noticia);
 
-        NoticiaDTO noticiaDTORetornada = noticiaToDTO(noticia);
-
-        try {
-            pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTORetornada.getTitulo(), noticiaDTORetornada.getDescricao(), "Noticias"));
-        } catch (NullPointerException n){
-            LOGGER.info("context");
-        }
-
-        return noticiaDTORetornada;
+        return noticiaToDTO(noticia);
     }
 
     private void validarExistenciaNotificavel(NoticiaDTO noticiaDTO) throws CampoObrigatorio {

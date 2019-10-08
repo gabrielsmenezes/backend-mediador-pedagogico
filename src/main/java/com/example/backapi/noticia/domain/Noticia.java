@@ -1,5 +1,6 @@
 package com.example.backapi.noticia.domain;
 
+import com.example.backapi.notificacao.listener.NoticiaListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EntityListeners(NoticiaListener.class)
 public class Noticia implements Serializable {
 
     @Id
