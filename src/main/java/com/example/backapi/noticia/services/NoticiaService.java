@@ -3,24 +3,25 @@ package com.example.backapi.noticia.services;
 import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.repositories.NoticiaRepository;
-
 import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
-
-import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class NoticiaService {
+
+    private static final Logger LOGGER = Logger.getLogger("logger");
 
     @Autowired
     NoticiaRepository noticiaRepository;
@@ -28,27 +29,27 @@ public class NoticiaService {
     @Autowired
     PushNotificationService pushNotificationService;
 
-    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+    public NoticiaDTO save(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
         validarExistenciaTitulo(noticiaDTO);
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
         validarTamanhoDescricao(noticiaDTO);
 
-        Noticia noticia = DTOToNoticia(noticiaDTO);
+        Noticia noticia = dtoToNoticia(noticiaDTO);
 
         noticia.setDataDeCriacao(new java.util.Date());
         noticia = noticiaRepository.save(noticia);
 
-        NoticiaDTO noticiaDTO_retornada = noticiaToDTO(noticia);
+        NoticiaDTO noticiaDTORetornada = noticiaToDTO(noticia);
 
-        try{
-            pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTO_retornada.getTitulo(), noticiaDTO_retornada.getDescricao(), "Noticias"));
-        } catch (Exception e){
-
+        try {
+            pushNotificationService.sendPushNotification(new PushNotificationRequest(noticiaDTORetornada.getTitulo(), noticiaDTORetornada.getDescricao(), "Noticias"));
+        } catch (NullPointerException n){
+            LOGGER.info("context");
         }
 
-        return noticiaDTO_retornada;
+        return noticiaDTORetornada;
     }
 
     private void validarExistenciaNotificavel(NoticiaDTO noticiaDTO) throws CampoObrigatorio {
@@ -80,7 +81,7 @@ public class NoticiaService {
         return noticiaDTO;
     }
 
-    private Noticia DTOToNoticia(NoticiaDTO noticiaDTO) {
+    private Noticia dtoToNoticia(NoticiaDTO noticiaDTO) {
         Noticia noticia = new Noticia();
         noticia.setId(noticiaDTO.getId());
         noticia.setTitulo(noticiaDTO.getTitulo());
@@ -104,11 +105,10 @@ public class NoticiaService {
     }
 
     public PageImpl<NoticiaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-        ArrayList<NoticiaDTO> noticias = findAll();
-        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        PageImpl<NoticiaDTO> pageRetorno = new PageImpl<NoticiaDTO>(noticias, pageRequest, noticias.size());
+        List<NoticiaDTO> noticias = findAll();
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 
-        return pageRetorno;
+        return new PageImpl<>(noticias, pageRequest, noticias.size());
     }
 
     public NoticiaDTO update(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio, ObjetoNaoEncontrado {
@@ -119,7 +119,7 @@ public class NoticiaService {
         validarTamanhoDescricao(noticiaDTO);
 
         findById(noticiaDTO.getId());
-        Noticia noticia = DTOToNoticia(noticiaDTO);
+        Noticia noticia = dtoToNoticia(noticiaDTO);
         noticia = noticiaRepository.save(noticia);
         return noticiaToDTO(noticia);
     }
@@ -132,7 +132,7 @@ public class NoticiaService {
         noticiaRepository.deleteById(id);
     }
 
-    public ArrayList<NoticiaDTO> findAll() {
+    public List<NoticiaDTO> findAll() {
         List<Noticia> noticias = noticiaRepository.findAll();
         ArrayList<NoticiaDTO> noticiasDTO = new ArrayList<>();
         for (Noticia noticia: noticias) {

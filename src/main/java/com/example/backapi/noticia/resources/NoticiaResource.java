@@ -1,6 +1,5 @@
 package com.example.backapi.noticia.resources;
 
-import com.example.backapi.noticia.domain.Noticia;
 import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.noticia.services.NoticiaService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
@@ -22,17 +21,17 @@ public class NoticiaResource {
     @Autowired
     NoticiaService noticiaService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<NoticiaDTO> save (@RequestBody NoticiaDTO noticiaDTO) throws Exception {
+    @PostMapping
+    public ResponseEntity<NoticiaDTO> save (@RequestBody NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente, CampoObrigatorio {
 
-        NoticiaDTO noticia_salva = noticiaService.save(noticiaDTO);
+        NoticiaDTO noticiaSalva = noticiaService.save(noticiaDTO);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(noticia_salva.getId()).toUri();
-        return ResponseEntity.created(uri).body(noticia_salva);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(noticiaSalva.getId()).toUri();
+        return ResponseEntity.created(uri).body(noticiaSalva);
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<Page<NoticiaDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
@@ -42,7 +41,7 @@ public class NoticiaResource {
         return ResponseEntity.ok().body(pagina);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<NoticiaDTO> update (@PathVariable Integer id, @RequestBody NoticiaDTO noticiaDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente, ObjetoNaoEncontrado {
 
         noticiaDTO.setId(id);
@@ -52,7 +51,7 @@ public class NoticiaResource {
         return ResponseEntity.ok().body(noticiaRetornada);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Integer id){
 
         noticiaService.delete(id);
@@ -60,7 +59,7 @@ public class NoticiaResource {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/todas", method = RequestMethod.GET)
+    @GetMapping(value = "/todas")
     public ResponseEntity<List<NoticiaDTO>> findAll() {
         List<NoticiaDTO> avisos = noticiaService.findAll();
         return ResponseEntity.ok().body(avisos);

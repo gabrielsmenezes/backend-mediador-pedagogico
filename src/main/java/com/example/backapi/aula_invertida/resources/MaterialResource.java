@@ -1,19 +1,16 @@
 package com.example.backapi.aula_invertida.resources;
 
-import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.services.MaterialService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
-import com.google.firebase.messaging.FirebaseMessagingException;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -24,17 +21,17 @@ public class MaterialResource {
     @Autowired
     MaterialService materialService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<MaterialDTO> save (@RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+    @PostMapping
+    public ResponseEntity<MaterialDTO> save (@RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        MaterialDTO material_salvo = materialService.save(materialDTO);
+        MaterialDTO materialSalvo = materialService.save(materialDTO);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(material_salvo.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(materialSalvo.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(material_salvo);
+        return ResponseEntity.created(uri).body(materialSalvo);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<Page<MaterialDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
@@ -46,23 +43,23 @@ public class MaterialResource {
         return ResponseEntity.ok().body(paginas);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<MaterialDTO> update (@PathVariable Integer id, @RequestBody MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
 
-        materialDTO.setId(id);
+        materialDTO.setId(Integer.valueOf(Encode.forHtml(String.valueOf(id))));
 
-        MaterialDTO materialDTO_Retorado = materialService.update(materialDTO);
+        MaterialDTO materialDTORetorado = materialService.update(materialDTO);
 
-        return ResponseEntity.ok().body(materialDTO_Retorado);
+        return ResponseEntity.ok().body(materialDTORetorado);
     }
 
-    @RequestMapping(value = "/todos", method = RequestMethod.GET)
+    @GetMapping(value = "/todos")
     public ResponseEntity<List<MaterialDTO>> findAll(@RequestParam Integer idDaTurma) throws ObjetoNaoEncontrado {
         List<MaterialDTO> materiais = materialService.findAllById(Integer.valueOf(org.owasp.encoder.Encode.forHtml(String.valueOf(idDaTurma))));
         return ResponseEntity.ok().body(materiais);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
 
         materialService.delete(id);

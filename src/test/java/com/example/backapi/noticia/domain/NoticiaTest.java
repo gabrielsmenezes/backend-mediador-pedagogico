@@ -68,5 +68,18 @@ public class NoticiaTest {
     }
 
     @Test
-    public void noticia_deve_ter_notificavel(){}
+    public void noticia_deve_ter_notificavel(){
+        Noticia noticia = new Noticia();
+        noticia.setNotificavel(true);
+        assertEquals(true, noticia.isNotificavel());
+    }
+
+    @Test
+    public void noticia_comparada_por_equals(){
+        Noticia noticia = new Noticia();
+        Noticia noticia2 = new Noticia();
+        noticia.setId(1);
+        noticia2.setId(2);
+        assertNotEquals(noticia, noticia2);
+    }
 }

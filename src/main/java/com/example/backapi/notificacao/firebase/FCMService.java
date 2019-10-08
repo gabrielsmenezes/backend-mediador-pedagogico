@@ -2,37 +2,18 @@ package com.example.backapi.notificacao.firebase;
 
 import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.google.firebase.messaging.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.time.Duration;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FCMService {
 
-    private Logger logger = LoggerFactory.getLogger(FCMService.class);
-
     public void sendMessage(PushNotificationRequest request)
             throws InterruptedException, ExecutionException {
         Message message = getPreconfiguredMessageWithData(request);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message with data. Topic: " + request.getTopic() + ", " + response);
-    }
-
-    public void sendMessageWithoutData(PushNotificationRequest request)
-            throws InterruptedException, ExecutionException {
-        Message message = getPreconfiguredMessageWithoutData(request);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message without data. Topic: " + request.getTopic() + ", " + response);
-    }
-
-    public void sendMessageToToken(PushNotificationRequest request)
-            throws InterruptedException, ExecutionException {
-        Message message = getPreconfiguredMessageToToken(request);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response);
+        sendAndGetResponse(message);
     }
 
     private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
@@ -52,16 +33,6 @@ public class FCMService {
                 .setAps(Aps.builder().setCategory(topic).setThreadId(topic).build()).build();
     }
 
-    private Message getPreconfiguredMessageToToken(PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).setToken(request.getToken())
-                .build();
-    }
-
-    private Message getPreconfiguredMessageWithoutData(PushNotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).setTopic(request.getTopic())
-                .build();
-    }
-
     private Message getPreconfiguredMessageWithData(PushNotificationRequest request) {
         return getPreconfiguredMessageBuilder(request).putData("titulo", request.getTitle())
                 .putData("descricao", request.getMessage()).setTopic(request.getTopic())
@@ -75,6 +46,5 @@ public class FCMService {
                 .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(
                         new Notification(request.getTitle(), request.getMessage()));
     }
-
 
 }

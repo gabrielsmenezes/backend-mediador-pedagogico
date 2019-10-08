@@ -8,7 +8,6 @@ import com.example.backapi.notificacao.model.PushNotificationRequest;
 import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -18,8 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class MaterialService {
@@ -32,8 +32,8 @@ public class MaterialService {
 
     @Autowired
     PushNotificationService pushNotificationService;
-
-    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+//TODO retirar o dto da camada de service
+    public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
         validarTurma(materialDTO);
 
         validarTitulo(materialDTO);
@@ -43,7 +43,7 @@ public class MaterialService {
         Date date = new java.util.Date();
         materialDTO.setDataDeCriacao(date);
 
-        Material material = DTOToMaterial(materialDTO);
+        Material material = dtoToMaterial(materialDTO);
 
         materialRepository.save(material);
 
@@ -57,7 +57,7 @@ public class MaterialService {
     }
 
     private void validarDescricaoImagemLinks(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getDescricao() == null || materialDTO.getImagem() == null || materialDTO.getLinks().size() == 0 || materialDTO.getLinks() == null) {
+        if (materialDTO.getDescricao() == null || materialDTO.getImagem() == null || materialDTO.getLinks().isEmpty() || materialDTO.getLinks() == null) {
             throw new CampoObrigatorio("A descrição ou imagem ou links são obrigatórios");
         }
     }
@@ -69,7 +69,7 @@ public class MaterialService {
     }
 
     private void validarTurma(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getTurma_id() == null) {
+        if (materialDTO.getTurmaId() == null) {
             throw new CampoObrigatorio("O id da turma é obrigatório");
         }
     }
@@ -81,19 +81,19 @@ public class MaterialService {
         materialDTORetorno.setDescricao(material.getDescricao());
         materialDTORetorno.setImagem(material.getImagem());
         materialDTORetorno.setLinks(material.getLinks());
-        materialDTORetorno.setTurma_id(material.getTurma().getId());
+        materialDTORetorno.setTurmaId(material.getTurma().getId());
         materialDTORetorno.setDataDeCriacao(material.getDataDeCriacao());
         return materialDTORetorno;
     }
 
 
-    private Material DTOToMaterial(MaterialDTO materialDTO) throws ObjetoNaoEncontrado {
+    private Material dtoToMaterial(MaterialDTO materialDTO) throws ObjetoNaoEncontrado {
         Material material = new Material();
         material.setTitulo(materialDTO.getTitulo());
         material.setDescricao(materialDTO.getDescricao());
         material.setImagem(materialDTO.getImagem());
         material.setLinks(materialDTO.getLinks());
-        material.setTurma(turmaService.findById(materialDTO.getTurma_id()));
+        material.setTurma(turmaService.findById(materialDTO.getTurmaId()));
         material.setDataDeCriacao(materialDTO.getDataDeCriacao());
         return material;
     }
@@ -102,11 +102,9 @@ public class MaterialService {
     public Page<MaterialDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction, String chaveDeAcesso) throws ObjetoNaoEncontrado {
         Turma turma = retornaTurma(chaveDeAcesso);
         List<MaterialDTO> materiais = findAllById(turma.getId());
-        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 
-        PageImpl<MaterialDTO> pageRetorno = new PageImpl<MaterialDTO>(materiais, pageRequest, materiais.size());
-
-        return pageRetorno;
+        return new PageImpl<>(materiais, pageRequest, materiais.size());
     }
 
     public MaterialDTO update(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
@@ -123,7 +121,7 @@ public class MaterialService {
         materialSalvo.setDescricao(materialDTO.getDescricao());
         materialSalvo.setImagem(materialDTO.getImagem());
         materialSalvo.setLinks(materialDTO.getLinks());
-        materialSalvo.setTurma(turmaService.findById(materialDTO.getTurma_id()));
+        materialSalvo.setTurma(turmaService.findById(materialDTO.getTurmaId()));
 
 
         materialRepository.save(materialSalvo);
@@ -135,16 +133,14 @@ public class MaterialService {
     public MaterialDTO findById(Integer id) throws ObjetoNaoEncontrado {
         Material material = materialRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
 
-        MaterialDTO materialDTO = materialToDTO(material);
-
-        return materialDTO;
+        return materialToDTO(material);
     }
 
     @Transactional
     public List<MaterialDTO> findAllById(Integer idDaTurma) throws ObjetoNaoEncontrado {
-        ArrayList<Material> materiais = new ArrayList<>();
+        ArrayList<Material> materiais;
         materiais = materialRepository.findByTurma(turmaService.findById(idDaTurma));
-        ArrayList<MaterialDTO> materiaisDTO = new ArrayList<MaterialDTO>();
+        ArrayList<MaterialDTO> materiaisDTO = new ArrayList<>();
         for (Material material : materiais) {
             materiaisDTO.add(materialToDTO(material));
         }

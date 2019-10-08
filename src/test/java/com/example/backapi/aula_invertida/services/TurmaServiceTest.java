@@ -31,63 +31,64 @@ public class TurmaServiceTest {
     @Autowired
     AlunoService alunoService;
 
+    String nomeDaTurma;
+    String chaveDeAcesso;
+    Turma turma;
+
     @Before
     public void setUp() {
+        turma = new Turma();
+        nomeDaTurma = "3° B";
+        chaveDeAcesso = "terceiroB";
+        turma.setNome(nomeDaTurma);
+        turma.setChaveDeAcesso(chaveDeAcesso);
     }
 
     @Test
     public void administrador_criar_uma_turma_com_nome_da_turma_e_chave_de_acesso() throws CampoObrigatorio {
-        String nomeDaTurma = "3° B";
-        String chaveDeAcesso = "terceiroB";
-
-        Turma turmaEsperada = new Turma();
-        turmaEsperada.setNome(nomeDaTurma);
-        turmaEsperada.setChaveDeAcesso(chaveDeAcesso);
-
-        Turma turmaRetornada = turmaService.save(turmaEsperada);
-
-        assertEquals(turmaEsperada, turmaRetornada);
-
+        Turma turmaRetornada = turmaService.save(turma);
+        assertEquals(turma, turmaRetornada);
     }
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_criar_uma_turma_sem_nome() throws CampoObrigatorio {
-        Turma turma = new Turma(null, "segundoA", null, null);
+        turma.setNome(null);
+        turmaService.save(turma);
+    }
 
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_criar_uma_turma_sem_nome2() throws CampoObrigatorio {
+        turma.setNome("");
         turmaService.save(turma);
     }
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_criar_turma_sem_chave_de_acesso_da_turma() throws CampoObrigatorio {
-        Turma turma;
-        turma = new Turma("2°A", null, null, null);
-
+        turma.setChaveDeAcesso(null);
         turmaService.save(turma);
 
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_uma_turma_com_o_nome_ja_existente() throws CampoObrigatorio {
-        turmaService.save(new Turma("2A", "abobora", null, null));
-
-        turmaService.save(new Turma("2A", "abacaxi", null, null));
+        turma.setChaveDeAcesso("a");
+        turmaService.save(turma);
+        turma.setId(null);
+        turma.setChaveDeAcesso("b");
+        turmaService.save(turma);
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_criar_uma_turma_com_chave_de_acesso_existente() throws CampoObrigatorio {
-
-        turmaService.save(new Turma("2C", "abacaxi", null, null));
-
-        turmaService.save(new Turma("2A", "abacaxi", null, null));
-
+        turma.setNome("a");
+        turmaService.save(turma);
+        turma.setId(null);
+        turma.setNome("b");
+        turmaService.save(turma);
     }
 
     @Test
     public void administrador_lista_as_turmas_com_sucesso() throws CampoObrigatorio {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turma = turmaService.save(turma);
 
         List<Turma> turmas = turmaService.findAll();
@@ -97,10 +98,6 @@ public class TurmaServiceTest {
 
     @Test
     public void administrador_quer_deletar_uma_turma() throws ObjetoNaoEncontrado, CampoObrigatorio {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turma = turmaService.save(turma);
 
         turmaService.delete(turma.getId());
@@ -112,11 +109,7 @@ public class TurmaServiceTest {
 
     @Test(expected = ObjetoNaoEncontrado.class)
     public void administrador_quer_deletar_uma_turma_nao_existente() throws ObjetoNaoEncontrado, CampoObrigatorio {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
-        turma = turmaService.save(turma);
+        Turma turma = turmaService.save(this.turma);
 
         turmaService.delete(turma.getId());
 
@@ -129,10 +122,6 @@ public class TurmaServiceTest {
 
     @Test
     public void administrador_quer_editar_turma_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turma = turmaService.save(turma);
 
         String novaChaveDeAcesso = "nao cebola";
@@ -151,9 +140,7 @@ public class TurmaServiceTest {
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_editar_uma_turma_sem_nome() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
+
 
         turma = turmaService.save(turma);
 
@@ -169,10 +156,6 @@ public class TurmaServiceTest {
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_editar_turma_sem_chave_de_acesso_da_turma() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turma = turmaService.save(turma);
 
         String novoNome = "2A";
@@ -188,10 +171,6 @@ public class TurmaServiceTest {
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_editar_uma_turma_com_o_nome_ja_existente() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turmaService.save(turma);
 
         Turma turma2 = new Turma();
@@ -210,10 +189,6 @@ public class TurmaServiceTest {
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_editar_uma_turma_com_chave_de_acesso_existente() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turmaService.save(turma);
 
         Turma turma2 = new Turma();
@@ -225,20 +200,16 @@ public class TurmaServiceTest {
         Turma turmaEditada = new Turma();
         turmaEditada.setId(turma2.getId());
         turmaEditada.setNome("2E");
-        turmaEditada.setChaveDeAcesso("cebola");
+        turmaEditada.setChaveDeAcesso("terceiroB");
 
         turmaService.update(turmaEditada);
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void administrador_quer_editar_a_turma_com_a_chave_de_acesso_ja_usada_recentemente() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        Turma turma = new Turma();
-        turma.setNome("2B");
-        turma.setChaveDeAcesso("cebola");
-
         turma = turmaService.save(turma);
 
-        String novaChaveDeAcesso = "cebola";
+        String novaChaveDeAcesso = "terceiroB";
 
         Turma turmaEditada = new Turma();
         turmaEditada.setNome("2B");
@@ -254,14 +225,8 @@ public class TurmaServiceTest {
 
     @Test
     public void administrador_quer_listar_todos_os_alunos_de_uma_turma() throws CampoObrigatorio, ObjetoNaoEncontrado {
-        String nomeDaTurma = "3° B";
-        String chaveDeAcesso = "terceiroB";
 
-        Turma turmaEsperada = new Turma();
-        turmaEsperada.setNome(nomeDaTurma);
-        turmaEsperada.setChaveDeAcesso(chaveDeAcesso);
-
-        Turma turmaRetornada = turmaService.save(turmaEsperada);
+        Turma turmaRetornada = turmaService.save(turma);
 
         Aluno gabriel = new Aluno();
         gabriel.setNome("Gabriel");

@@ -174,7 +174,7 @@ public class AvisoServiceTest {
 
         Page<Aviso> avisosRetornados = avisoService.findPage(0, 10, "id", "ASC");
 
-        assert(avisosRetornados.getTotalPages() > 1);
+        assertTrue(avisosRetornados.getTotalPages() > 1);
 
     }
 

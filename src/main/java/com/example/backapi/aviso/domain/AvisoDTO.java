@@ -1,4 +1,4 @@
-package com.example.backapi.noticia.domain;
+package com.example.backapi.aviso.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
@@ -8,21 +8,19 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class NoticiaDTO implements Serializable {
+public class AvisoDTO implements Serializable {
     @EqualsAndHashCode.Include private Integer id;
     private String titulo;
     private String descricao;
-    private String links;
+    private List<LinkAviso> links;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
-    private Boolean notificavel;
-
-    public Boolean isNotificavel() {
-        return notificavel;
-    }
+    private String imagem;
 }

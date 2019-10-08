@@ -79,4 +79,9 @@ public class MaterialTest {
 
     }
 
+    @Test
+    public void material_comparado_por_equals(){
+        assertEquals(material,material);
+    }
+
 }

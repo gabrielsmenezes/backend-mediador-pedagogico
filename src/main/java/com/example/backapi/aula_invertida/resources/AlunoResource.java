@@ -2,6 +2,7 @@ package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.services.AlunoService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,20 @@ public class AlunoResource {
     @Autowired
     private AlunoService alunoService;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Aluno> save (@RequestParam String chaveDeAcesso, String nome) throws Exception {
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Aluno> save (@RequestParam String chaveDeAcesso, String nome) throws ObjetoNaoEncontrado, CampoObrigatorio {
         Aluno aluno = new Aluno();
         aluno.setChaveDeAcesso(Encode.forHtml(chaveDeAcesso));
         aluno.setNome(Encode.forHtml(nome));
 
-        Aluno aluno_salvo = alunoService.save(aluno);
+        Aluno alunoSalvo = alunoService.save(aluno);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aluno_salvo.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(alunoSalvo.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(aluno_salvo);
+        return ResponseEntity.created(uri).body(alunoSalvo);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
 
         alunoService.delete(id);
