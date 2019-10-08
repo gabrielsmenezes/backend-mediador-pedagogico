@@ -2,8 +2,6 @@ package com.example.backapi.aviso.services;
 
 import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.repositories.AvisoRepository;
-import com.example.backapi.notificacao.model.PushNotificationRequest;
-import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +35,8 @@ public class AvisoService {
         }
         Date date=new java.util.Date();
         aviso.setDataDeCriacao(date);
-        Aviso resposta = avisoRepository.save(aviso);
 
-        return resposta;
+        return avisoRepository.save(aviso);
 
     }
 

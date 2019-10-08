@@ -4,8 +4,6 @@ import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
-import com.example.backapi.notificacao.model.PushNotificationRequest;
-import com.example.backapi.notificacao.service.PushNotificationService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +43,7 @@ public class MaterialService {
 
         materialRepository.save(material);
 
-        MaterialDTO materialDTORetorno = materialToDTO(material);
-
-        String chaveDeAcesso = material.getTurma().getChaveDeAcesso();
-
-        return materialDTORetorno;
+        return materialToDTO(material);
     }
 
     private void validarDescricaoImagemLinks(MaterialDTO materialDTO) throws CampoObrigatorio {
