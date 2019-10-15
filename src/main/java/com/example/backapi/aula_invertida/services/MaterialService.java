@@ -92,6 +92,8 @@ public class MaterialService {
     public Page<MaterialDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction, String chaveDeAcesso) throws ObjetoNaoEncontrado {
         Turma turma = retornaTurma(chaveDeAcesso);
         List<MaterialDTO> materiais = findAllById(turma.getId());
+        materiais.forEach(materialDTO -> materialDTO.setLinks(new ArrayList<>(materialDTO.getLinks())));
+
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 
         return new PageImpl<>(materiais, pageRequest, materiais.size());
