@@ -136,6 +136,10 @@ public class MaterialService {
         for (Material material : materiais) {
             materiaisDTO.add(materialToDTO(material));
         }
+
+        materiaisDTO.forEach(materialDTO -> materialDTO.setLinks(new ArrayList<>(materialDTO.getLinks())));
+
+
         return materiaisDTO;
     }
 

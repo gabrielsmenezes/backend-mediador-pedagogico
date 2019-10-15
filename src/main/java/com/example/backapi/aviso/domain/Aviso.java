@@ -29,6 +29,7 @@ public class Aviso{
 
     @Column
     private String descricao;
+    //TODO: retirar o EAGER para ficar LAZY, a solucao encontrada no service do material (findpage)
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "links_aviso", joinColumns = @JoinColumn(name = "aviso_id"), foreignKey = @ForeignKey(name = "links_aviso_fk"))
