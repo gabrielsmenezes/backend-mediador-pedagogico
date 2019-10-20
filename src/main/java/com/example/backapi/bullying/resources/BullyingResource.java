@@ -33,7 +33,7 @@ public class BullyingResource {
     }
 
     @PutMapping
-    public ResponseEntity<BullyingDTO> update(@RequestBody BullyingDTO bullyingDTO) throws CampoObrigatorio, LimiteDeObjetosAtingido {
+    public ResponseEntity<BullyingDTO> update(@RequestBody BullyingDTO bullyingDTO) throws CampoObrigatorio {
         Bullying bullyingSalvo = bullyingService.update(modelMapper.modelMapper().map(bullyingDTO, Bullying.class));
 
         BullyingDTO dto = modelMapper.modelMapper().map(bullyingSalvo, BullyingDTO.class);
