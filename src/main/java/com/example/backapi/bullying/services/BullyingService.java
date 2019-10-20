@@ -32,7 +32,7 @@ public class BullyingService {
         }
     }
 
-    public Bullying update(Bullying bullying) throws LimiteDeObjetosAtingido, CampoObrigatorio {
+    public Bullying update(Bullying bullying) throws CampoObrigatorio {
 
         if (bullying.getLinkDoFormulario() == null || bullying.getLinkDoFormulario().isEmpty()){
             throw new CampoObrigatorio("O link é obrigatório");

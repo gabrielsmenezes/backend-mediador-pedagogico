@@ -22,10 +22,10 @@ public class BullyingServiceTest {
     @Autowired
     BullyingService bullyingService;
 
-    String descricao;
-    String imagem;
-    String linkDoFormulario;
-    Bullying bullyingEsperado;
+    private String descricao;
+    private String imagem;
+    private String linkDoFormulario;
+    private Bullying bullyingEsperado;
 
     @Before
     public void setUp() throws Exception {
@@ -34,6 +34,8 @@ public class BullyingServiceTest {
         imagem = "imagem";
         linkDoFormulario = "www.google.com";
     }
+
+    // Testes do Cadastrar Bullying
 
     @Test
     public void administrador_quer_cadastrar_as_informações_de_bullying_com_sucesso() throws CampoObrigatorio, LimiteDeObjetosAtingido {
@@ -86,5 +88,89 @@ public class BullyingServiceTest {
 
     }
 
+
+    //Testes do Editar Bullying
+
+    @Test
+    public void administrador_quer_editar_as_informações_de_bullying_com_sucesso() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        bullyingEsperado.setDescricao(descricao);
+        bullyingEsperado.setImagem(imagem);
+        bullyingEsperado.setLinkDoFormulario(linkDoFormulario);
+
+        Bullying bullyingRetornado = bullyingService.save(bullyingEsperado);
+
+        String novaDescricao = "Nova Descricao";
+        String novaImagem = "Nova Imagem";
+        String novoLink = "NovoLink";
+
+        bullyingRetornado.setDescricao(novaDescricao);
+        bullyingRetornado.setImagem(novaImagem);
+        bullyingRetornado.setLinkDoFormulario(novoLink);
+
+        bullyingRetornado = bullyingService.update(bullyingRetornado);
+
+        assertEquals(novaDescricao, bullyingRetornado.getDescricao());
+        assertEquals(novaImagem, bullyingRetornado.getImagem());
+        assertEquals(novoLink, bullyingRetornado.getLinkDoFormulario());
+
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void adminstrador_quer_editar_as_informações_sem_link() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        bullyingEsperado.setDescricao(descricao);
+        bullyingEsperado.setImagem(imagem);
+        bullyingEsperado.setLinkDoFormulario(linkDoFormulario);
+
+        Bullying bullyingRetornado = bullyingService.save(bullyingEsperado);
+
+        String novaDescricao = "Nova Descricao";
+        String novaImagem = "Nova Imagem";
+
+        bullyingRetornado.setDescricao(novaDescricao);
+        bullyingRetornado.setImagem(novaImagem);
+        bullyingRetornado.setLinkDoFormulario(null);
+
+        bullyingService.update(bullyingRetornado);
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informações_de_bullying_sem_imagem() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        bullyingEsperado.setDescricao(descricao);
+        bullyingEsperado.setImagem(imagem);
+        bullyingEsperado.setLinkDoFormulario(linkDoFormulario);
+
+        Bullying bullyingRetornado = bullyingService.save(bullyingEsperado);
+
+        String novaDescricao = "Nova Descricao";
+        String novoLink = "NovoLink";
+
+        bullyingRetornado.setDescricao(novaDescricao);
+        bullyingRetornado.setImagem(null);
+        bullyingRetornado.setLinkDoFormulario(novoLink);
+
+        bullyingRetornado = bullyingService.update(bullyingRetornado);
+
+        assertNull(bullyingRetornado.getImagem());
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informações_de_bullying_sem_descricao() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        bullyingEsperado.setDescricao(descricao);
+        bullyingEsperado.setImagem(imagem);
+        bullyingEsperado.setLinkDoFormulario(linkDoFormulario);
+
+        Bullying bullyingRetornado = bullyingService.save(bullyingEsperado);
+
+        String novaImagem = "Nova Imagem";
+        String novoLink = "NovoLink";
+
+        bullyingRetornado.setImagem(novaImagem);
+        bullyingRetornado.setDescricao(null);
+        bullyingRetornado.setLinkDoFormulario(novoLink);
+
+        bullyingRetornado = bullyingService.update(bullyingRetornado);
+
+        assertNull(bullyingRetornado.getDescricao());
+    }
 
 }
