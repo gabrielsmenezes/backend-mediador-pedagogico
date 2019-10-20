@@ -7,6 +7,7 @@ import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,7 +104,7 @@ public class NoticiaServiceTest {
     }
 
     @Test(expected = TamanhoDeCampoExcedente.class)
-    public void administrador_quer_cadastrar_uma_noticia_com_titulo_maior_que_50_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+    public void administrador_quer_cadastrar_uma_noticia_com_titulo_maior_que_300_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -139,8 +140,8 @@ public class NoticiaServiceTest {
         noticiaService.save(noticiaDTO);
     }
 
-    @Test(expected = TamanhoDeCampoExcedente.class)
-    public void administrador_quer_cadastrar_uma_noticia_com_descricao_maior_que_100_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
+    @Test
+    public void administrador_quer_cadastrar_uma_noticia_com_descricao_maior_que_300_caracteres() throws TamanhoDeCampoExcedente, CampoObrigatorio, IOException, FirebaseMessagingException {
         NoticiaDTO noticiaDTO = new NoticiaDTO();
 
         notificavel = false;
@@ -173,7 +174,9 @@ public class NoticiaServiceTest {
         noticiaDTO.setLinks(link);
         noticiaDTO.setNotificavel(notificavel);
 
-        noticiaService.save(noticiaDTO);
+        NoticiaDTO salvo = noticiaService.save(noticiaDTO);
+
+        assertEquals(noticiaDTO.getDescricao(), salvo.getDescricao());
     }
 
     @Test

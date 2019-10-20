@@ -23,10 +23,11 @@ public class Noticia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include private Integer id;
 
-    @Column(length = 50)
+    @Column
     private String titulo;
 
-    @Column(length = 100)
+    @Lob
+    @Column
     private String descricao;
 
     @Column

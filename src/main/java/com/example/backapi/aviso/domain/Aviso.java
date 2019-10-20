@@ -24,9 +24,10 @@ public class Aviso{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include private Integer id;
 
-    @Column(length = 100)
+    @Column
     private String titulo;
 
+    @Lob
     @Column
     private String descricao;
     //TODO: retirar o EAGER para ficar LAZY, a solucao encontrada no service do material (findpage)

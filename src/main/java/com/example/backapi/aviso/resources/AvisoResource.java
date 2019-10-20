@@ -4,6 +4,7 @@ import com.example.backapi.aviso.domain.Aviso;
 import com.example.backapi.aviso.domain.AvisoDTO;
 import com.example.backapi.aviso.services.AvisoService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class AvisoResource{
     ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio {
+    public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente {
         Aviso aviso = modelMapper.modelMapper().map(avisoDTO, Aviso.class);
         avisoService.save(aviso);
         AvisoDTO avisoDTOSalvo = modelMapper.modelMapper().map(aviso, AvisoDTO.class);
@@ -65,7 +66,7 @@ public class AvisoResource{
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<AvisoDTO> update (@PathVariable Integer id, @RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio {
+    public ResponseEntity<AvisoDTO> update (@PathVariable Integer id, @RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente {
 
         avisoDTO.setId(id);
 

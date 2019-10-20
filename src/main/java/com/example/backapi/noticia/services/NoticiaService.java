@@ -27,7 +27,6 @@ public class NoticiaService {
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
-        validarTamanhoDescricao(noticiaDTO);
 
         Noticia noticia = dtoToNoticia(noticiaDTO);
 
@@ -77,15 +76,9 @@ public class NoticiaService {
         return noticia;
     }
 
-    private void validarTamanhoDescricao(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente {
-        if (noticiaDTO.getDescricao() != null && noticiaDTO.getDescricao().length() > 100) {
-            throw new TamanhoDeCampoExcedente("O tamanho do campo descricao é de no máximo 100 caracteres");
-        }
-    }
-
     private void validarTamanhoTitulo(NoticiaDTO noticiaDTO) throws TamanhoDeCampoExcedente {
-        if (noticiaDTO.getTitulo().length() > 50) {
-            throw new TamanhoDeCampoExcedente("O tamanho do campo titulo é de no máximo 50 caracteres");
+        if (noticiaDTO.getTitulo().length() > 300) {
+            throw new TamanhoDeCampoExcedente("O tamanho do campo titulo é de no máximo 300 caracteres");
         }
     }
 
@@ -101,7 +94,6 @@ public class NoticiaService {
         validarExistenciaLink(noticiaDTO);
         validarExistenciaNotificavel(noticiaDTO);
         validarTamanhoTitulo(noticiaDTO);
-        validarTamanhoDescricao(noticiaDTO);
 
         findById(noticiaDTO.getId());
         Noticia noticia = dtoToNoticia(noticiaDTO);
