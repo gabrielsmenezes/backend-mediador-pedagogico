@@ -3,6 +3,7 @@ package com.example.backapi.bullying.resources;
 import com.example.backapi.bullying.domain.BullyingDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,12 +46,27 @@ public class BullyingResourceTest {
     }
 
     @Test
-    public void update() throws LimiteDeObjetosAtingido, CampoObrigatorio {
+    public void update() throws CampoObrigatorio {
         bullyingDTO.setDescricao("NovaDescricao");
         bullyingDTO.setImagem("NovaImagem");
         bullyingDTO.setLinkDoFormulario("NovoLink");
 
         ResponseEntity<BullyingDTO> retorno = bullyingResource.update(bullyingDTO);
+        assertEquals(200, retorno.getStatusCode().value());
+        assertEquals(bullyingDTO.getDescricao(), retorno.getBody().getDescricao());
+        assertEquals(bullyingDTO.getImagem(), retorno.getBody().getImagem());
+        assertEquals(bullyingDTO.getLinkDoFormulario(), retorno.getBody().getLinkDoFormulario());
+        assertNotNull(retorno.getBody().getId());
+    }
+
+    @Test
+    public void find() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+        bullyingDTO.setDescricao("NovaDescricao");
+        bullyingDTO.setImagem("NovaImagem");
+        bullyingDTO.setLinkDoFormulario("NovoLink");
+
+        bullyingResource.save(bullyingDTO);
+        ResponseEntity<BullyingDTO> retorno = bullyingResource.find();
         assertEquals(200, retorno.getStatusCode().value());
         assertEquals(bullyingDTO.getDescricao(), retorno.getBody().getDescricao());
         assertEquals(bullyingDTO.getImagem(), retorno.getBody().getImagem());

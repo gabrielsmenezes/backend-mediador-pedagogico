@@ -4,6 +4,7 @@ import com.example.backapi.bullying.domain.Bullying;
 import com.example.backapi.bullying.repositories.BullyingRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,13 @@ public class BullyingService {
         }
 
         return bullyingRepository.save(bullying);
+    }
+
+    public Bullying find() throws ObjetoNaoEncontrado {
+        List<Bullying> lista = bullyingRepository.findAll();
+        if (lista.isEmpty()){
+            throw new ObjetoNaoEncontrado("Nenhum bullying cadastrado");
+        }
+        return lista.get(0);
     }
 }
