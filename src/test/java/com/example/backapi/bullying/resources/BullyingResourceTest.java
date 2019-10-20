@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class BullyingResourceTest {
 
     @Autowired
@@ -42,5 +41,19 @@ public class BullyingResourceTest {
         assertEquals(bullyingDTO.getLinkDoFormulario(), retorno.getBody().getLinkDoFormulario());
         assertNotNull(retorno.getBody().getId());
 
+    }
+
+    @Test
+    public void update() throws LimiteDeObjetosAtingido, CampoObrigatorio {
+        bullyingDTO.setDescricao("NovaDescricao");
+        bullyingDTO.setImagem("NovaImagem");
+        bullyingDTO.setLinkDoFormulario("NovoLink");
+
+        ResponseEntity<BullyingDTO> retorno = bullyingResource.update(bullyingDTO);
+        assertEquals(200, retorno.getStatusCode().value());
+        assertEquals(bullyingDTO.getDescricao(), retorno.getBody().getDescricao());
+        assertEquals(bullyingDTO.getImagem(), retorno.getBody().getImagem());
+        assertEquals(bullyingDTO.getLinkDoFormulario(), retorno.getBody().getLinkDoFormulario());
+        assertNotNull(retorno.getBody().getId());
     }
 }
