@@ -8,10 +8,7 @@ import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,4 +31,14 @@ public class BullyingResource {
 
         return ResponseEntity.created(uri).body(bullyingDTO);
     }
+
+    @PutMapping
+    public ResponseEntity<BullyingDTO> update(@RequestBody BullyingDTO bullyingDTO) throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        Bullying bullyingSalvo = bullyingService.update(modelMapper.modelMapper().map(bullyingDTO, Bullying.class));
+
+        BullyingDTO dto = modelMapper.modelMapper().map(bullyingSalvo, BullyingDTO.class);
+
+        return ResponseEntity.ok(dto);
+    }
+
 }
