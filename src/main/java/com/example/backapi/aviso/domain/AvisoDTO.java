@@ -9,18 +9,32 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AvisoDTO implements Serializable {
-    @EqualsAndHashCode.Include private Integer id;
+
+    private Integer id;
     private String titulo;
     private String descricao;
     private List<LinkAviso> links;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dataDeCriacao;
     private String imagem;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AvisoDTO avisoDTO = (AvisoDTO) o;
+        return id.equals(avisoDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

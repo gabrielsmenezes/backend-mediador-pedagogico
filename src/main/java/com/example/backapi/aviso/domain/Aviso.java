@@ -11,18 +11,18 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners(AvisoListener.class)
 public class Aviso{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include private Integer id;
+    private Integer id;
 
     @Column
     private String titulo;
@@ -47,5 +47,18 @@ public class Aviso{
         this.descricao = descricao;
         this.links = links;
         this.imagem = imagem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aviso aviso = (Aviso) o;
+        return id.equals(aviso.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
