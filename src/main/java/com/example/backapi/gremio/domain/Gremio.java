@@ -1,4 +1,4 @@
-package com.example.backapi.bullying.domain;
+package com.example.backapi.gremio.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,28 +11,22 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Bullying{
+public class Gremio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
-    @Lob
-    private String descricao;
-
-    @Column
+    private String link;
     @Lob
     private String imagem;
-
-    @Column
-    private String linkDoFormulario;
+    @Lob
+    private String descricao;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Bullying bullying = (Bullying) o;
-        return id.equals(bullying.id);
+        Gremio gremio = (Gremio) o;
+        return id.equals(gremio.id);
     }
 
     @Override
