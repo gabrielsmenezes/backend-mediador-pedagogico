@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Bullying{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
