@@ -5,6 +5,7 @@ import com.example.backapi.bullying.domain.BullyingDTO;
 import com.example.backapi.bullying.services.BullyingService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,4 +42,10 @@ public class BullyingResource {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping
+    public ResponseEntity<BullyingDTO> find() throws ObjetoNaoEncontrado {
+        Bullying bullying = bullyingService.find();
+        BullyingDTO bullyingDTO = modelMapper.modelMapper().map(bullying, BullyingDTO.class);
+        return ResponseEntity.ok(bullyingDTO);
+    }
 }

@@ -3,6 +3,7 @@ package com.example.backapi.bullying.services;
 import com.example.backapi.bullying.domain.Bullying;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -173,4 +174,15 @@ public class BullyingServiceTest {
         assertNull(bullyingRetornado.getDescricao());
     }
 
+    @Test
+    public void aluno_quer_visualizar_formulario_de_bullying() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+        bullyingEsperado.setDescricao(descricao);
+        bullyingEsperado.setImagem(imagem);
+        bullyingEsperado.setLinkDoFormulario(linkDoFormulario);
+
+        bullyingService.save(bullyingEsperado);
+
+        assertNotNull(bullyingService.find());
+
+    }
 }
