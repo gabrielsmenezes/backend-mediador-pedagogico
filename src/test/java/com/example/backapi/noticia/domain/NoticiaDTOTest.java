@@ -19,7 +19,12 @@ public class NoticiaDTOTest {
     }
 
     @Test
-    public void getNotificavel() {
+    public void isNotificavel() {
         assertEquals(true, noticiaDTO.isNotificavel());
+    }
+
+    @Test
+    public void getNotificavel() {
+        assertEquals(true, noticiaDTO.getNotificavel());
     }
 }
