@@ -1,36 +1,39 @@
-package com.example.backapi.aviso.domain;
+package com.example.backapi.bullying.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
-
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class AvisoDTO implements Serializable {
+public class Bullying{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include private Integer id;
 
-    private Integer id;
-    private String titulo;
+    @Column
+    @Lob
     private String descricao;
-    private List<LinkAviso> links;
-    @JsonFormat(pattern="dd/MM/yyyy")
-    private Date dataDeCriacao;
+
+    @Column
+    @Lob
     private String imagem;
+
+    @Column
+    private String linkDoFormulario;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AvisoDTO avisoDTO = (AvisoDTO) o;
-        return id.equals(avisoDTO.id);
+        Bullying bullying = (Bullying) o;
+        return id.equals(bullying.id);
     }
 
     @Override

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import javax.persistence.PostPersist;
-import java.util.Arrays;
 
 public class AvisoListener {
 

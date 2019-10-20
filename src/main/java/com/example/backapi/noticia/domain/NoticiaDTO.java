@@ -8,13 +8,13 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class NoticiaDTO implements Serializable {
-    @EqualsAndHashCode.Include private Integer id;
+    private Integer id;
     private String titulo;
     private String descricao;
     private String links;
@@ -24,5 +24,18 @@ public class NoticiaDTO implements Serializable {
 
     public Boolean isNotificavel() {
         return notificavel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NoticiaDTO that = (NoticiaDTO) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
