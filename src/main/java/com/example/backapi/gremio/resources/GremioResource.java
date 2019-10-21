@@ -32,4 +32,15 @@ public class GremioResource {
 
         return ResponseEntity.created(uri).body(gremioDTO);
     }
+
+    @PutMapping
+    public ResponseEntity<GremioDTO> update (@RequestBody GremioDTO gremioDTO){
+        Gremio bullyingSalvo = gremioService.update(modelMapper.modelMapper().map(gremioDTO, Gremio.class));
+
+        GremioDTO dto = modelMapper.modelMapper().map(bullyingSalvo, GremioDTO.class);
+
+        return ResponseEntity.ok(dto);
+
+
+    }
 }
