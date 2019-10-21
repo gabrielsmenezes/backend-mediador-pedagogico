@@ -8,6 +8,9 @@ import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/gremio")
@@ -25,6 +28,8 @@ public class GremioResource {
 
         gremioDTO = modelMapper.modelMapper().map(gremioService.save(gremio), GremioDTO.class);
 
-        return ResponseEntity.ok(gremioDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gremioDTO.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(gremioDTO);
     }
 }
