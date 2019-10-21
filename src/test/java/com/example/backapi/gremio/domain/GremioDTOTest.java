@@ -25,8 +25,8 @@ public class GremioDTOTest {
     @Test
     public void deve_ter_link() {
         String linkEsperado = "www.esperado.com";
-        gremioDTO.setLink(linkEsperado);
-        String linkRetornado = gremioDTO.getLink();
+        gremioDTO.setLinkDoGremio(linkEsperado);
+        String linkRetornado = gremioDTO.getLinkDoGremio();
         assertEquals(linkEsperado, linkRetornado);
     }
 

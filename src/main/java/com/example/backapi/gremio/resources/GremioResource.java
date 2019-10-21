@@ -4,6 +4,7 @@ import com.example.backapi.gremio.domain.Gremio;
 import com.example.backapi.gremio.domain.GremioDTO;
 import com.example.backapi.gremio.services.GremioService;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,12 +36,21 @@ public class GremioResource {
 
     @PutMapping
     public ResponseEntity<GremioDTO> update (@RequestBody GremioDTO gremioDTO){
-        Gremio bullyingSalvo = gremioService.update(modelMapper.modelMapper().map(gremioDTO, Gremio.class));
+        Gremio gremioSalvo = gremioService.update(modelMapper.modelMapper().map(gremioDTO, Gremio.class));
 
-        GremioDTO dto = modelMapper.modelMapper().map(bullyingSalvo, GremioDTO.class);
+        GremioDTO dto = modelMapper.modelMapper().map(gremioSalvo, GremioDTO.class);
 
         return ResponseEntity.ok(dto);
 
 
+    }
+
+    @GetMapping
+    public ResponseEntity<GremioDTO> find() throws ObjetoNaoEncontrado {
+        Gremio gremio = gremioService.find();
+
+        GremioDTO gremioDTO = modelMapper.modelMapper().map(gremio, GremioDTO.class);
+
+        return ResponseEntity.ok(gremioDTO);
     }
 }

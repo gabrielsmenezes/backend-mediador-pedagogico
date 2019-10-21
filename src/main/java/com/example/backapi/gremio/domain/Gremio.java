@@ -15,7 +15,7 @@ public class Gremio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String link;
+    private String linkDoGremio;
     @Lob
     private String imagem;
     @Lob
