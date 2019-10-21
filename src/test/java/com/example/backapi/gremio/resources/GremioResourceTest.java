@@ -47,4 +47,17 @@ public class GremioResourceTest {
         assertEquals(imagem, resposta.getBody().getImagem());
         assertEquals(link, resposta.getBody().getLink());
     }
+
+    @Test
+    public void update() {
+        gremioDTO.setDescricao(descricao);
+        gremioDTO.setImagem(imagem);
+        gremioDTO.setLink(link);
+
+        ResponseEntity<GremioDTO> resposta = gremioResource.update(gremioDTO);
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertEquals(descricao, resposta.getBody().getDescricao());
+        assertEquals(imagem, resposta.getBody().getImagem());
+        assertEquals(link, resposta.getBody().getLink());
+    }
 }

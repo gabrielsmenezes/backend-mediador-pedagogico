@@ -5,7 +5,6 @@ import com.example.backapi.gremio.repositories.GremioRepository;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -24,4 +23,16 @@ public class GremioService {
 
         return gremioRepository.save(gremio);
     }
+
+    public Gremio update(Gremio gremio) {
+
+        List<Gremio> gremiosSalvos = gremioRepository.findAll();
+
+        if (!gremiosSalvos.isEmpty()){
+            gremio.setId(gremiosSalvos.get(0).getId());
+        }
+
+        return gremioRepository.save(gremio);
+
+        }
 }

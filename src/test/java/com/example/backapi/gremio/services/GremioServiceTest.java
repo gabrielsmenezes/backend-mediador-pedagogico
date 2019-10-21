@@ -36,6 +36,8 @@ public class GremioServiceTest {
         descricao = "descricao";
     }
 
+    //Cadastrar Grêmio - Web
+
     @Test
     public void administrador_quer_cadastrar_as_informações_do_gremio_com_sucesso() throws LimiteDeObjetosAtingido {
         gremio.setLink(link);
@@ -66,11 +68,12 @@ public class GremioServiceTest {
     @Test
     public void administrador_quer_inserir_as_informações_do_gremio_sem_descricao() throws LimiteDeObjetosAtingido {
         gremio.setLink(link);
-        gremio.setDescricao(descricao);
+        gremio.setDescricao(null);
         gremio.setImagem(imagem);
         gremio = gremioService.save(gremio);
         assertNotNull(gremio.getId());
     }
+
     @Test(expected = LimiteDeObjetosAtingido.class)
     public void administrador_quer_cadastrar_mais_de_um_gremio() throws LimiteDeObjetosAtingido {
         gremio.setLink(link);
@@ -81,5 +84,70 @@ public class GremioServiceTest {
         gremio = gremioService.save(gremio);
     }
 
+    //Editar Grêmio - Web
+
+    @Test
+    public void administrador_quer_editar_as_informações_do_gremio_com_sucesso() throws LimiteDeObjetosAtingido {
+        gremio.setLink(link);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(imagem);
+        gremio = gremioService.save(gremio);
+
+        String nova_descricao = "Nova descricao";
+        gremio.setDescricao(nova_descricao);
+        String novo_link = "Novo link";
+        gremio.setLink(novo_link);
+        String nova_imagem = "Nova Imagem";
+        gremio.setImagem(nova_imagem);
+        gremio = gremioService.update(gremio);
+
+        assertEquals(nova_descricao, gremio.getDescricao());
+        assertEquals(novo_link, gremio.getLink());
+        assertEquals(nova_imagem, gremio.getImagem());
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informações_sem_link() throws LimiteDeObjetosAtingido {
+        gremio.setLink(link);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(imagem);
+        gremio = gremioService.save(gremio);
+
+        gremio.setLink(null);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(imagem);
+        gremio = gremioService.update(gremio);
+
+        assertNotNull(gremio.getId());
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informações_do_grêmio_sem_imagem() throws LimiteDeObjetosAtingido {
+        gremio.setLink(link);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(imagem);
+        gremio = gremioService.save(gremio);
+
+        gremio.setLink(link);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(null);
+
+        gremio = gremioService.update(gremio);
+        assertNotNull(gremio.getId());
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informações_do_gremio_sem_descricao() throws LimiteDeObjetosAtingido {
+        gremio.setLink(link);
+        gremio.setDescricao(descricao);
+        gremio.setImagem(imagem);
+        gremio = gremioService.save(gremio);
+
+        gremio.setLink(link);
+        gremio.setDescricao(null);
+        gremio.setImagem(imagem);
+        gremio = gremioService.update(gremio);
+        assertNotNull(gremio.getId());
+    }
 
 }
