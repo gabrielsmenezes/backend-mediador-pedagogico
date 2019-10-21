@@ -9,8 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GremioDTO {
     private Integer id;
-    private String link;
+    private String linkDoGremio;
     private String imagem;
     private String descricao;
-
 }

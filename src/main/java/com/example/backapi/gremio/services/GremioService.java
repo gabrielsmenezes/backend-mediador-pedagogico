@@ -3,6 +3,7 @@ package com.example.backapi.gremio.services;
 import com.example.backapi.gremio.domain.Gremio;
 import com.example.backapi.gremio.repositories.GremioRepository;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -35,4 +36,15 @@ public class GremioService {
         return gremioRepository.save(gremio);
 
         }
+
+    public Gremio find() throws ObjetoNaoEncontrado {
+
+        List<Gremio> gremiosSalvos = gremioRepository.findAll();
+
+        if (gremiosSalvos.isEmpty()) {
+            throw new ObjetoNaoEncontrado("Nenhum Grêmio foi cadastrado!");
+        }
+
+        return gremiosSalvos.get(0);
+    }
 }

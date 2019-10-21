@@ -2,6 +2,7 @@ package com.example.backapi.gremio.resources;
 
 import com.example.backapi.gremio.domain.GremioDTO;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,25 +40,39 @@ public class GremioResourceTest {
     public void save() throws LimiteDeObjetosAtingido {
         gremioDTO.setDescricao(descricao);
         gremioDTO.setImagem(imagem);
-        gremioDTO.setLink(link);
+        gremioDTO.setLinkDoGremio(link);
 
         ResponseEntity<GremioDTO> resposta = gremioResource.save(gremioDTO);
         assertEquals(201, resposta.getStatusCodeValue());
         assertEquals(descricao, resposta.getBody().getDescricao());
         assertEquals(imagem, resposta.getBody().getImagem());
-        assertEquals(link, resposta.getBody().getLink());
+        assertEquals(link, resposta.getBody().getLinkDoGremio());
     }
 
     @Test
     public void update() {
         gremioDTO.setDescricao(descricao);
         gremioDTO.setImagem(imagem);
-        gremioDTO.setLink(link);
+        gremioDTO.setLinkDoGremio(link);
 
         ResponseEntity<GremioDTO> resposta = gremioResource.update(gremioDTO);
         assertEquals(200, resposta.getStatusCodeValue());
         assertEquals(descricao, resposta.getBody().getDescricao());
         assertEquals(imagem, resposta.getBody().getImagem());
-        assertEquals(link, resposta.getBody().getLink());
+        assertEquals(link, resposta.getBody().getLinkDoGremio());
+    }
+
+    @Test
+    public void find() throws ObjetoNaoEncontrado {
+        gremioDTO.setDescricao(descricao);
+        gremioDTO.setImagem(imagem);
+        gremioDTO.setLinkDoGremio(link);
+
+        ResponseEntity<GremioDTO> esperado = gremioResource.update(gremioDTO);
+        ResponseEntity<GremioDTO> retornado = gremioResource.find();
+
+        assertEquals(esperado.getBody().getDescricao(), retornado.getBody().getDescricao());
+        assertEquals(esperado.getBody().getImagem(), retornado.getBody().getImagem());
+        assertEquals(esperado.getBody().getLinkDoGremio(), retornado.getBody().getLinkDoGremio());
     }
 }
