@@ -3,6 +3,7 @@ package com.example.backapi.calendario.resources;
 import com.example.backapi.calendario.domain.CalendarioDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +47,7 @@ public class CalendarioResourceTest {
     }
 
     @Test
-    public void update() throws LimiteDeObjetosAtingido, CampoObrigatorio {
+    public void update() throws CampoObrigatorio {
         calendarioDTO.setLinkDoCalendario(linkDoCalendario);
         ResponseEntity<CalendarioDTO> resposta = calendarioResource.update(calendarioDTO);
 
@@ -54,4 +55,12 @@ public class CalendarioResourceTest {
         assertEquals(linkDoCalendario, resposta.getBody().getLinkDoCalendario());
     }
 
+    @Test
+    public void find() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+        calendarioDTO.setLinkDoCalendario(linkDoCalendario);
+        calendarioDTO = calendarioResource.save(calendarioDTO).getBody();
+        ResponseEntity<CalendarioDTO> retorno = calendarioResource.find();
+        assertEquals(HttpStatus.OK, retorno.getStatusCode());
+        assertEquals(calendarioDTO.getId(), retorno.getBody().getId());
+    }
 }

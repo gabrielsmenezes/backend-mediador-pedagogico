@@ -5,6 +5,7 @@ import com.example.backapi.calendario.domain.CalendarioDTO;
 import com.example.backapi.calendario.services.CalendarioService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,16 @@ public class CalendarioResource {
     }
 
     @PutMapping
-    public ResponseEntity<CalendarioDTO> update (@RequestBody CalendarioDTO calendarioDTO) throws CampoObrigatorio, LimiteDeObjetosAtingido {
+    public ResponseEntity<CalendarioDTO> update (@RequestBody CalendarioDTO calendarioDTO) throws CampoObrigatorio {
         calendarioDTO = modelMapper.modelMapper().map(calendarioService.update(modelMapper.modelMapper().map(calendarioDTO, Calendario.class)), CalendarioDTO.class);
+
+        return ResponseEntity.ok(calendarioDTO);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<CalendarioDTO> find () throws ObjetoNaoEncontrado {
+        CalendarioDTO calendarioDTO = modelMapper.modelMapper().map(calendarioService.find(), CalendarioDTO.class);
 
         return ResponseEntity.ok(calendarioDTO);
 

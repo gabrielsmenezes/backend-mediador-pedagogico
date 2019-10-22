@@ -3,6 +3,7 @@ package com.example.backapi.calendario.services;
 import com.example.backapi.calendario.domain.Calendario;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,6 +77,22 @@ public class CalendarioServiceTest {
         calendario = calendarioService.save(calendario);
         calendario.setLinkDoCalendario(null);
         calendarioService.update(calendario);
+    }
+
+    //[US-20] Visualizar o calendario da escola
+
+    @Test
+    public void aluno_quer_listar_calendario() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+        calendario.setLinkDoCalendario(linkDoCalendario);
+        Calendario calendarioEsperado = calendarioService.save(calendario);
+        Calendario calendarioRetornado = calendarioService.find();
+
+        assertEquals(calendarioEsperado, calendarioRetornado);
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void aluno_quer_listar_calendario_ainda_nao_cadastrado() throws ObjetoNaoEncontrado {
+        calendarioService.find();
     }
 
 }
