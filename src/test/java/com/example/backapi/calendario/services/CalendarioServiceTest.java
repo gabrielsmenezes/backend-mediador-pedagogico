@@ -58,6 +58,24 @@ public class CalendarioServiceTest {
         calendarioService.save(calendario);
     }
 
+//[US-40] Editar Calendário - Web
 
+    @Test
+    public void administrador_quer_editar_as_informacoes_do_calendario() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        calendario.setLinkDoCalendario(linkDoCalendario);
+        Calendario calendarioRetornado = calendarioService.save(calendario);
+        String novoLink = "www.novolink.com";
+        calendarioRetornado.setLinkDoCalendario(novoLink);
+        calendarioRetornado = calendarioService.update(calendarioRetornado);
+        assertEquals(novoLink, calendarioRetornado.getLinkDoCalendario());
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_as_informacoes_sem_link() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        calendario.setLinkDoCalendario(linkDoCalendario);
+        calendario = calendarioService.save(calendario);
+        calendario.setLinkDoCalendario(null);
+        calendarioService.update(calendario);
+    }
 
 }
