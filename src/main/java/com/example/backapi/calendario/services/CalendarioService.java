@@ -37,7 +37,9 @@ public class CalendarioService {
     public Calendario update (Calendario calendario) throws CampoObrigatorio {
         verificarSeExisteLink(calendario.getLinkDoCalendario());
         List<Calendario> calendariosSalvos = calendarioRepository.findAll();
-        calendario.setId(calendariosSalvos.get(0).getId());
+        if (!calendariosSalvos.isEmpty()){
+            calendario.setId(calendariosSalvos.get(0).getId());
+        }
         return calendarioRepository.save(calendario);
     }
 }
