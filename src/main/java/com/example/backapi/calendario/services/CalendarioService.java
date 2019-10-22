@@ -17,9 +17,7 @@ public class CalendarioService {
 
     public Calendario save(Calendario calendario) throws CampoObrigatorio, LimiteDeObjetosAtingido {
 
-        if (calendario.getLinkDoCalendario() == null||calendario.getLinkDoCalendario().isEmpty() ){
-            throw new CampoObrigatorio("Link do calendario é obrigatório");
-        }
+        verificarSeExisteLink(calendario.getLinkDoCalendario());
 
         List<Calendario> calendariosSalvos = calendarioRepository.findAll();
 
@@ -30,5 +28,18 @@ public class CalendarioService {
         return calendarioRepository.save(calendario);
     }
 
+    private void verificarSeExisteLink(String link) throws CampoObrigatorio {
+        if (link == null||link.isEmpty() ){
+            throw new CampoObrigatorio("Link do calendario é obrigatório");
+        }
+    }
 
+    public Calendario update (Calendario calendario) throws CampoObrigatorio {
+        verificarSeExisteLink(calendario.getLinkDoCalendario());
+        List<Calendario> calendariosSalvos = calendarioRepository.findAll();
+        if (!calendariosSalvos.isEmpty()){
+            calendario.setId(calendariosSalvos.get(0).getId());
+        }
+        return calendarioRepository.save(calendario);
+    }
 }

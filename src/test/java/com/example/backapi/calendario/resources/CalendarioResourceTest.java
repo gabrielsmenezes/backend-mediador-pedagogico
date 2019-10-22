@@ -45,4 +45,13 @@ public class CalendarioResourceTest {
 
     }
 
+    @Test
+    public void update() throws LimiteDeObjetosAtingido, CampoObrigatorio {
+        calendarioDTO.setLinkDoCalendario(linkDoCalendario);
+        ResponseEntity<CalendarioDTO> resposta = calendarioResource.update(calendarioDTO);
+
+        assertEquals(HttpStatus.OK, resposta.getStatusCode());
+        assertEquals(linkDoCalendario, resposta.getBody().getLinkDoCalendario());
+    }
+
 }

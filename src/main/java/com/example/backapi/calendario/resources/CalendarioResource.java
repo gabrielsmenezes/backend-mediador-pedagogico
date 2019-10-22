@@ -33,4 +33,12 @@ public class CalendarioResource {
 
     }
 
+    @PutMapping
+    public ResponseEntity<CalendarioDTO> update (@RequestBody CalendarioDTO calendarioDTO) throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        calendarioDTO = modelMapper.modelMapper().map(calendarioService.update(modelMapper.modelMapper().map(calendarioDTO, Calendario.class)), CalendarioDTO.class);
+
+        return ResponseEntity.ok(calendarioDTO);
+
+    }
+
 }
