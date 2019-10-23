@@ -49,4 +49,13 @@ public class EscolaResourceTest {
         assertEquals(imagem, resposta.getBody().getImagem());
         assertEquals(descricao, resposta.getBody().getDescricao());
     }
+
+    @Test
+    public void update() throws CampoObrigatorio {
+        ResponseEntity<EscolaDTO> resposta = escolaResource.update(escolaDTO);
+        assertEquals(HttpStatus.OK, resposta.getStatusCode());
+        assertEquals(nome, resposta.getBody().getNome());
+        assertEquals(imagem, resposta.getBody().getImagem());
+        assertEquals(descricao, resposta.getBody().getDescricao());
+    }
 }

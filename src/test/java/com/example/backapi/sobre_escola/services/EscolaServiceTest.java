@@ -35,7 +35,7 @@ public class EscolaServiceTest {
         descricao = "Escola Estadual Dona Consuelo Muller,Escola Estadual Dona Consuelo Muller,Escola Estadual Dona Consuelo Muller,Escola Estadual Dona Consuelo Muller";
     }
 
-
+// Cadastrar sobre escola
 
     @Test
     public void administrador_quer_cadastrar_as_informacoes_da_escola_com_sucesso() throws CampoObrigatorio, LimiteDeObjetosAtingido {
@@ -81,5 +81,77 @@ public class EscolaServiceTest {
         escola = escolaService.save(escola);
     }
 
+    //Editar sobre escola
+
+    @Test
+    public void administrador_quer_editar_as_informacoes_da_escola_com_sucesso() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        escola.setNome(nome);
+        escola.setImagem(imagem);
+        escola.setDescricao(descricao);
+        escola = escolaService.save(escola);
+
+        String novoNome = "Novo Nome";
+        String novaImagem = "Nova Imagem";
+        String novaDescricao = "Nova DescricaoNova DescricaoNova DescricaoNova DescricaoNova Descricao";
+
+        escola.setNome(novoNome);
+        escola.setImagem(novaImagem);
+        escola.setDescricao(novaDescricao);
+        escola = escolaService.update(escola);
+        assertEquals(novoNome, escola.getNome());
+        assertEquals(novaDescricao, escola.getDescricao());
+        assertEquals(novaImagem, escola.getImagem());
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void adminstrador_quer_editar_as_informacoes_sem_nome() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        escola.setNome(nome);
+        escola.setImagem(imagem);
+        escola.setDescricao(descricao);
+        escola = escolaService.save(escola);
+
+        String novoNome = "Novo Nome";
+        String novaImagem = "Nova Imagem";
+        String novaDescricao = "Nova DescricaoNova DescricaoNova DescricaoNova DescricaoNova Descricao";
+
+        escola.setNome(null);
+        escola.setImagem(novaImagem);
+        escola.setDescricao(novaDescricao);
+        escola = escolaService.update(escola);
+    }
+
+    @Test
+    public void administrador_quer_editar_as_informacoes_da_escola_sem_imagem() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        escola.setNome(nome);
+        escola.setImagem(imagem);
+        escola.setDescricao(descricao);
+        escola = escolaService.save(escola);
+
+        String novoNome = "Novo Nome";
+        String novaImagem = "Nova Imagem";
+        String novaDescricao = "Nova DescricaoNova DescricaoNova DescricaoNova DescricaoNova Descricao";
+
+        escola.setNome(novoNome);
+        escola.setImagem(null);
+        escola.setDescricao(novaDescricao);
+        escolaService.update(escola);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_as_informacoes_da_escola_sem_descricao() throws CampoObrigatorio, LimiteDeObjetosAtingido {
+        escola.setNome(nome);
+        escola.setImagem(imagem);
+        escola.setDescricao(descricao);
+        escola = escolaService.save(escola);
+
+        String novoNome = "Novo Nome";
+        String novaImagem = "Nova Imagem";
+        String novaDescricao = "Nova DescricaoNova DescricaoNova DescricaoNova DescricaoNova Descricao";
+
+        escola.setNome(novoNome);
+        escola.setImagem(novaImagem);
+        escola.setDescricao(null);
+        escola = escolaService.update(escola);
+    }
 
 }
