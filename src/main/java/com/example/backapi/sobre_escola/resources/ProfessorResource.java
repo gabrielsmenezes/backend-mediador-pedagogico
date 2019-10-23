@@ -1,6 +1,5 @@
 package com.example.backapi.sobre_escola.resources;
 
-import com.example.backapi.noticia.domain.NoticiaDTO;
 import com.example.backapi.sobre_escola.domain.Professor;
 import com.example.backapi.sobre_escola.domain.ProfessorDTO;
 import com.example.backapi.sobre_escola.services.ProfessorService;
@@ -12,12 +11,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/professores")
-public class ProfessoresResource {
+public class ProfessorResource {
 
     @Autowired
     ProfessorService professorService;
