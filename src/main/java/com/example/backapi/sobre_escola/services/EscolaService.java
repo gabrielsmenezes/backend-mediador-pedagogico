@@ -34,4 +34,18 @@ public class EscolaService {
         }
     }
 
+    public Escola update(Escola escola) throws CampoObrigatorio {
+
+        verificaExistenciaDeCampos(escola.getNome());
+        verificaExistenciaDeCampos(escola.getDescricao());
+        List<Escola> escolasSalvas = escolaRepository.findAll();
+
+        if (!escolasSalvas.isEmpty()){
+            escola.setId(escolasSalvas.get(0).getId());
+        }
+
+        return escolaRepository.save(escola);
+
+    }
+
 }
