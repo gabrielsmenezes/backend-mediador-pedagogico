@@ -30,9 +30,7 @@ public class ProfessorService {
     @Transactional
     public List<Professor> findAll() {
         List<Professor> professores = professorRepository.findAll();
-        professores.forEach(professor -> {
-            professor.setDisciplinas(new ArrayList<>(professor.getDisciplinas()));
-        });
+        professores.forEach(professor -> professor.setDisciplinas(new ArrayList<>(professor.getDisciplinas())));
 
         return professores;
     }

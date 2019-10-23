@@ -3,6 +3,7 @@ package com.example.backapi.sobre_escola.resources;
 import com.example.backapi.sobre_escola.domain.EscolaDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,5 +58,13 @@ public class EscolaResourceTest {
         assertEquals(nome, resposta.getBody().getNome());
         assertEquals(imagem, resposta.getBody().getImagem());
         assertEquals(descricao, resposta.getBody().getDescricao());
+    }
+
+    @Test
+    public void find() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+        EscolaDTO respostaEsperada = escolaResource.save(escolaDTO).getBody();
+        EscolaDTO respostaObtida = escolaResource.find().getBody();
+
+        assertEquals(respostaEsperada, respostaObtida);
     }
 }

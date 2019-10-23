@@ -5,6 +5,7 @@ import com.example.backapi.sobre_escola.domain.EscolaDTO;
 import com.example.backapi.sobre_escola.services.EscolaService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,12 @@ public class EscolaResource {
         EscolaDTO dto = modelMapper.modelMapper().map(escolaSalva, EscolaDTO.class);
 
         return ResponseEntity.ok(dto);
+    }
 
-
+    @GetMapping
+    public  ResponseEntity<EscolaDTO> find() throws ObjetoNaoEncontrado {
+        Escola escolaSalva = escolaService.find();
+        EscolaDTO escolaDTO = modelMapper.modelMapper().map(escolaSalva, EscolaDTO.class);
+        return ResponseEntity.ok(escolaDTO);
     }
 }

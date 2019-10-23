@@ -4,6 +4,7 @@ import com.example.backapi.sobre_escola.domain.Escola;
 import com.example.backapi.sobre_escola.repositories.EscolaRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,4 +49,11 @@ public class EscolaService {
 
     }
 
+    public Escola find() throws ObjetoNaoEncontrado {
+        List<Escola> escolas = escolaRepository.findAll();
+        if (escolas.isEmpty()) {
+            throw new ObjetoNaoEncontrado("Escola ainda nao cadastrada");
+        }
+        return escolas.get(0);
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.backapi.sobre_escola.domain;
 
-import com.example.backapi.aviso.domain.LinkAviso;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

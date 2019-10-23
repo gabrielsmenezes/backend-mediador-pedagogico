@@ -1,8 +1,10 @@
 package com.example.backapi.sobre_escola.services;
 
 import com.example.backapi.sobre_escola.domain.Escola;
+import com.example.backapi.sobre_escola.domain.Professor;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.LimiteDeObjetosAtingido;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -154,6 +156,18 @@ public class EscolaServiceTest {
         escola.setImagem(novaImagem);
         escola.setDescricao(null);
         escola = escolaService.update(escola);
+    }
+
+    @Test
+    public void find() throws LimiteDeObjetosAtingido, CampoObrigatorio, ObjetoNaoEncontrado {
+
+        escola.setNome(nome);
+        escola.setImagem(imagem);
+        escola.setDescricao(descricao);
+
+        Escola escolaEsperada = escolaService.save(escola);
+        Escola escolaRetornada = escolaService.find();
+        assertEquals(escolaEsperada, escolaRetornada);
     }
 
 }
