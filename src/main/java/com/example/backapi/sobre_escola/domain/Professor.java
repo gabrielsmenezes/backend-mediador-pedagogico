@@ -1,5 +1,6 @@
 package com.example.backapi.sobre_escola.domain;
 
+import com.example.backapi.aviso.domain.LinkAviso;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,12 @@ public class Professor {
     @Column
     private String nome;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "disciplinas_professor", joinColumns = @JoinColumn(name = "professor_id"), foreignKey = @ForeignKey(name = "disciplinas_professor_fk"))
     private List<String> disciplinas = new ArrayList<>();
+
+    @Lob
+    private String descricao;
 
     @Override
     public boolean equals(Object o) {

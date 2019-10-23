@@ -15,7 +15,5 @@ public class ProfessorDTO {
     private Integer id;
     private String nome;
     private List<String> disciplinas = new ArrayList<>();
-
-
-
+    private String descricao;
 }
