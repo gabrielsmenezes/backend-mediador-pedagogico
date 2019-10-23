@@ -4,23 +4,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class EscolaDTO {
+public class ProfessorDTO {
+
     private Integer id;
     private String nome;
-    private String imagem;
+    private List<String> disciplinas = new ArrayList<>();
     private String descricao;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EscolaDTO escolaDTO = (EscolaDTO) o;
-        return id.equals(escolaDTO.id);
+        ProfessorDTO that = (ProfessorDTO) o;
+        return id.equals(that.id);
     }
 
     @Override

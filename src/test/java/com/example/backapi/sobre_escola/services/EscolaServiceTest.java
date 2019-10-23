@@ -134,7 +134,9 @@ public class EscolaServiceTest {
         escola.setNome(novoNome);
         escola.setImagem(null);
         escola.setDescricao(novaDescricao);
-        escolaService.update(escola);
+        escola = escolaService.update(escola);
+        assertEquals(novoNome, escola.getNome());
+        assertEquals(novaDescricao, escola.getDescricao());
     }
 
     @Test(expected = CampoObrigatorio.class)
