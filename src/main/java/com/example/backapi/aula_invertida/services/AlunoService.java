@@ -80,4 +80,8 @@ public class AlunoService {
     public Aluno findById(Integer id) throws ObjetoNaoEncontrado {
         return alunoRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
     }
+
+    public void deleteAll(){
+        alunoRepository.deleteAll();
+    }
 }

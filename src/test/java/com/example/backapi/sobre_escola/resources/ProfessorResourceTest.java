@@ -63,7 +63,7 @@ public class ProfessorResourceTest {
         professor.setDisciplinas(disciplinas);
         professor.setDescricao(descricao);
 
-        ResponseEntity<ProfessorDTO> retorno = professorResource.update(professor);
+        ResponseEntity<ProfessorDTO> retorno = professorResource.update(professor, professor.getId());
 
         assertEquals(HttpStatus.OK, retorno.getStatusCode());
         assertEquals(nome, retorno.getBody().getNome());

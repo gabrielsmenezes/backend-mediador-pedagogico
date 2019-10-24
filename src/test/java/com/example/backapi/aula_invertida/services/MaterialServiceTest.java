@@ -301,6 +301,7 @@ public class MaterialServiceTest {
         assertFalse(materiais.contains(materialRetornado));
 
     }
+
     @Test(expected = ObjetoNaoEncontrado.class)
     public void administrador_quer_deletar_material_com_id_invalido() throws ObjetoNaoEncontrado {
 
