@@ -9,8 +9,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.Date;
-
 @Configuration
 @EnableAsync
 @EnableScheduling
@@ -27,7 +25,6 @@ public class AsyncTaskConfig {
 
     @Scheduled(cron = "0 0 9 25 12 *")
     public void apagarTodasAsTurmas() {
-        System.out.println("=====  Apagando tudo");
         alunoService.deleteAll();
         materialService.deleteAll();
         turmaService.deleteAll();
