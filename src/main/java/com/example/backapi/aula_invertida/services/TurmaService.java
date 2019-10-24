@@ -103,4 +103,8 @@ public class TurmaService {
         return turma.getAlunos();
 
     }
+
+    public void deleteAll(){
+        turmaRepository.deleteAll();
+    }
 }

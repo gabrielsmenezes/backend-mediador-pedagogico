@@ -35,7 +35,9 @@ public class ProfessorResource {
     }
 
     @PutMapping
-    public ResponseEntity<ProfessorDTO> update (@RequestBody ProfessorDTO professorDTO) {
+    public ResponseEntity<ProfessorDTO> update (@RequestBody ProfessorDTO professorDTO, @PathVariable Integer id) {
+        professorDTO.setId(id);
+
         Professor professorSalva = professorService.update(modelMapper.modelMapper().map(professorDTO, Professor.class));
 
         ProfessorDTO dto = modelMapper.modelMapper().map(professorSalva, ProfessorDTO.class);

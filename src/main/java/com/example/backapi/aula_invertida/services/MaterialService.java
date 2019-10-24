@@ -161,4 +161,8 @@ public class MaterialService {
         }
         throw new ObjetoNaoEncontrado("Turma da chave: " + chaveDeAcesso + " não encontrada!");
     }
+
+    public void deleteAll(){
+        materialRepository.deleteAll();
+    }
 }
