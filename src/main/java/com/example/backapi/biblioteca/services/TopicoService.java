@@ -7,6 +7,8 @@ import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TopicoService {
 
@@ -31,5 +33,9 @@ public class TopicoService {
         Topico topicoSalvo = topicoRepository.findById(topico.getId()).orElseThrow(ObjetoNaoEncontrado::new);
         topico.setId(topicoSalvo.getId());
         return topicoRepository.save(topico);
+    }
+
+    public List<Topico> findAll() {
+        return topicoRepository.findAll();
     }
 }

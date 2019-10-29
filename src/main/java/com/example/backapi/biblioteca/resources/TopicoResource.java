@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/topicos")
@@ -47,6 +49,16 @@ public class TopicoResource {
         topicoDTO = modelMapper.modelMapper().map(topico, TopicoDTO.class);
 
         return ResponseEntity.ok(topicoDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TopicoDTO>> listAll(){
+
+        List<Topico> topicos = topicoService.findAll();
+
+        List<TopicoDTO> topicosDTO = topicos.stream().map(topico -> modelMapper.modelMapper().map(topico, TopicoDTO.class)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(topicosDTO);
     }
 
 }
