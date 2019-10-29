@@ -28,7 +28,8 @@ public class TopicoService {
 
     public Topico update(Topico topico) throws ObjetoNaoEncontrado, CampoObrigatorio {
         validarCampo(topico.getNome());
-        topicoRepository.findById(topico.getId()).orElseThrow(ObjetoNaoEncontrado::new);
+        Topico topicoSalvo = topicoRepository.findById(topico.getId()).orElseThrow(ObjetoNaoEncontrado::new);
+        topico.setId(topicoSalvo.getId());
         return topicoRepository.save(topico);
     }
 }
