@@ -12,6 +12,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -68,5 +71,24 @@ public class TopicoServiceTest {
         topicoService.update(topico);
     }
 
+    @Test
+    public void administrador_quer_listar_os_topicos_cadastrados() throws CampoObrigatorio {
+
+        List<Topico> topicosEsperados = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            topico.setId(null);
+            String nomeEsperado = "Video-aula";
+            topico.setNome(nomeEsperado);
+            topicoService.save(topico);
+            topicosEsperados.add(topico);
+        }
+
+        List<Topico> topicos = topicoService.findAll();
+
+        for (Topico topico : topicosEsperados) {
+            assertTrue(topicos.contains(topico));
+        }
+    }
 
 }
