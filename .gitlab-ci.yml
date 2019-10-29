@@ -1,9 +1,9 @@
-stages:
+#stages:
 #  - build
 #  - verify
 #  - test
-  - deploy_job_dev
-  - deploy_job_prod
+#  - deploy_job_dev
+#  - deploy_job_prod
 
 
 #build_job:
@@ -27,24 +27,24 @@ stages:
 #  script:
 #    - mvn test -e
 
-deploy_job_dev:
-  stage: deploy_job_dev
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=mediador-pedagogico --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
-  only:
-    - develop
-
-deploy_job_prod:
-  stage: deploy_job_prod
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=mediador-pedagogico-producao --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
-  only:
-    - master
+#deploy_job_dev:
+#  stage: deploy_job_dev
+#  image: ruby:latest
+#  script:
+#    - apt-get update -qy
+#    - apt-get install -y ruby-dev
+#    - gem install dpl
+#    - dpl --provider=heroku --app=mediador-pedagogico --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
+#  only:
+#    - develop
+#
+#deploy_job_prod:
+#  stage: deploy_job_prod
+#  image: ruby:latest
+#  script:
+#    - apt-get update -qy
+#    - apt-get install -y ruby-dev
+#    - gem install dpl
+#    - dpl --provider=heroku --app=mediador-pedagogico-producao --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
+#  only:
+#    - master

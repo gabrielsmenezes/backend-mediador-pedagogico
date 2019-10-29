@@ -4,17 +4,17 @@ import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.domain.TopicoDTO;
 import com.example.backapi.biblioteca.services.TopicoService;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@RestController("/topicos")
+@RestController
+@RequestMapping("/topicos")
 public class TopicoResource {
 
     @Autowired
@@ -34,6 +34,19 @@ public class TopicoResource {
 
         return ResponseEntity.created(uri).body(topicoDTO);
 
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TopicoDTO> update(@PathVariable Integer id, @RequestBody TopicoDTO topicoDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
+
+        topicoDTO.setId(id);
+        Topico topico = modelMapper.modelMapper().map(topicoDTO, Topico.class);
+
+        topico = topicoService.update(topico);
+
+        topicoDTO = modelMapper.modelMapper().map(topico, TopicoDTO.class);
+
+        return ResponseEntity.ok(topicoDTO);
     }
 
 }
