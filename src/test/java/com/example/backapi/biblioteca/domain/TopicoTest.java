@@ -29,4 +29,12 @@ public class TopicoTest {
         String nomeObtido = topico.getNome();
         assertEquals(nomeEsperado, nomeObtido);
     }
+
+    @Test
+    public void equals(){
+        topico.setId(1);
+        Topico topico2 = new Topico();
+        topico2.setId(1);
+        assertEquals(topico, topico2);
+    }
 }
