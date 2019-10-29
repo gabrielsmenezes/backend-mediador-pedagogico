@@ -3,7 +3,6 @@ package com.example.backapi.biblioteca.resources;
 import com.example.backapi.biblioteca.domain.TopicoDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
-import com.google.api.Http;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
@@ -56,4 +58,23 @@ public class TopicoResourceTest {
         assertEquals(HttpStatus.OK, respostaUpdate.getStatusCode());
         assertEquals(novoNome, respostaUpdate.getBody().getNome());
     }
+
+    @Test
+    public void findAll() throws CampoObrigatorio {
+        List<TopicoDTO> topicosEsperados = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            ResponseEntity<TopicoDTO> resposta = topicoResource.save(topicoDTO);
+            topicosEsperados.add(resposta.getBody());
+        }
+
+        List<TopicoDTO> topicosRetornados = topicoResource.findAll().getBody();
+
+        for (TopicoDTO topicoDTO: topicosEsperados) {
+            assertTrue(topicosRetornados.contains(topicoDTO));
+        }
+
+
+    }
+
 }

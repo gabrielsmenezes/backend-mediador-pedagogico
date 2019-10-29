@@ -52,7 +52,7 @@ public class TopicoResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<TopicoDTO>> listAll(){
+    public ResponseEntity<List<TopicoDTO>> findAll(){
 
         List<Topico> topicos = topicoService.findAll();
 
