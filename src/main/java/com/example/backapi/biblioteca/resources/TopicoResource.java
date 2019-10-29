@@ -3,6 +3,7 @@ package com.example.backapi.biblioteca.resources;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.domain.TopicoDTO;
 import com.example.backapi.biblioteca.services.TopicoService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class TopicoResource {
     @Autowired
     ModelMapper modelMapper;
     @PostMapping
-    public ResponseEntity<TopicoDTO> save(@RequestBody TopicoDTO topicoDTO){
+    public ResponseEntity<TopicoDTO> save(@RequestBody TopicoDTO topicoDTO) throws CampoObrigatorio {
         Topico topico = modelMapper.modelMapper().map(topicoDTO, Topico.class);
 
         topico = topicoService.save(topico);
