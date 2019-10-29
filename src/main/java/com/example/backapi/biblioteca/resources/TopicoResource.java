@@ -61,4 +61,13 @@ public class TopicoResource {
         return ResponseEntity.ok(topicosDTO);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) throws ObjetoNaoEncontrado {
+
+        topicoService.deleteById(id);
+
+        return ResponseEntity.ok().build();
+
+    }
+
 }
