@@ -77,4 +77,11 @@ public class TopicoResourceTest {
 
     }
 
+    @Test
+    public void deleteById() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ResponseEntity<TopicoDTO> resposta = topicoResource.save(topicoDTO);
+        ResponseEntity<Void> respostaDoDelete = topicoResource.deleteById(resposta.getBody().getId());
+        assertEquals(HttpStatus.OK, respostaDoDelete.getStatusCode());
+    }
+
 }

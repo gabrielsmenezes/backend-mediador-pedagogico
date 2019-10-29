@@ -91,4 +91,24 @@ public class TopicoServiceTest {
         }
     }
 
+
+    @Test
+    public void administrador_quer_deletar_um_topico() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        String nomeEsperado = "Video-aula";
+        topico.setNome(nomeEsperado);
+        topico = topicoService.save(topico);
+
+        topicoService.deleteById(topico.getId());
+
+        List<Topico> topicos = topicoService.findAll();
+
+        assertFalse(topicos.contains(topico));
+
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_um_topico_inexistente() throws ObjetoNaoEncontrado {
+        topicoService.deleteById(-1);
+    }
+
 }

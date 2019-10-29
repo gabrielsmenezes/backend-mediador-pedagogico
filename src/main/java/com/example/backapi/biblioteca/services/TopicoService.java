@@ -38,4 +38,10 @@ public class TopicoService {
     public List<Topico> findAll() {
         return topicoRepository.findAll();
     }
+
+    public void deleteById(Integer id) throws ObjetoNaoEncontrado {
+        Topico topicoSalvo = topicoRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
+
+        topicoRepository.delete(topicoSalvo);
+    }
 }
