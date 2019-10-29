@@ -2,6 +2,7 @@ package com.example.backapi.biblioteca.services;
 
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,5 +44,29 @@ public class TopicoServiceTest {
     public void administrador_quer_inserir_as_informações_sem_nome() throws CampoObrigatorio {
         topicoService.save(topico);
     }
+
+    @Test
+    public void administrador_quer_editar_topico_da_biblioteca_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        String nomeEsperado = "Video-aula";
+        topico.setNome(nomeEsperado);
+        topico = topicoService.save(topico);
+
+        String novoNome = "PDFs";
+        topico.setNome(novoNome);
+        topico = topicoService.update(topico);
+
+        assertEquals(novoNome, topico.getNome());
+    }
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_topico_sem_nome() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        String nomeEsperado = "Video-aula";
+        topico.setNome(nomeEsperado);
+        topico = topicoService.save(topico);
+
+        topico.setNome(null);
+
+        topicoService.update(topico);
+    }
+
 
 }

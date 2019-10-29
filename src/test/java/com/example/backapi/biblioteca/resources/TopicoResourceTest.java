@@ -2,6 +2,7 @@ package com.example.backapi.biblioteca.resources;
 
 import com.example.backapi.biblioteca.domain.TopicoDTO;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.api.Http;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,5 +40,20 @@ public class TopicoResourceTest {
         ResponseEntity<TopicoDTO> resposta = topicoResource.save(topicoDTO);
         assertEquals(HttpStatus.CREATED, resposta.getStatusCode());
         assertEquals(nome, resposta.getBody().getNome());
+    }
+
+    @Test
+    public void update() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ResponseEntity<TopicoDTO> resposta = topicoResource.save(topicoDTO);
+
+        topicoDTO = resposta.getBody();
+
+        String novoNome = "novoNome";
+        topicoDTO.setNome(novoNome);
+
+        ResponseEntity<TopicoDTO> respostaUpdate = topicoResource.update(topicoDTO.getId(), topicoDTO);
+
+        assertEquals(HttpStatus.OK, respostaUpdate.getStatusCode());
+        assertEquals(novoNome, respostaUpdate.getBody().getNome());
     }
 }
