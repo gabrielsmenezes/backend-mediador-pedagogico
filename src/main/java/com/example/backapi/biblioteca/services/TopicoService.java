@@ -41,10 +41,6 @@ public class TopicoService {
     public List<Topico> findAll() {
         List<Topico> topicos = topicoRepository.findAll();
 
-        topicos.forEach(topico -> {
-            topico.setLinks(new ArrayList<>(topico.getLinks()));
-        });
-
         return topicos;
     }
 
@@ -52,5 +48,9 @@ public class TopicoService {
         Topico topicoSalvo = topicoRepository.findById(id).orElseThrow(ObjetoNaoEncontrado::new);
 
         topicoRepository.delete(topicoSalvo);
+    }
+
+    public Topico findById(Integer idDoTopico) throws ObjetoNaoEncontrado {
+        return topicoRepository.findById(idDoTopico).orElseThrow(ObjetoNaoEncontrado::new);
     }
 }

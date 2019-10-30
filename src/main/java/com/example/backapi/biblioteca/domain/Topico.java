@@ -23,9 +23,8 @@ public class Topico {
     @Column
     private String nome;
 
-    @ElementCollection
-    @CollectionTable(name = "links_topico", joinColumns = @JoinColumn(name = "topico_id"), foreignKey = @ForeignKey(name = "links_topico_fk"))
-    private List<LinkTopico> links = new ArrayList<>();
+    @OneToMany(mappedBy = "topico")
+    private List<ItemTopico> materiais = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
