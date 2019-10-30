@@ -6,7 +6,9 @@ import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,8 +37,15 @@ public class TopicoService {
         return topicoRepository.save(topico);
     }
 
+    @Transactional
     public List<Topico> findAll() {
-        return topicoRepository.findAll();
+        List<Topico> topicos = topicoRepository.findAll();
+
+        topicos.forEach(topico -> {
+            topico.setLinks(new ArrayList<>(topico.getLinks()));
+        });
+
+        return topicos;
     }
 
     public void deleteById(Integer id) throws ObjetoNaoEncontrado {

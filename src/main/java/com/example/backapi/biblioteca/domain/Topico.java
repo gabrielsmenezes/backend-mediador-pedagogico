@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +22,10 @@ public class Topico {
 
     @Column
     private String nome;
+
+    @ElementCollection
+    @CollectionTable(name = "links_topico", joinColumns = @JoinColumn(name = "topico_id"), foreignKey = @ForeignKey(name = "links_topico_fk"))
+    private List<LinkTopico> links = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

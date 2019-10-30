@@ -1,5 +1,6 @@
 package com.example.backapi.biblioteca.resources;
 
+import com.example.backapi.biblioteca.domain.LinkTopico;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.domain.TopicoDTO;
 import com.example.backapi.biblioteca.services.TopicoService;

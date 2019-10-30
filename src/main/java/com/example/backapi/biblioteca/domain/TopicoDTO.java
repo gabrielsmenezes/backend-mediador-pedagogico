@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -14,7 +15,7 @@ public class TopicoDTO implements Serializable {
 
     private Integer id;
     private String nome;
-
+    private List<LinkTopico> links;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
