@@ -24,7 +24,7 @@ public class Topico {
     private String nome;
 
     @OneToMany(mappedBy = "topico")
-    private List<ItemTopico> materiais = new ArrayList<>();
+    private List<ItemTopico> itemTopicos = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

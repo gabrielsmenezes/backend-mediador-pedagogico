@@ -5,6 +5,7 @@ import com.example.backapi.biblioteca.domain.ItemTopicoDTO;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.services.ItemService;
 import com.example.backapi.biblioteca.services.TopicoService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ItemResource {
     ModelMapper modelMapper;
     
     @PostMapping
-    public ResponseEntity<ItemTopicoDTO> save(@RequestBody ItemTopicoDTO itemTopicoDTO) throws ObjetoNaoEncontrado {
+    public ResponseEntity<ItemTopicoDTO> save(@RequestBody ItemTopicoDTO itemTopicoDTO) throws ObjetoNaoEncontrado, CampoObrigatorio {
         ItemTopico link = modelMapper.modelMapper().map(itemTopicoDTO, ItemTopico.class);
 
         Topico topico = topicoService.findById(itemTopicoDTO.getIdDoTopico());
