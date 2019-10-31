@@ -10,10 +10,7 @@ import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -50,4 +47,16 @@ public class ItemResource {
         return ResponseEntity.created(uri).body(itemTopicoDTO);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ItemTopicoDTO> update(@RequestBody ItemTopicoDTO itemTopicoDTO, @PathVariable Integer id) throws ObjetoNaoEncontrado, CampoObrigatorio {
+        itemTopicoDTO.setId(id);
+        ItemTopico itemTopico = modelMapper.modelMapper().map(itemTopicoDTO, ItemTopico.class);
+        Topico topico = topicoService.findById(itemTopicoDTO.getIdDoTopico());
+        itemTopico.setTopico(topico);
+        itemTopico = itemService.update(itemTopico);
+        itemTopicoDTO = modelMapper.modelMapper().map(itemTopico, ItemTopicoDTO.class);
+        itemTopicoDTO.setIdDoTopico(topico.getId());
+        return ResponseEntity.ok(itemTopicoDTO);
+
+    }
 }

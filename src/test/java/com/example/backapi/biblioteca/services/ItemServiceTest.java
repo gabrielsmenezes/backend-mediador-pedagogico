@@ -3,6 +3,7 @@ package com.example.backapi.biblioteca.services;
 import com.example.backapi.biblioteca.domain.ItemTopico;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -41,6 +41,8 @@ public class ItemServiceTest {
         itemTopico.setTopico(topico);
     }
 
+    //[US-53] Cadastrar um item do tópico da biblioteca - Web
+
     @Test
     public void administrador_quer_cadastrar_as_informacoes_dos_itens_dos_topicos_da_biblioteca() throws CampoObrigatorio {
         ItemTopico itemRetornado = itemService.save(itemTopico);
@@ -65,6 +67,45 @@ public class ItemServiceTest {
     public void administrador_quer_inserir_as_informacoes_sem_topico() throws CampoObrigatorio {
         itemTopico.setTopico(null);
         itemService.save(itemTopico);
+    }
+
+    //[US-54] Editar item do topico da biblioteca - Web
+
+    @Test
+    public void administrador_quer_editar_as_informacoes_do_item_do_topico_da_biblioteca() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ItemTopico itemEsperado = itemService.save(itemTopico);
+        itemEsperado.setNome("Aula de Vue");
+        itemEsperado.setLink("www.vue.com");
+
+        ItemTopico itemObtido = itemService.update(itemTopico);
+
+        assertEquals(itemObtido, itemEsperado);
+
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_as_informacoes_sem_nome() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ItemTopico itemEsperado = itemService.save(itemTopico);
+        itemEsperado.setNome(null);
+        itemEsperado.setLink("www.vue.com");
+        itemService.update(itemTopico);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_as_informacoes_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ItemTopico itemEsperado = itemService.save(itemTopico);
+        itemEsperado.setNome("Aula de Vue");
+        itemEsperado.setLink(null);
+        itemService.update(itemTopico);
+    }
+
+    @Test(expected = CampoObrigatorio.class)
+    public void administrador_quer_editar_as_informacoes_sem_topico() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        ItemTopico itemEsperado = itemService.save(itemTopico);
+        itemEsperado.setNome("Aula de Vue");
+        itemEsperado.setLink("www.vue.com");
+        itemEsperado.setTopico(null);
+        itemService.update(itemTopico);
     }
 
 }
