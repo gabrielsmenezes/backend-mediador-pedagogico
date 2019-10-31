@@ -27,4 +27,13 @@ public class NoticiaDTOTest {
     public void getNotificavel() {
         assertEquals(true, noticiaDTO.getNotificavel());
     }
+
+    @Test
+    public void equals(){
+        noticiaDTO.setId(0);
+        NoticiaDTO noticiaDTO2 = new NoticiaDTO();
+        noticiaDTO2.setId(0);
+        assertEquals(noticiaDTO2, noticiaDTO);
+    }
+
 }

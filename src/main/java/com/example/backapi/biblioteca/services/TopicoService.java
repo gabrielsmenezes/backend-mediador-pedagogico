@@ -7,8 +7,6 @@ import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,9 +37,7 @@ public class TopicoService {
 
     @Transactional
     public List<Topico> findAll() {
-        List<Topico> topicos = topicoRepository.findAll();
-
-        return topicos;
+        return topicoRepository.findAll();
     }
 
     public void deleteById(Integer id) throws ObjetoNaoEncontrado {
