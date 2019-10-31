@@ -1,21 +1,19 @@
 package com.example.backapi.biblioteca.domain;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Topico implements Serializable {
+public class ItemTopico implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +22,19 @@ public class Topico implements Serializable {
     @Column
     private String nome;
 
-    @OneToMany(mappedBy = "topico")
-    private List<ItemTopico> itemTopicos = new ArrayList<>();
+    @Column
+    private String link;
+
+    @ManyToOne
+    @JoinColumn(name = "topico_id")
+    private Topico topico;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Topico topico = (Topico) o;
-        return id.equals(topico.id);
+        ItemTopico that = (ItemTopico) o;
+        return id.equals(that.id);
     }
 
     @Override

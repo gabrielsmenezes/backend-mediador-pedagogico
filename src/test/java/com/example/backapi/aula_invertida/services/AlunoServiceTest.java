@@ -104,4 +104,19 @@ public class AlunoServiceTest {
 
         assertEquals(alunoEsperado, alunoRetornado);
     }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void deletar_todos_alunos() throws ObjetoNaoEncontrado, CampoObrigatorio {
+        Aluno alunoEsperado = new Aluno();
+        alunoEsperado.setNome("Gabriel Menezes");
+        alunoEsperado.setChaveDeAcesso("mat2");
+
+        Aluno alunoRetornado = alunoService.save(alunoEsperado);
+
+        alunoService.deleteAll();
+
+        alunoService.findById(alunoRetornado.getId());
+
+    }
+
 }
