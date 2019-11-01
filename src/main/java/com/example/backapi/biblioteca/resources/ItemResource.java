@@ -59,4 +59,13 @@ public class ItemResource {
         return ResponseEntity.ok(itemTopicoDTO);
 
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete (@PathVariable Integer id) throws ObjetoNaoEncontrado {
+
+        itemService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
