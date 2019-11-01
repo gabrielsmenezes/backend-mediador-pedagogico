@@ -44,7 +44,7 @@ public class ItemResourceTest {
 
         itemTopicoDTO.setIdDoTopico(topico.getId());
         itemTopicoDTO.setNome("O Capital");
-        itemTopicoDTO.setLink("https://pt.wikipedia.org/wiki/O_Capital");
+        itemTopicoDTO.setLinkDoItem("https://pt.wikipedia.org/wiki/O_Capital");
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ItemResourceTest {
 
         assertEquals(HttpStatus.CREATED, retorno.getStatusCode());
         assertEquals(itemTopicoDTO.getNome(), retorno.getBody().getNome());
-        assertEquals(itemTopicoDTO.getLink(), retorno.getBody().getLink());
+        assertEquals(itemTopicoDTO.getLinkDoItem(), retorno.getBody().getLinkDoItem());
 
     }
 
@@ -62,13 +62,22 @@ public class ItemResourceTest {
         itemTopicoDTO = itemResource.save(itemTopicoDTO).getBody();
 
         itemTopicoDTO.setNome("1984");
-        itemTopicoDTO.setLink("Link");
+        itemTopicoDTO.setLinkDoItem("Link");
 
         ResponseEntity<ItemTopicoDTO> retorno = itemResource.update(itemTopicoDTO, itemTopicoDTO.getId());
 
         assertEquals(HttpStatus.OK, retorno.getStatusCode());
         assertEquals("1984", retorno.getBody().getNome());
-        assertEquals("Link", retorno.getBody().getLink());
+        assertEquals("Link", retorno.getBody().getLinkDoItem());
+    }
+
+    @Test
+    public void delete() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        itemTopicoDTO = itemResource.save(itemTopicoDTO).getBody();
+
+        ResponseEntity<Void> resposta = itemResource.delete(itemTopicoDTO.getId());
+
+        assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
 }

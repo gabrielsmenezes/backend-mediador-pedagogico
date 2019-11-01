@@ -23,7 +23,7 @@ public class ItemTopico implements Serializable {
     private String nome;
 
     @Column
-    private String link;
+    private String linkDoItem;
 
     @ManyToOne
     @JoinColumn(name = "topico_id")

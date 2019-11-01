@@ -13,7 +13,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,7 +40,7 @@ public class ItemServiceTest {
         itemTopico = new ItemTopico();
         topico = topicoService.save(topico);
         itemTopico.setNome("Aula de PHP");
-        itemTopico.setLink("www.youtube.com");
+        itemTopico.setLinkDoItem("www.youtube.com");
         itemTopico.setTopico(topico);
     }
 
@@ -59,7 +62,7 @@ public class ItemServiceTest {
 
     @Test(expected = CampoObrigatorio.class)
     public void administrador_quer_inserir_as_informacoes_sem_link() throws CampoObrigatorio {
-        itemTopico.setLink(null);
+        itemTopico.setLinkDoItem(null);
         itemService.save(itemTopico);
     }
 
@@ -75,7 +78,7 @@ public class ItemServiceTest {
     public void administrador_quer_editar_as_informacoes_do_item_do_topico_da_biblioteca() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ItemTopico itemEsperado = itemService.save(itemTopico);
         itemEsperado.setNome("Aula de Vue");
-        itemEsperado.setLink("www.vue.com");
+        itemEsperado.setLinkDoItem("www.vue.com");
 
         ItemTopico itemObtido = itemService.update(itemTopico);
 
@@ -87,7 +90,7 @@ public class ItemServiceTest {
     public void administrador_quer_editar_as_informacoes_sem_nome() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ItemTopico itemEsperado = itemService.save(itemTopico);
         itemEsperado.setNome(null);
-        itemEsperado.setLink("www.vue.com");
+        itemEsperado.setLinkDoItem("www.vue.com");
         itemService.update(itemTopico);
     }
 
@@ -95,7 +98,7 @@ public class ItemServiceTest {
     public void administrador_quer_editar_as_informacoes_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ItemTopico itemEsperado = itemService.save(itemTopico);
         itemEsperado.setNome("Aula de Vue");
-        itemEsperado.setLink(null);
+        itemEsperado.setLinkDoItem(null);
         itemService.update(itemTopico);
     }
 
@@ -103,9 +106,28 @@ public class ItemServiceTest {
     public void administrador_quer_editar_as_informacoes_sem_topico() throws CampoObrigatorio, ObjetoNaoEncontrado {
         ItemTopico itemEsperado = itemService.save(itemTopico);
         itemEsperado.setNome("Aula de Vue");
-        itemEsperado.setLink("www.vue.com");
+        itemEsperado.setLinkDoItem("www.vue.com");
         itemEsperado.setTopico(null);
         itemService.update(itemTopico);
     }
+
+    //Deletar item de biblioteca
+
+    @Test
+    public void administrador_quer_deletar_um_item_com_sucesso() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        itemTopico = itemService.save(itemTopico);
+
+        itemService.delete(itemTopico.getId());
+
+        List<ItemTopico> itens = itemService.findAll();
+
+        assertFalse(itens.contains(itemTopico));
+    }
+
+    @Test(expected = ObjetoNaoEncontrado.class)
+    public void administrador_quer_deletar_um_item_inexistente() throws ObjetoNaoEncontrado {
+        itemService.delete(-1);
+    }
+
 
 }

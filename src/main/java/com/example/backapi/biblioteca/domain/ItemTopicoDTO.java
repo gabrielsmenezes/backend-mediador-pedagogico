@@ -12,6 +12,6 @@ public class ItemTopicoDTO {
     private Integer idDoTopico;
     private Integer id;
     private String nome;
-    private String link;
+    private String linkDoItem;
 
 }
