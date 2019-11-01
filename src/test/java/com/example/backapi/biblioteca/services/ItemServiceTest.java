@@ -30,8 +30,8 @@ public class ItemServiceTest {
     @Autowired
     TopicoService topicoService;
 
-    Topico topico;
-    ItemTopico itemTopico;
+    private Topico topico;
+    private ItemTopico itemTopico;
 
     @Before
     public void setUp() throws Exception {
@@ -127,6 +127,19 @@ public class ItemServiceTest {
     @Test(expected = ObjetoNaoEncontrado.class)
     public void administrador_quer_deletar_um_item_inexistente() throws ObjetoNaoEncontrado {
         itemService.delete(-1);
+    }
+
+//Listar itens
+
+    @Test
+    public void administrador_quer_listar_todos_os_itens_de_um_topico() throws CampoObrigatorio {
+        for (int i = 0; i < 10; i++) {
+            ItemTopico itemRetornado = itemService.save(itemTopico);
+            itemRetornado.setId(null);
+        }
+
+        assertEquals(10, itemService.findAll().size());
+
     }
 
 

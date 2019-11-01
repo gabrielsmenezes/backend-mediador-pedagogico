@@ -80,4 +80,15 @@ public class ItemResourceTest {
         assertEquals(HttpStatus.OK, resposta.getStatusCode());
     }
 
+    @Test
+    public void listAllByTopicoId() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        for (int i = 0; i < 10; i++) {
+            itemTopicoDTO = itemResource.save(itemTopicoDTO).getBody();
+            itemTopicoDTO.setId(null);
+        }
+
+        assertEquals(10, itemResource.listAllByTopicoId(topico.getId()).getBody().size());
+
+    }
+
 }
