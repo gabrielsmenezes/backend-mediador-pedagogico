@@ -1,7 +1,9 @@
 package com.example.backapi.biblioteca.services;
 
 import com.example.backapi.biblioteca.domain.ItemTopico;
+import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.repositories.ItemRepository;
+import com.example.backapi.biblioteca.repositories.TopicoRepository;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private TopicoRepository topicoRepository;
 
     public ItemTopico save(ItemTopico itemTopico) throws CampoObrigatorio {
         if (itemTopico.getTopico() == null) throw new CampoObrigatorio("Topico é obrigatorio");
@@ -44,5 +49,13 @@ public class ItemService {
 
     public List<ItemTopico> findAll() {
         return itemRepository.findAll();
+    }
+
+    public List<ItemTopico> findItensByTopicoId(Integer idDoTopico) throws ObjetoNaoEncontrado {
+
+        Topico topico = topicoRepository.findById(idDoTopico).orElseThrow(ObjetoNaoEncontrado::new);
+
+        return itemRepository.findItemTopicosByTopicoIs(topico);
+
     }
 }

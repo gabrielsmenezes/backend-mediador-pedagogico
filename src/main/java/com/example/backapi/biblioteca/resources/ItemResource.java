@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itens")
@@ -66,6 +68,18 @@ public class ItemResource {
         itemService.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/todos")
+    public ResponseEntity<List<ItemTopicoDTO>> listAllByTopicoId(@RequestParam Integer idDoTopico) throws ObjetoNaoEncontrado {
+
+        List<ItemTopico> itemTopicos = itemService.findItensByTopicoId(idDoTopico);
+
+        List<ItemTopicoDTO> itemTopicosDTO = itemTopicos.stream().map(itemTopico -> modelMapper.modelMapper().map(itemTopico, ItemTopicoDTO.class)).collect(Collectors.toList());
+
+        itemTopicosDTO.forEach(itemTopicoDTO -> itemTopicoDTO.setIdDoTopico(idDoTopico));
+
+        return ResponseEntity.ok(itemTopicosDTO);
     }
 
 }
