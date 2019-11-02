@@ -1,5 +1,6 @@
 package com.example.backapi.biblioteca.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class ItemTopico implements Serializable {
     @Column
     private String linkDoItem;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "topico_id")
     private Topico topico;
