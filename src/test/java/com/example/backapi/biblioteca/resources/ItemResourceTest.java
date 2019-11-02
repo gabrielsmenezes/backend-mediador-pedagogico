@@ -1,5 +1,6 @@
 package com.example.backapi.biblioteca.resources;
 
+import com.example.backapi.biblioteca.domain.ItemTopico;
 import com.example.backapi.biblioteca.domain.ItemTopicoDTO;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.services.TopicoService;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -88,6 +90,19 @@ public class ItemResourceTest {
         }
 
         assertEquals(10, itemResource.listAllByTopicoId(topico.getId()).getBody().size());
+
+    }
+
+    @Test
+    public void findPage() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        for (int i = 0; i < 20; i++) {
+            itemTopicoDTO = itemResource.save(itemTopicoDTO).getBody();
+            itemTopicoDTO.setId(null);
+        }
+
+        ResponseEntity<Page<ItemTopico>> page = itemResource.findPage(topico.getId(), 0, 10, "id", "DESC");
+
+        assertEquals(10, page.getBody().getSize());
 
     }
 

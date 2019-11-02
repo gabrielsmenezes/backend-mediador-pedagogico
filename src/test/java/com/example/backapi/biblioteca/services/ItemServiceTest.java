@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -142,5 +143,25 @@ public class ItemServiceTest {
 
     }
 
+    @Test
+    public void administrador_quer_listar_por_pagina_os_itens() throws CampoObrigatorio, ObjetoNaoEncontrado {
+        for (int i = 0; i < 20; i++) {
+            ItemTopico itemRetornado = itemService.save(itemTopico);
+            itemRetornado.setId(null);
+        }
+
+        Integer page = 0;
+        Integer linesPerPage = 10;
+        String orderBy="id";
+        String direction = "ASC";
+        Integer idDoTopico = topico.getId();
+
+        Page<ItemTopico> page1 = itemService.findPage(page, linesPerPage, orderBy, direction, idDoTopico);
+
+        Integer size = page1.getSize();
+
+        assertEquals(linesPerPage, size);
+
+    }
 
 }
