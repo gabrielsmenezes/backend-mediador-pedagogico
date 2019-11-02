@@ -9,11 +9,14 @@ import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itens")
@@ -66,6 +69,31 @@ public class ItemResource {
         itemService.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/todos")
+    public ResponseEntity<List<ItemTopicoDTO>> listAllByTopicoId(@RequestParam Integer idDoTopico) throws ObjetoNaoEncontrado {
+
+        List<ItemTopico> itemTopicos = itemService.findItensByTopicoId(idDoTopico);
+
+        List<ItemTopicoDTO> itemTopicosDTO = itemTopicos.stream().map(itemTopico -> modelMapper.modelMapper().map(itemTopico, ItemTopicoDTO.class)).collect(Collectors.toList());
+
+        itemTopicosDTO.forEach(itemTopicoDTO -> itemTopicoDTO.setIdDoTopico(idDoTopico));
+
+        return ResponseEntity.ok(itemTopicosDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ItemTopico>> findPage(
+            @RequestParam(value = "idDoTopico") Integer idDoTopico,
+            @RequestParam(value="page", defaultValue="0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue="id") String orderBy,
+            @RequestParam(value="direction", defaultValue="ASC") String direction) throws ObjetoNaoEncontrado {
+
+        Page<ItemTopico> pageRequest = itemService.findPage(page, linesPerPage, orderBy, direction, idDoTopico);
+
+        return ResponseEntity.ok().body(pageRequest);
     }
 
 }
