@@ -1,7 +1,6 @@
 package com.example.backapi.biblioteca.services;
 
 import com.example.backapi.biblioteca.domain.ItemTopico;
-import com.example.backapi.biblioteca.domain.ItemTopicoDTO;
 import com.example.backapi.biblioteca.domain.Topico;
 import com.example.backapi.biblioteca.repositories.ItemRepository;
 import com.example.backapi.biblioteca.repositories.TopicoRepository;
