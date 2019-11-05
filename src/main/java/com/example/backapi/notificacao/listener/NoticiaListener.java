@@ -30,7 +30,9 @@ public class NoticiaListener {
             titulo = Jsoup.parse(titulo).text();
 
             String descricao = noticia.getDescricao();
-            descricao = Jsoup.parse(descricao).text();
+            if (descricao != null){
+                descricao = Jsoup.parse(descricao).text();
+            }
 
 
             if (!"test".equals(perfil.toString())){
