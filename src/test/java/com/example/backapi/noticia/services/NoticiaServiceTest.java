@@ -193,7 +193,7 @@ public class NoticiaServiceTest {
 
         NoticiaDTO noticiaRetornada = noticiaService.findById(noticiaDTO.getId());
 
-        assertTrue(noticiaRetornada.getDescricao() == null);
+        assertNull(noticiaRetornada.getDescricao());
     }
 
     @Test(expected = CampoObrigatorio.class)
