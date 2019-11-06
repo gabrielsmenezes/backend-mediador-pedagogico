@@ -175,9 +175,8 @@ public class MaterialServiceTest {
 
     }
 
-
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_material_sem_descriçao_e_sem_link_e_sem_imagem() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+    public void administrador_insere_o_material_sem_descricao_e_sem_link_e_sem_imagem() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setTurmaId(turma.getId());
@@ -187,7 +186,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_insere_o_material_sem_descriçao_e_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+    public void administrador_insere_o_material_sem_descricao_e_sem_link() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo("Aula de Ingles");
         materialDTO.setTurmaId(turma.getId());
@@ -230,7 +229,7 @@ public class MaterialServiceTest {
     }
 
     @Test(expected = CampoObrigatorio.class)
-    public void administrador_edita_um_material_sem_título() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
+    public void administrador_edita_um_material_sem_titulo() throws CampoObrigatorio, ObjetoNaoEncontrado, IOException, FirebaseMessagingException {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setTitulo(titulo);
         materialDTO.setDescricao(descricao);
@@ -310,5 +309,26 @@ public class MaterialServiceTest {
         materialService.delete(id);
 
     }
+
+    @Test
+    public void administrador_quer_deletar_todos_os_materiais() throws ObjetoNaoEncontrado, CampoObrigatorio {
+
+        for (int i = 0; i < 10; i++) {
+            MaterialDTO materialDTO = new MaterialDTO();
+            materialDTO.setTitulo(titulo);
+            materialDTO.setDescricao(descricao);
+            materialDTO.setLinks(links);
+            materialDTO.setImagem(imagem);
+            materialDTO.setTurmaId(turma.getId());
+            materialService.save(materialDTO);
+        }
+
+        materialService.deleteAll();
+
+        assertEquals(0,materialService.findAllById(turma.getId()).size());
+
+
+    }
+
 
 }
