@@ -2,11 +2,13 @@ package com.example.backapi.aula_invertida.resources;
 
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.services.MaterialService;
+import com.example.backapi.utils.exceptions.AcessoNegado;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +39,10 @@ public class MaterialResource {
             @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
             @RequestParam(value="orderBy", defaultValue="id") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction,
-            @RequestParam(value = "chaveDeAcesso") String chaveDeAcesso) throws ObjetoNaoEncontrado {
+            @RequestParam(value = "chaveDeAcesso") String chaveDeAcesso,
+            @RequestParam(value = "idDoAluno") Integer idDoAluno) throws ObjetoNaoEncontrado, AcessoNegado {
+
+        materialService.validarAlunoEmTurma(idDoAluno, chaveDeAcesso);
 
         Page<MaterialDTO> paginas = materialService.findPage(page, linesPerPage, orderBy, direction, chaveDeAcesso);
         return ResponseEntity.ok().body(paginas);
@@ -66,4 +71,12 @@ public class MaterialResource {
 
         return ResponseEntity.ok().build();
     }
+
+    @ExceptionHandler(AcessoNegado.class)
+    public ResponseEntity<AcessoNegado> acessoNegado(AcessoNegado acessoNegado){
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(acessoNegado);
+
+    }
+
 }

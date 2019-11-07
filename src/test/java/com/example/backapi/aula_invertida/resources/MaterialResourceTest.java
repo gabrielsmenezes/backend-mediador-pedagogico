@@ -1,8 +1,10 @@
 package com.example.backapi.aula_invertida.resources;
 
+import com.example.backapi.aula_invertida.domain.aluno.Aluno;
 import com.example.backapi.aula_invertida.domain.material.LinkMaterial;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.domain.turma.TurmaDTO;
+import com.example.backapi.utils.exceptions.AcessoNegado;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -36,8 +38,12 @@ public class MaterialResourceTest {
     @Autowired
     TurmaResource turmaResource;
 
+    @Autowired
+    AlunoResource alunoResource;
+
     private MaterialDTO material;
     private TurmaDTO turmaDTO;
+    private Aluno aluno;
 
     @Before
     public void setUp() throws Exception {
@@ -51,17 +57,17 @@ public class MaterialResourceTest {
         turmaDTO.setNome("2C");
         turmaDTO = turmaResource.save(turmaDTO).getBody();
         material.setTurmaId(turmaDTO.getId());
-
+        aluno = alunoResource.save(turmaDTO.getChaveDeAcesso(), "Sam Winchester").getBody();
     }
 
     @Test
     public void save() throws Exception {
         MaterialDTO material_esperado = materialResource.save(material).getBody();
-        assertTrue(material_esperado.getId() != null);
+        assertNotNull(material_esperado.getId());
     }
 
     @Test
-    public void findPage() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException {
+    public void findPage() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException, AcessoNegado {
         List<MaterialDTO> esperados = new ArrayList<MaterialDTO>();
 
         for (int i = 0; i < 10; i++) {
@@ -69,7 +75,7 @@ public class MaterialResourceTest {
             esperados.add(material_esperado);
         }
 
-        List<MaterialDTO> retornados = materialResource.findPage(0, 10, "id", "ASC", turmaDTO.getChaveDeAcesso()).getBody().getContent();
+        List<MaterialDTO> retornados = materialResource.findPage(0, 10, "id", "ASC", turmaDTO.getChaveDeAcesso(), aluno.getId()).getBody().getContent();
 
         assertEquals(esperados, retornados);
     }

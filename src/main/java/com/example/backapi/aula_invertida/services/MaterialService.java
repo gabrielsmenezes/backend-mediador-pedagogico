@@ -4,6 +4,7 @@ import com.example.backapi.aula_invertida.domain.material.Material;
 import com.example.backapi.aula_invertida.domain.material.MaterialDTO;
 import com.example.backapi.aula_invertida.domain.turma.Turma;
 import com.example.backapi.aula_invertida.repositories.MaterialRepository;
+import com.example.backapi.utils.exceptions.AcessoNegado;
 import com.example.backapi.utils.exceptions.CampoObrigatorio;
 import com.example.backapi.utils.exceptions.ObjetoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,12 +152,15 @@ public class MaterialService {
         }
     }
 
-    private Turma retornaTurma(String chaveDeAcesso) throws ObjetoNaoEncontrado {
+    @Transactional
+    public Turma retornaTurma(String chaveDeAcesso) throws ObjetoNaoEncontrado {
         List<Turma> turmas = turmaService.findAll();
 
         for (int i = 0; i < turmas.size(); i++) {
             if (chaveDeAcesso.equals(turmas.get(i).getChaveDeAcesso())) {
-                return turmas.get(i);
+                Turma turma = turmas.get(i);
+                turma.setAlunos(new ArrayList<>(turma.getAlunos()));
+                return turma;
             }
         }
         throw new ObjetoNaoEncontrado("Turma da chave: " + chaveDeAcesso + " não encontrada!");
@@ -165,4 +169,14 @@ public class MaterialService {
     public void deleteAll(){
         materialRepository.deleteAll();
     }
+
+    @Transactional
+    public void validarAlunoEmTurma(Integer idDoAluno, String chaveDeAcesso) throws ObjetoNaoEncontrado, AcessoNegado {
+        Turma turma = retornaTurma(chaveDeAcesso);
+
+        if (turma.getAlunos().stream().noneMatch(aluno -> aluno.getId().equals(idDoAluno))){
+            throw new AcessoNegado("Voçê não está vinculado com esta turma");
+        }
+    }
+
 }
