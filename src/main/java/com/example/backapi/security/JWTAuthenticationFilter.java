@@ -34,10 +34,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
 
-        if (req.getMethod().equals("OPTIONS")){
-            res.setStatus(HttpStatus.OK.value());
-        }
-
 		try {
 			CredenciaisDTO creds = new ObjectMapper()
 	                .readValue(req.getInputStream(), CredenciaisDTO.class);
