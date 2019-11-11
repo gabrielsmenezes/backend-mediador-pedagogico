@@ -65,24 +65,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 	
-//	@Bean
-//	CorsConfigurationSource corsConfigurationSource() {
-//		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		CorsConfiguration cors = new CorsConfiguration();
-////		cors.addAllowedHeader("Authorization");
-////		cors.addExposedHeader("Authorization");
-//		cors.addAllowedMethod(HttpMethod.GET);
-//		cors.addAllowedMethod(HttpMethod.POST);
-//		cors.addAllowedMethod(HttpMethod.DELETE);
-//		cors.addAllowedMethod(HttpMethod.PUT);
-//		cors.addAllowedMethod(HttpMethod.OPTIONS);
-//		cors.addAllowedMethod(HttpMethod.HEAD);
-//		cors.addAllowedMethod(HttpMethod.PATCH);
-//		cors.addAllowedMethod(HttpMethod.TRACE);
-//		source.registerCorsConfiguration("/**", cors);
-//		return source;
-//	}
-//
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration cors = new CorsConfiguration();
+		cors.addAllowedHeader("Authorization");
+		cors.addExposedHeader("Authorization");
+		cors.addAllowedMethod(HttpMethod.GET);
+		cors.addAllowedMethod(HttpMethod.POST);
+		cors.addAllowedMethod(HttpMethod.DELETE);
+		cors.addAllowedMethod(HttpMethod.PUT);
+		cors.addAllowedMethod(HttpMethod.OPTIONS);
+		cors.addAllowedMethod(HttpMethod.HEAD);
+		cors.addAllowedMethod(HttpMethod.PATCH);
+		cors.addAllowedMethod(HttpMethod.TRACE);
+		source.registerCorsConfiguration("/**", cors);
+		return source;
+	}
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
