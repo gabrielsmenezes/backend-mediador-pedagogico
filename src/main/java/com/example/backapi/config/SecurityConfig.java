@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET).permitAll()
 			.antMatchers(HttpMethod.POST, "/aulas/**").permitAll()
+			.antMatchers(HttpMethod.POST, "/login").permitAll()
 			.antMatchers(HttpMethod.POST, "/alunos/**").permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
@@ -67,7 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		CorsConfiguration cors = new CorsConfiguration();
+//		cors.addAllowedHeader("Authorization");
+//		cors.addExposedHeader("Authorization");
+		cors.addAllowedMethod(HttpMethod.GET);
+		cors.addAllowedMethod(HttpMethod.POST);
+		cors.addAllowedMethod(HttpMethod.DELETE);
+		cors.addAllowedMethod(HttpMethod.PUT);
+		cors.addAllowedMethod(HttpMethod.OPTIONS);
+		cors.addAllowedMethod(HttpMethod.HEAD);
+		cors.addAllowedMethod(HttpMethod.PATCH);
+		cors.addAllowedMethod(HttpMethod.TRACE);
+		source.registerCorsConfiguration("/**", cors);
 		return source;
 	}
 	

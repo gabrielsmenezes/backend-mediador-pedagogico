@@ -31,7 +31,9 @@ public class UsuarioService {
 	@Transactional
 	public Usuario insert(Usuario obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		if(findAll().isEmpty()){
+			obj = repo.save(obj);
+		}
 		return obj;
 	}
 	
