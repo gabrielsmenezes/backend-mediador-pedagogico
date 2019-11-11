@@ -43,14 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-//		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
+		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
-//        }
+        }
 		
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET).permitAll()
-			.antMatchers(HttpMethod.POST, "/aulas/**").permitAll()
+			.antMatchers(HttpMethod.POST).permitAll()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()
 			.antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
 			.antMatchers(HttpMethod.POST, "/alunos/**").permitAll()
