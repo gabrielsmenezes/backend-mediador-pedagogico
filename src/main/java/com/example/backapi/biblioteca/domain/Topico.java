@@ -24,7 +24,7 @@ public class Topico implements Serializable {
     @Column
     private String nome;
 
-    @OneToMany(mappedBy = "topico")
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
     private List<ItemTopico> itemTopicos = new ArrayList<>();
 
     @Override

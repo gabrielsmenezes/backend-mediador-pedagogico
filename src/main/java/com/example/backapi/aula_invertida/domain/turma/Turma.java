@@ -31,12 +31,12 @@ public class Turma implements Serializable{
     private String chaveDeAcesso;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "turma")
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
     private List<Material> materiais = new ArrayList<>();
 
     //TODO: retirar o EAGER para ficar LAZY, a solucao encontrada no service do material (findpage)
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma", cascade = CascadeType.ALL)
     private List<Aluno> alunos = new ArrayList<>();
 
     @JsonIgnore
