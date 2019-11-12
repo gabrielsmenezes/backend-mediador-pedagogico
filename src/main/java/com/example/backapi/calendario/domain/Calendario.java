@@ -16,7 +16,7 @@ public class Calendario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Lob
     private String linkDoCalendario;
 
     @Override
