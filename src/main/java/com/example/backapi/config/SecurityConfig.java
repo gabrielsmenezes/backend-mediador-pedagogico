@@ -46,9 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
-		
-		http.cors().disable();
-		http.csrf().disable();
+
+        http.cors().and().csrf().disable();
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET).permitAll()
 			.antMatchers(HttpMethod.POST).permitAll()
@@ -66,24 +65,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
-	
-//	@Bean
-//	CorsConfigurationSource corsConfigurationSource() {
-//		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		CorsConfiguration cors = new CorsConfiguration();
-//		cors.addAllowedHeader("Authorization");
-//		cors.addExposedHeader("Authorization");
-//		cors.addAllowedMethod(HttpMethod.GET);
-//		cors.addAllowedMethod(HttpMethod.POST);
-//		cors.addAllowedMethod(HttpMethod.DELETE);
-//		cors.addAllowedMethod(HttpMethod.PUT);
-//		cors.addAllowedMethod(HttpMethod.OPTIONS);
-//		cors.addAllowedMethod(HttpMethod.HEAD);
-//		cors.addAllowedMethod(HttpMethod.PATCH);
-//		cors.addAllowedMethod(HttpMethod.TRACE);
-//		source.registerCorsConfiguration("/**", cors);
-//		return source;
-//	}
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
