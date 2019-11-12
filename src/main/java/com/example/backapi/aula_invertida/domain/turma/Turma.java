@@ -36,7 +36,7 @@ public class Turma implements Serializable{
 
     //TODO: retirar o EAGER para ficar LAZY, a solucao encontrada no service do material (findpage)
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turma", cascade = CascadeType.REMOVE)
     private List<Aluno> alunos = new ArrayList<>();
 
     @JsonIgnore
