@@ -48,7 +48,7 @@ public class MaterialService {
     }
 
     private void validarDescricaoImagemLinks(MaterialDTO materialDTO) throws CampoObrigatorio {
-        if (materialDTO.getDescricao() == null || materialDTO.getImagem() == null || materialDTO.getLinks().isEmpty() || materialDTO.getLinks() == null) {
+        if (materialDTO.getDescricao() == null && materialDTO.getImagem() == null &&  materialDTO.getLinks() == null || materialDTO.getLinks().isEmpty()) {
             throw new CampoObrigatorio("A descrição ou imagem ou links são obrigatórios");
         }
     }

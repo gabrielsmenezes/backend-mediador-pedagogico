@@ -256,7 +256,7 @@ public class MaterialServiceTest {
 
         Integer id = materialService.save(materialDTO).getId();
 
-        materialDTO.setDescricao("");
+        materialDTO.setDescricao(null);
         materialDTO.setLinks(null);
         materialDTO.setImagem(null);
         materialDTO.setId(id);
