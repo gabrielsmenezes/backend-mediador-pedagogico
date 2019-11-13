@@ -175,7 +175,7 @@ public class MaterialService {
         Turma turma = retornaTurma(chaveDeAcesso);
 
         if (turma.getAlunos().stream().noneMatch(aluno -> aluno.getId().equals(idDoAluno))){
-            throw new AcessoNegado("Voçê não está vinculado com esta turma");
+            throw new AcessoNegado("Você não está vinculado com esta turma");
         }
     }
 
