@@ -35,8 +35,4 @@ public class Bullying{
         return id.equals(bullying.id);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

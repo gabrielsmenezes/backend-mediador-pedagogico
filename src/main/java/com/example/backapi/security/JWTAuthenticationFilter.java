@@ -2,7 +2,6 @@ package com.example.backapi.security;
 
 import com.example.backapi.usuario.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,9 +38,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	                .readValue(req.getInputStream(), CredenciaisDTO.class);
 	
 	        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getSenha(), new ArrayList<>());
-	        
-	        Authentication auth = authenticationManager.authenticate(authToken);
-	        return auth;
+
+            return authenticationManager.authenticate(authToken);
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);

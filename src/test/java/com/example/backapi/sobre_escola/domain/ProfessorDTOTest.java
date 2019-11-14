@@ -40,4 +40,14 @@ public class ProfessorDTOTest {
         List<String> disciplinasRetornadas = professor.getDisciplinas();
         assertEquals(disciplinasEsperada, disciplinasRetornadas);
     }
+
+    @Test
+    public void compararPorId(){
+        professor.setId(1);
+        ProfessorDTO professor2 = new ProfessorDTO();
+        professor2.setId(1);
+
+        assertEquals(professor2, professor);
+    }
+
 }

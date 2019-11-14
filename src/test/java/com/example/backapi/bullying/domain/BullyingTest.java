@@ -35,4 +35,15 @@ public class BullyingTest {
         String linkRetornado = bullying.getLinkDoFormulario();
         assertEquals(linkEsperado, linkRetornado);
     }
+
+    @Test
+    public void deve_ser_comparado_pelo_id(){
+        Bullying bullying = new Bullying();
+        bullying.setId(1);
+        Bullying bullying2 = new Bullying();
+        bullying2.setId(1);
+        assertEquals(bullying, bullying2);
+    }
+
+
 }
