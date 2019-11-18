@@ -37,4 +37,17 @@ public class TopicoDTOTest {
         topicoDTO2.setId(1);
         assertEquals(topicoDTO, topicoDTO2);
     }
+
+    @Test
+    public void iquals2(){
+        topicoDTO.setId(1);
+        assertEquals(topicoDTO, topicoDTO);
+    }
+
+    @Test
+    public void deve_ter_hash(){
+        topicoDTO.setId(1);
+        assertEquals(topicoDTO.hashCode(), topicoDTO.hashCode());
+    }
+
 }

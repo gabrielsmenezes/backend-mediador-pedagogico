@@ -2,6 +2,7 @@ package com.example.backapi.security;
 
 import com.example.backapi.usuario.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.internal.logger.LocalizedLoggerWrapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
+
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -31,19 +34,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	@Override
     public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
+                                                HttpServletResponse res) {
 
-		try {
-			CredenciaisDTO creds = new ObjectMapper()
-	                .readValue(req.getInputStream(), CredenciaisDTO.class);
-	
-	        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getSenha(), new ArrayList<>());
+
+            CredenciaisDTO creds = null;
+            try {
+                creds = new ObjectMapper()
+    .readValue(req.getInputStream(), CredenciaisDTO.class);
+            } catch (IOException ignored) {
+            }
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getSenha(), new ArrayList<>());
 
             return authenticationManager.authenticate(authToken);
-		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+
 	}
 	
 	@Override

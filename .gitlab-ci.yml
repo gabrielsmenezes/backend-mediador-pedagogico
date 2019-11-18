@@ -1,50 +1,50 @@
-stages:
-#  - build
-#  - verify
-#  - test
-  - deploy_job_dev
-#  - deploy_job_prod
-
-
-#build_job:
-#  image: maven:latest
-#  stage: build
-#  script:
-#    - mvn compile
+#stages:
+##  - build
+##  - verify
+##  - test
+#  - deploy_job_dev
+##  - deploy_job_prod
 #
-#verify_job:
-#  image: maven:latest
-#  stage: verify
-#  allow_failure: false
-#  script:
-#    - mvn clean install sonar:sonar   -Dsonar.projectKey=gabrielsmenezes_mirror-back-api   -Dsonar.organization=gabrielsmenezes   -Dsonar.host.url=https://sonarcloud.io   -Dsonar.login=e6b2bc5e41f97541645c24eaa45fb0bd879474af
-#  only:
-#    - develop
 #
-#test_job:
-#  image: maven:latest
-#  stage: test
-#  script:
-#    - mvn test -e
-
-deploy_job_dev:
-  stage: deploy_job_dev
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=mediador-pedagogico --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
-  only:
-    - develop
-
-#deploy_job_prod:
-#  stage: deploy_job_prod
+##build_job:
+##  image: maven:latest
+##  stage: build
+##  script:
+##    - mvn compile
+##
+##verify_job:
+##  image: maven:latest
+##  stage: verify
+##  allow_failure: false
+##  script:
+##    - mvn clean install sonar:sonar   -Dsonar.projectKey=gabrielsmenezes_mirror-back-api   -Dsonar.organization=gabrielsmenezes   -Dsonar.host.url=https://sonarcloud.io   -Dsonar.login=e6b2bc5e41f97541645c24eaa45fb0bd879474af
+##  only:
+##    - develop
+##
+##test_job:
+##  image: maven:latest
+##  stage: test
+##  script:
+##    - mvn test -e
+#
+#deploy_job_dev:
+#  stage: deploy_job_dev
 #  image: ruby:latest
 #  script:
 #    - apt-get update -qy
 #    - apt-get install -y ruby-dev
 #    - gem install dpl
-#    - dpl --provider=heroku --app=mediador-pedagogico-producao --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
+#    - dpl --provider=heroku --app=mediador-pedagogico --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
 #  only:
-#    - master
+#    - develop
+#
+##deploy_job_prod:
+##  stage: deploy_job_prod
+##  image: ruby:latest
+##  script:
+##    - apt-get update -qy
+##    - apt-get install -y ruby-dev
+##    - gem install dpl
+##    - dpl --provider=heroku --app=mediador-pedagogico-producao --api-key=48baed2e-c7f2-4548-a5d0-e5942e2fd729
+##  only:
+##    - master
