@@ -36,4 +36,18 @@ public class NoticiaDTOTest {
         assertEquals(noticiaDTO2, noticiaDTO);
     }
 
+    @Test
+    public void equals2(){
+        noticiaDTO.setId(0);
+        assertEquals(noticiaDTO, noticiaDTO);
+    }
+
+
+    @Test
+    public void tem_hascode(){
+        noticiaDTO.setId(0);
+        NoticiaDTO noticiaDTO2 = new NoticiaDTO();
+        noticiaDTO2.setId(0);
+        assertEquals(noticiaDTO2.hashCode(), noticiaDTO.hashCode());
+    }
 }

@@ -20,8 +20,11 @@ public class DBService {
 		Set<Integer> perfis = new HashSet<>();
 		perfis.add(1);
 
-		Usuario cli1 = new Usuario(null, "admin",pe.encode("admin"), perfis);
+		if (usuarioService.findAll().isEmpty()){
+			Usuario cli1 = new Usuario(null, "admin","admin", perfis);
+			usuarioService.insert(cli1);
+		}
 
-		usuarioService.insert(cli1);
+
 	}
 }

@@ -3,9 +3,6 @@ package com.example.backapi.usuario;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +25,9 @@ public class UsuarioService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
 	}
 	
-	@Transactional
-	public Usuario insert(Usuario obj) {
-		obj.setId(null);
-		if(findAll().isEmpty()){
-			obj = repo.save(obj);
-		}
-		return obj;
+	public Usuario insert(Usuario usuario) {
+		usuario.setSenha(pe.encode(usuario.getSenha()));
+		return repo.save(usuario);
 	}
 	
 
@@ -50,11 +43,6 @@ public class UsuarioService {
 	
 	public List<Usuario> findAll() {
 		return repo.findAll();
-	}
-	
-	public Page<Usuario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
 	}
 
 }

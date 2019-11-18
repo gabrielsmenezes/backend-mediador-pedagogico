@@ -91,4 +91,18 @@ public class AvisoDTOTest {
         assertEquals(novoAviso, aviso);
     }
 
+    @Test
+    public void aviso_deve_ser_comparado_pelo_id2(){
+        aviso.setId(1);
+         assertEquals(aviso, aviso);
+    }
+
+    @Test
+    public void aviso_deve_ter_hash(){
+        aviso.setId(1);
+        AvisoDTO novoAviso = new AvisoDTO();
+        novoAviso.setId(1);
+
+        assertEquals(novoAviso.hashCode(), aviso.hashCode());
+    }
 }

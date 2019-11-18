@@ -82,4 +82,20 @@ public class NoticiaTest {
         noticia2.setId(2);
         assertNotEquals(noticia, noticia2);
     }
+    @Test
+    public void noticia_comparada_por_equals2(){
+        Noticia noticia = new Noticia();
+        noticia.setId(1);
+        assertEquals(noticia, noticia);
+    }
+
+    @Test
+    public void noticia_tem_hash(){
+        Noticia noticia = new Noticia();
+        Noticia noticia2 = new Noticia();
+        noticia.setId(1);
+        noticia2.setId(2);
+        assertNotEquals(noticia.hashCode(), noticia2.hashCode());
+    }
+
 }

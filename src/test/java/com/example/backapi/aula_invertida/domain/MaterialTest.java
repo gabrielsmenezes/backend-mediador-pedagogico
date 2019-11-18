@@ -83,5 +83,12 @@ public class MaterialTest {
     public void material_comparado_por_equals(){
         assertEquals(material,material);
     }
+    @Test
+    public void material_comparado_por_equals2(){
+        Material material2 = new Material();
+        material2.setId(1);
+        material.setId(1);
+        assertEquals(material,material2);
+    }
 
 }

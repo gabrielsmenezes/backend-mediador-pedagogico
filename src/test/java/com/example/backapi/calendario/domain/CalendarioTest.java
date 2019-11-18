@@ -30,4 +30,16 @@ public class CalendarioTest {
         assertEquals(idEsperado, idRetornado);
     }
 
+    @Test
+    public void calendario_deve_ter_hash(){
+        assertEquals(calendario.hashCode(), calendario.hashCode());
+    }
+
+    @Test
+    public void calendario_deve_ser_comparada_pelo_id(){
+        Calendario calendario2 = new Calendario();
+        calendario2.setId(1);
+        calendario.setId(1);
+        assertEquals(calendario, calendario2);
+    }
 }

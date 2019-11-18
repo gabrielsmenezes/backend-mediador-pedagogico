@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -67,7 +69,7 @@ public class MaterialResourceTest {
     }
 
     @Test
-    public void findPage() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException, AcessoNegado {
+    public void findPage() throws ObjetoNaoEncontrado, CampoObrigatorio, AcessoNegado {
         List<MaterialDTO> esperados = new ArrayList<MaterialDTO>();
 
         for (int i = 0; i < 10; i++) {
@@ -81,7 +83,7 @@ public class MaterialResourceTest {
     }
 
     @Test
-    public void update() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException {
+    public void update() throws ObjetoNaoEncontrado, CampoObrigatorio {
         MaterialDTO material_esperado = materialResource.save(material).getBody();
         material_esperado.setTitulo("NovoTitulo");
         material_esperado.setDescricao("NovaDescricao");
@@ -97,7 +99,7 @@ public class MaterialResourceTest {
     }
 
     @Test
-    public void findAll() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException {
+    public void findAll() throws ObjetoNaoEncontrado, CampoObrigatorio {
         List<MaterialDTO> esperados = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -111,10 +113,17 @@ public class MaterialResourceTest {
     }
 
     @Test
-    public void delete() throws FirebaseMessagingException, ObjetoNaoEncontrado, CampoObrigatorio, IOException {
+    public void delete() throws ObjetoNaoEncontrado, CampoObrigatorio {
         MaterialDTO material_esperado = materialResource.save(material).getBody();
         materialResource.delete(material_esperado.getId());
         List<MaterialDTO> materiais = materialResource.findAll(turmaDTO.getId()).getBody();
         assertFalse(materiais.contains(material_esperado));
+    }
+
+    @Test(expected = AcessoNegado.class)
+    public void alunoTentaAcessarSemEstaNaSalaDeAula() throws ObjetoNaoEncontrado, AcessoNegado {
+        alunoResource.delete(aluno.getId());
+        ResponseEntity<Page<MaterialDTO>> resposta = materialResource.findPage(1, 10, "id", "ASC", turmaDTO.getChaveDeAcesso(), aluno.getId());
+        assertEquals(HttpStatus.FORBIDDEN, resposta.getStatusCode());
     }
 }

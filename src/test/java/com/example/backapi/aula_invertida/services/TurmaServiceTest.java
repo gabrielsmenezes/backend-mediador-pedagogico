@@ -243,4 +243,11 @@ public class TurmaServiceTest {
     public void administrador_quer_listar_alunos_de_uma_turma_inexistente() throws ObjetoNaoEncontrado {
         turmaService.findAlunoByTurmaId(0);
     }
+
+    @Test
+    public void administrador_quer_deletar_todas_turmas() throws CampoObrigatorio {
+        turmaService.save(turma);
+        turmaService.deleteAll();
+        assertTrue(turmaService.findAll().isEmpty());
+    }
 }
