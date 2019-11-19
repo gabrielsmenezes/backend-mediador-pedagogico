@@ -76,4 +76,11 @@ public class AvisoTest {
         assertEquals(imagem, aviso.getImagem());
 
     }
+
+    @Test
+    public void aviso_deve_conter_hash_code(){
+        aviso.setId(1);
+        assertEquals(aviso.hashCode(), aviso.hashCode());
+
+    }
 }

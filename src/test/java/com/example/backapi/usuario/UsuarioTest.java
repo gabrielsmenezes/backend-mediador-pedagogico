@@ -35,7 +35,7 @@ public class UsuarioTest {
     public void deve_ter_senha(){
         String senha = "admin";
         usuario.setSenha(senha);
-        assertEquals(senha, usuario.getUsername());
+        assertEquals(senha, usuario.getSenha());
     }
 
     @Test

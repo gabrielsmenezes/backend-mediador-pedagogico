@@ -2,9 +2,9 @@ package com.example.backapi.usuario;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,14 +29,8 @@ public class UsuarioService {
 	}
 	
 
-	public void delete(Integer id) throws Exception {
-		find(id);
-		try {
-			repo.deleteById(id);
-		}
-		catch (DataIntegrityViolationException e) {
-			throw new Exception("Não é possível excluir porque há pedidos relacionados");
-		}
+	public void delete(Integer id) {
+		repo.deleteById(id);
 	}
 	
 	public List<Usuario> findAll() {

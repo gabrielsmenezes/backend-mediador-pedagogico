@@ -29,7 +29,6 @@ public class MaterialService {
     @Autowired
     TurmaService turmaService;
 
-//TODO retirar o dto da camada de service
     public MaterialDTO save(MaterialDTO materialDTO) throws CampoObrigatorio, ObjetoNaoEncontrado {
         validarTurma(materialDTO);
 
