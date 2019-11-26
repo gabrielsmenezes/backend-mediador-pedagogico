@@ -1,21 +1,23 @@
 package com.example.backapi.aviso.resources;
 
 import com.example.backapi.aviso.domain.Aviso;
-import com.example.backapi.aviso.resources.error.StandardError;
+import com.example.backapi.aviso.domain.AvisoDTO;
 import com.example.backapi.aviso.services.AvisoService;
+import com.example.backapi.utils.exceptions.CampoObrigatorio;
+import com.example.backapi.utils.exceptions.TamanhoDeCampoExcedente;
+import com.example.backapi.utils.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/avisos")
@@ -24,61 +26,56 @@ public class AvisoResource{
     @Autowired
     AvisoService avisoService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Aviso> save (@RequestBody Aviso aviso) throws Exception {
+    @Autowired
+    ModelMapper modelMapper;
 
-        Aviso aviso_salvo = avisoService.save(aviso);
+    @PostMapping
+    public ResponseEntity<AvisoDTO> save (@RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente {
+        Aviso aviso = modelMapper.modelMapper().map(avisoDTO, Aviso.class);
+        avisoService.save(aviso);
+        AvisoDTO avisoDTOSalvo = modelMapper.modelMapper().map(aviso, AvisoDTO.class);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aviso_salvo.getId()).toUri();
-        return ResponseEntity.created(uri).body(aviso);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(avisoDTOSalvo.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(avisoDTOSalvo);
 
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Aviso> findById(@PathVariable Integer id) {
-
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<AvisoDTO> findById(@PathVariable Integer id){
         Aviso aviso = avisoService.findById(id);
+        AvisoDTO avisoDTO = modelMapper.modelMapper().map(aviso, AvisoDTO.class);
 
-        return ResponseEntity.ok().body(aviso);
+        return ResponseEntity.ok().body(avisoDTO);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<StandardError> transactionSystemException(TransactionSystemException e, HttpServletRequest request) {
+    @GetMapping
+    public ResponseEntity<Page<AvisoDTO>> findPage(@RequestParam(value="page", defaultValue="0") Integer page, @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage, @RequestParam(value="orderBy", defaultValue="dataDeCriacao") String orderBy, @RequestParam(value="direction", defaultValue="DESC") String direction) {
 
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Integridade de dados", e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        Page<Aviso> pagina = avisoService.findPage(page, linesPerPage, orderBy, direction);
+
+        List<AvisoDTO> dtos = pagina.stream().map(aviso -> modelMapper.modelMapper().map(aviso, AvisoDTO.class))
+                .collect(Collectors.toList());
+
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+
+        Page<AvisoDTO> paginaDTO = new PageImpl<>(dtos, pageRequest, dtos.size());
+
+        return ResponseEntity.ok().body(paginaDTO);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> dataIntegrity(DataIntegrityViolationException e, HttpServletRequest request) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<AvisoDTO> update (@PathVariable Integer id, @RequestBody AvisoDTO avisoDTO) throws CampoObrigatorio, TamanhoDeCampoExcedente {
 
-        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Titulo deve conter no maximo 100 caracteres", e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-    }
+        avisoDTO.setId(id);
 
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Page<Aviso>> findPage(
-            @RequestParam(value="page", defaultValue="0") Integer page,
-            @RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage,
-            @RequestParam(value="orderBy", defaultValue="id") String orderBy,
-            @RequestParam(value="direction", defaultValue="ASC") String direction) {
-        Page<Aviso> paginas = avisoService.findPage(page, linesPerPage, orderBy, direction);
-        return ResponseEntity.ok().body(paginas);
-    }
-
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Aviso> update (@PathVariable Integer id, @RequestBody Aviso aviso){
-
-        aviso.setId(id);
-
-        Aviso avisoRetornado = avisoService.update(aviso);
+        AvisoDTO avisoRetornado = modelMapper.modelMapper().map(avisoService.update(modelMapper.modelMapper().map(avisoDTO, Aviso.class)), AvisoDTO.class);
 
         return ResponseEntity.ok().body(avisoRetornado);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete (@PathVariable Integer id){
 
         avisoService.delete(id);
@@ -86,10 +83,13 @@ public class AvisoResource{
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/todos", method = RequestMethod.GET)
-    public ResponseEntity<List<Aviso>> findAll() {
+    @GetMapping(value = "/todos")
+    public ResponseEntity<List<AvisoDTO>> findAll() {
         List<Aviso> avisos = avisoService.findAll();
-        return ResponseEntity.ok().body(avisos);
-    }
 
+        List<AvisoDTO> avisosDTO = avisos.stream().map(aviso -> modelMapper.modelMapper().map(aviso, AvisoDTO.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(avisosDTO);
+    }
 }
